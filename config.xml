@@ -49,6 +49,7 @@ Get Tranz
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.vibration" />
     
+    <icon src="icon-gt.png" />
     
     <access origin="*" />
     <content src="index.html" />

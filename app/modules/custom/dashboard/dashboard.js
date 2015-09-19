@@ -26,7 +26,7 @@ function dashboard_page() {
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_transport\');"><img src="images/gettransport.png"></a>&nbsp;&nbsp;' +
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_courier\');"><img src="images/getcourier.png"></a>&nbsp;&nbsp;' +
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_shop\');"><img src="images/getshop.png"></a>&nbsp;&nbsp;' +
-      '<img src="images/geteat.png">' +
+      '<a onclick="javascript:window.open(\'http://test.getranz.com/merchants/type/get-eat\', \'_blank\', \'location=yes\');"><img src="images/geteat.png"></a>' +
       '</h2>'
     };
 /*    content.welcome = {
@@ -51,11 +51,13 @@ function dashboard_page() {
       options: {InAppBrowser: true}
     };
     content.callcenter = {
-      theme: 'button',
-      text: 'Call Center',
-      attributes: {
-      	onclick: "drupalgap_alert('Call Center 08-1234-805-101')"
-      }
+      theme: 'button_link',
+      text: 'Call Center 08.1234.805.101',
+      path: 'tel:+6281234805101',
+	  attributes: {
+		'data-icon': 'phone'
+  	  },
+      options: {InAppBrowser: true}
     };
 /*    content.link1 = {
 		theme: 'link',

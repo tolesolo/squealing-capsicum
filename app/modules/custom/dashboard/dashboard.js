@@ -47,17 +47,17 @@ function dashboard_page() {
     content.driver_kami = {
       theme: 'button_link',
       text: t('Ingin menjadi Driver?'),
-      path: 'http:/www.test.getranz.com/get-started',
+      path: 'http:/www.test.getranz.com/how-become-our-driver',
       options: {InAppBrowser: true}
     };
     content.callcenter = {
       theme: 'button_link',
       text: 'Call Center 08.1234.805.101',
-      path: 'tel:+6281234805101',
+      path: null,
 	  attributes: {
-		'data-icon': 'phone'
-  	  },
-      options: {InAppBrowser: true}
+		'data-icon': 'phone',
+    	href: 'tel:+6281234805101'
+  	  }
     };
 /*    content.link1 = {
 		theme: 'link',

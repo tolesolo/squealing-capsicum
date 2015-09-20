@@ -26,7 +26,7 @@ function dashboard_page() {
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_transport\');"><img src="images/gettransport.png"></a>&nbsp;&nbsp;' +
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_courier\');"><img src="images/getcourier.png"></a>&nbsp;&nbsp;' +
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_shop\');"><img src="images/getshop.png"></a>&nbsp;&nbsp;' +
-      '<a onclick="javascript:window.open(\'http://test.getranz.com/merchants/type/get-eat\', \'_blank\', \'location=yes\');"><img src="images/geteat.png"></a>' +
+      '<a onclick="javascript:window.open(\'http://test.getranz.com/merchants/type/get-eat\', \'_system\', \'location=yes\');"><img src="images/geteat.png"></a>' +
       '</h2>'
     };
 /*    content.welcome = {
@@ -47,9 +47,10 @@ function dashboard_page() {
     content.driver_kami = {
       theme: 'button_link',
       text: t('Ingin menjadi Driver?'),
-      path: null,
-	  attributes: {
-    	href: 'http:/www.test.getranz.com/how-become-our-driver'
+      path: 'http:/www.test.getranz.com/how-become-our-driver',
+	  options: {
+    	InAppBrowser:true,
+    	closebuttoncaption: 'Tutup'
   	  }
     };
     content.callcenter = {

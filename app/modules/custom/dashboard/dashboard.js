@@ -46,12 +46,8 @@ function dashboard_page() {
     }
     content.driver_kami = {
       theme: 'button_link',
-      text: t('Ingin menjadi Driver?'),
-      path: 'http:/www.test.getranz.com/how-become-our-driver',
-	  options: {
-    	InAppBrowser:true,
-    	closebuttoncaption: 'Tutup'
-  	  }
+      text: 'Ingin menjadi Driver?',
+      path: 'how_to_join'
     };
     content.callcenter = {
       theme: 'button_link',

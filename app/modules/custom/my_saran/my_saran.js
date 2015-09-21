@@ -21,7 +21,7 @@ function my_saran_page() {
     var content = {};
     content['addsaran_link'] = {
 		theme: 'button_link',
-		text: 'Kirim saran & keluhan, beri driver rating',
+		text: 'Kirim saran, rating & keluhan',
 		path: 'node/add/report_page',
 		options: {
         	attributes:{

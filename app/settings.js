@@ -126,7 +126,6 @@ Drupal.modules.contrib['views_litepager'] = {};
 Drupal.modules.contrib['geofield'] = {};
 Drupal.modules.contrib['geofield_gmap'] = {};
 Drupal.modules.contrib['addressfield'] = {};
-Drupal.modules.contrib['push_notifications'] = {};
 Drupal.modules.contrib['rate'] = {};
 Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['entityreference'] = {};

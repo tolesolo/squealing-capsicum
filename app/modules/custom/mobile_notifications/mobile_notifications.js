@@ -15,7 +15,7 @@
  * Config values
  */
 var registration_url = 'http://test.getranz.com/drupalgap/push_notifications';
-var get_token_url = "http://test.getranz.com/services/session/token";
+var get_token_url = "http://test.getranz.com//services/session/token";
 var sender_id = "369967161369";
 
 /**
@@ -214,4 +214,4 @@ function registerInServer(regid){
 	});
 }
 
-_mobile_notifications_dynamicJSload('app/modules/mobile_notifications/PushNotification.js');
+_mobile_notifications_dynamicJSload('app/modules/custom/mobile_notifications/PushNotification.js');

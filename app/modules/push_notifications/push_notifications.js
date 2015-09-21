@@ -1,5 +1,5 @@
 // This needs to be set to your GCM Sender ID.
-var GCM_SENDER_ID = 111;
+var GCM_SENDER_ID = 369967161369;
 
 // For code examples, look here:
 // https://github.com/phonegap-build/PushPlugin

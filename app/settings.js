@@ -114,7 +114,6 @@ Drupal.modules.custom['my_saran'] = {};
 Drupal.modules.custom['dashboard'] = {};
 Drupal.modules.custom['howtotopup'] = {};
 Drupal.modules.custom['howtojoin'] = {};
-Drupal.modules.custom['mobile_notifications'] = {};
 Drupal.modules.contrib['commerce_drupalgap_stripe'] = {};
 Drupal.modules.contrib['commerce_shipping'] = {};
 Drupal.modules.contrib['telephone'] = {};
@@ -130,6 +129,7 @@ Drupal.modules.contrib['rate'] = {};
 Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['entityreference'] = {};
 Drupal.modules.contrib['votingapi'] = {};
+Drupal.modules.contrib['push_notifications'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
@@ -165,14 +165,6 @@ drupalgap.settings.menus['user_menu_anonymous'] = {
 drupalgap.settings.menus['user_menu_authenticated'] = {
   options: menu_popup_get_default_options(),
   links: [
-	{
-	  title:'Notifications',
-	  path:'mobile-notifications',
-	  options:{
-	    reloadPage:true,
-	    attributes:{ 'data-icon':'info' }
-	  }
-	},
     {
       title:'Pesanan',
       path:'myorders',
@@ -236,10 +228,11 @@ drupalgap.settings.menus['main_menu'] = {
     },
     {
       title:'Get Eat',
-      path:'/cart/add/C1438443670',
+      path:null,
       options:{
         attributes:{
-          'data-icon':'location'
+          'data-icon':'location',
+          onclick: "window.open('http://test.getranz.com/merchants/type/get-eat', '_system', 'location=yes')"
         }
       }
     },

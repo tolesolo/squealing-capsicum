@@ -129,7 +129,7 @@ Drupal.modules.contrib['rate'] = {};
 Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['entityreference'] = {};
 Drupal.modules.contrib['votingapi'] = {};
-Drupal.modules.custom['push_notifications'] = {};
+Drupal.modules.custom['mobile_notifications'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
@@ -165,6 +165,16 @@ drupalgap.settings.menus['user_menu_anonymous'] = {
 drupalgap.settings.menus['user_menu_authenticated'] = {
   options: menu_popup_get_default_options(),
   links: [
+    {
+		title:'Berita',
+		path:'mobile-notifications',	
+	options:{	
+		reloadPage:true,		
+		attributes:{		
+			'data-icon':'info'			
+		}
+	}
+	},
     {
       title:'Pesanan',
       path:'myorders',

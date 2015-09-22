@@ -129,7 +129,7 @@ Drupal.modules.contrib['rate'] = {};
 Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['entityreference'] = {};
 Drupal.modules.contrib['votingapi'] = {};
-Drupal.modules.contrib['push_notifications'] = {};
+Drupal.modules.custom['push_notifications'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |

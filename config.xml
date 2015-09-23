@@ -37,7 +37,7 @@
     <!--
         tambahan ku sendiri
     -->
-    <preference name="android-minSdkVersion" value="16" />
+    <preference name="android-minSdkVersion" value="8" />
     <preference name="DisallowOverscroll" value="true" />
     <!--
         Define a specific version of PhoneGap to build into your app.
@@ -53,7 +53,7 @@
 	<gap:plugin name="org.apache.cordova.inappbrowser"  />
 	<gap:plugin name="org.apache.cordova.file"  />
 	<gap:plugin name="org.apache.cordova.console"  />
-	<gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />
+	<gap:plugin name="com.phonegap.plugins.pushplugin" />
     
     <icon src="icon-gt.png" />
     

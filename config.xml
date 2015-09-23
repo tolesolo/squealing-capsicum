@@ -37,7 +37,7 @@
     <!--
         tambahan ku sendiri
     -->
-    <preference name="android-minSdkVersion" value="15" />
+    <preference name="android-minSdkVersion" value="16" />
     <preference name="DisallowOverscroll" value="true" />
     <!--
         Define a specific version of PhoneGap to build into your app.

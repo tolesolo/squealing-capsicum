@@ -45,7 +45,7 @@ Drupal.settings.cache.views.expiration = 3600;
 // DrupalGap Mode (defaults to 'web-app')
 //  'web-app' - use this mode to build a web application for a browser window
 //  'phonegap' - use this mode to build a mobile application with phonegap
-drupalgap.settings.mode = 'web-app';
+drupalgap.settings.mode = 'phonegap';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {
@@ -104,9 +104,6 @@ drupalgap.settings.loader = {
 
 /** Custom Modules - www/app/modules/custom **/
 
-Drupal.modules.custom['test_module'] = {};
-Drupal.modules.custom['custom_block'] = {};
-Drupal.modules.custom['list_driver_pg'] = {};
 Drupal.modules.custom['my_orders'] = {};
 Drupal.modules.custom['block_flat_fees'] = {};
 Drupal.modules.custom['block_copyright'] = {};

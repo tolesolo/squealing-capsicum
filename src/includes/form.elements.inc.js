@@ -594,3 +594,4 @@ function _drupalgap_form_element_items_widget_arguments(form, form_state,
     console.log('_drupalgap_form_element_items_widget_arguments - ' + error);
   }
 }
+

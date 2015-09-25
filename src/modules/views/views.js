@@ -847,3 +847,4 @@ drupalgap.views_datasource = {
     catch (error) { console.log('drupalgap.views_datasource - ' + error); }
   }
 };
+

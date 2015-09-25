@@ -15,7 +15,7 @@ Drupal.settings.debug = true;
 /* Drupal Paths */
  
 // Site Path (do not use a trailing slash)
-Drupal.settings.site_path = 'http://test.getranz.com'; // e.g. http://www.example.com
+Drupal.settings.site_path = 'http://www.test.getranz.com'; // e.g. http://www.example.com
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';

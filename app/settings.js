@@ -15,7 +15,7 @@ Drupal.settings.debug = true;
 /* Drupal Paths */
  
 // Site Path (do not use a trailing slash)
-Drupal.settings.site_path = 'http://www.test.getranz.com'; // e.g. http://www.example.com
+Drupal.settings.site_path = 'http://test.getranz.com'; // e.g. http://www.example.com
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';
@@ -49,7 +49,7 @@ drupalgap.settings.mode = 'phonegap';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {
-   /* es: { } */
+/* es: { } */
 };
 
 /*************|
@@ -57,16 +57,17 @@ drupalgap.settings.locale = {
  *************/
 
 // App Title
-drupalgap.settings.title = 'DrupalGap';
+drupalgap.settings.title = 'Get Tranz';
  
 // App Front Page
-drupalgap.settings.front = 'dashboard';
+//drupalgap.settings.front = 'hello_world';
+drupalgap.settings.front = 'hello_dashboard';
 
 // Theme
 drupalgap.settings.theme = 'easystreet3';
 
 // Logo
-drupalgap.settings.logo = 'themes/easystreet3/images/drupalgap.jpg';
+drupalgap.settings.logo = 'themes/easystreet3/images/logogettranz-small.png';
 
 // Offline Warning Message. Set to false to hide message.
 drupalgap.settings.offline_message = 'No connection found!';
@@ -103,7 +104,30 @@ drupalgap.settings.loader = {
 
 /** Custom Modules - www/app/modules/custom **/
 
-//Drupal.modules.custom['my_module'] = {};
+Drupal.modules.custom['my_orders'] = {};
+Drupal.modules.custom['block_flat_fees'] = {};
+Drupal.modules.custom['block_copyright'] = {};
+Drupal.modules.custom['my_saran'] = {};
+Drupal.modules.custom['dashboard'] = {};
+Drupal.modules.custom['howtotopup'] = {};
+Drupal.modules.custom['howtojoin'] = {};
+Drupal.modules.contrib['commerce_drupalgap_stripe'] = {};
+Drupal.modules.contrib['commerce_shipping'] = {};
+Drupal.modules.contrib['telephone'] = {};
+Drupal.modules.contrib['title'] = {};
+Drupal.modules.contrib['pathfix'] = {};
+Drupal.modules.contrib['link'] = {};
+Drupal.modules.contrib['commerce'] = {};
+Drupal.modules.contrib['views_litepager'] = {};
+Drupal.modules.contrib['geofield'] = {};
+Drupal.modules.contrib['geofield_gmap'] = {};
+Drupal.modules.contrib['addressfield'] = {};
+Drupal.modules.contrib['rate'] = {};
+Drupal.modules.contrib['force_authentication'] = {};
+Drupal.modules.contrib['entityreference'] = {};
+Drupal.modules.contrib['votingapi'] = {};
+Drupal.modules.custom['mobile_notifications'] = {};
+Drupal.modules.custom['push_notifications'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
@@ -119,8 +143,7 @@ drupalgap.settings.menus['user_menu_anonymous'] = {
       path: 'user/login',
       options: {
         attributes: {
-          'data-icon': 'lock',
-          'class': 'ui-btn ui-btn-icon-right'
+          'data-icon': 'lock'
         }
       }
     },
@@ -141,12 +164,30 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
   options: menu_popup_get_default_options(),
   links: [
     {
-      title: 'My Account',
-      path: 'user',
-      options: {
-        attributes: {
-          'data-icon': 'user',
-          'class': 'ui-btn ui-btn-icon-right'
+		title:'Berita',
+		path:'mobile-notifications',	
+	options:{	
+		reloadPage:true,		
+		attributes:{		
+			'data-icon':'info'			
+		}
+	}
+	},
+    {
+      title:'Pesanan',
+      path:'myorders',
+      options:{
+        attributes:{
+          'data-icon':'star'
+        }
+      }
+    },
+    {
+      title:'Keluhan',
+      path:'mysaran',
+      options:{
+        attributes:{
+          'data-icon':'info'
         }
       }
     },
@@ -167,30 +208,48 @@ drupalgap.settings.menus['main_menu'] = {
   options: menu_popup_get_default_options(),
   links: [
     {
-      title:'Content',
-      path:'node',
+      title:'Get Transport',
+      path:'node/add/order_get_transport',
       options:{
+        attributes:{
+          'data-icon':'navigation'
+        }
+      }
+    },
+    {
+      title:'Get Courier',
+      path:'node/add/order_get_courier',
+      options:{
+        attributes:{
+          'data-icon':'recycle'
+        }
+      }
+    },
+    {
+      title:'Get Shop',
+      path:'node/add/order_get_shop',
+      options:{
+        attributes:{
+          'data-icon':'shop'
+        }
+      }
+    },
+    {
+      title:'Get Eat',
+      path:null,
+      options:{
+        attributes:{
+          'data-icon':'location',
+          onclick: "window.open('http://test.getranz.com/merchants/type/get-eat', '_system', 'location=yes')"
+        }
+      }
+    },
+    {
+      title: 'How to top-up',
+      path: 'topup',
+      options: {
         attributes: {
-          'data-icon': 'star',
-          'class': 'ui-btn ui-btn-icon-right'
-        }
-      }
-    },
-    {
-      title:'Taxonomy',
-      path:'taxonomy/vocabularies',
-      options:{
-        attributes:{
-          'data-icon':'grid'
-        }
-      }
-    },
-    {
-      title:'Users',
-      path:'user-listing',
-      options:{
-        attributes:{
-          'data-icon':'info'
+          'data-icon': 'plus'
         }
       }
     }
@@ -217,10 +276,16 @@ drupalgap.settings.blocks.easystreet3 = {
         mode: 'include',
       }
     },
+    logo: { },
     main_menu: { }
   },
   sub_header: {
-    title: { }
+    title: { 
+		pages: {
+			value: ['node/*'],
+			mode: 'exclude',
+		}
+    }
   },
   navigation: {
     primary_local_tasks: { }
@@ -230,7 +295,18 @@ drupalgap.settings.blocks.easystreet3 = {
     main: { }
   },
   footer: {
-    powered_by: { }
+    copyrightgt: {
+       pages: {
+        value: ['user/login', 'user/register'],
+        mode: 'include'
+      }
+    },
+    flat_fees: {
+       pages: {
+        value: ['node/add/order_get_courier', 'node/add/order_get_transport', 'node/add/order_get_shop'],
+        mode: 'include'
+      }
+    }
   }
 };
 
@@ -251,6 +327,10 @@ drupalgap.settings.menus.regions['header'] = {
           'class': 'ui-btn-left',
           'data-icon': 'bars'
         }
+      },
+      roles: {
+        value: ['anonymous user'],
+        mode: 'exclude',
       }
     },
     /* Home Button */
@@ -297,7 +377,7 @@ drupalgap.settings.menus.regions['header'] = {
         value: ['authenticated user'],
         mode: 'include',
       }
-    }
+    },
   ]
 };
 
@@ -306,11 +386,12 @@ drupalgap.settings.menus.regions['footer'] = {
   links: [
     /* Back Button */
     {
+      title:'Back',
       options: {
         attributes: {
           'data-icon': 'back',
           'data-iconpos': 'notext',
-          'class': 'ui-btn-right',
+          'class': 'ui-btn-left',
           'onclick': 'javascript:drupalgap_back();'
         }
       },
@@ -326,7 +407,7 @@ drupalgap.settings.menus.regions['footer'] = {
  * Camera |
  **********/
 drupalgap.settings.camera = {
-  quality: 50
+  quality: 80
 };
 
 /***********************|

@@ -24,19 +24,19 @@ function faq_page_page() {
 	    		'data-expanded-icon': 'arrow-d' 
 	    	}
 	    },
-	    { header: 'Bagaimana cara membatalkan pesanan saya?', content: '<p>Hubungi call center kami. Klik nomor ini <a onclick="javascript:window.open(\'tel:+6281234805101\', \'_system\', \'location=yes\');">08-1234-805-101</a>.</p>', 
+	    { header: 'Gimana cara membatalkan order?', content: '<p>Hubungi call center kami. Klik nomor ini <a onclick="javascript:window.open(\'tel:+6281234805101\', \'_system\', \'location=yes\');">08-1234-805-101</a>.</p>', 
 	    	attributes: {
 	    		'data-collapsed-icon': 'arrow-r',
 	    		'data-expanded-icon': 'arrow-d' 
 	    	} 
 	    },
-	    { header: 'Ada driver Get Tranz yang menggunakan telpon saya di luar order!', content: '<p>Hubungi call center kami. Klik nomor ini <a onclick="javascript:window.open(\'tel:+6281234805101\', \'_system\', \'location=yes\');">08-1234-805-101</a>. Atau masukan keluhan di halaman keluhan, kami akan memberikan surat peringatan, jika perlu kami akan bawa ke pihak berwajib.</p>', 
+	    { header: 'Driver Get Tranz mengganggu saya', content: '<p>Hubungi call center kami. Klik nomor ini <a onclick="javascript:window.open(\'tel:+6281234805101\', \'_system\', \'location=yes\');">08-1234-805-101</a>. Atau masukan keluhan di halaman keluhan, kami akan memberikan surat peringatan, jika perlu kami akan bawa ke pihak berwajib.</p>', 
 	    	attributes: {
 	    		'data-collapsed-icon': 'arrow-r',
 	    		'data-expanded-icon': 'arrow-d' 
 	    	} 
 	    },
-	    { header: 'Saya takut keluhan saya tidak ditanggapi', content: '<p>Keluhan anda akan langsung masuk ke para direksi Get Tranz, para direksi Get Tranz sendiri yang akan menelusuri dan memberikan jawaban di halaman keluhan anda, agar anda bisa mengikuti proses atas keluhan anda.</p>', 
+	    { header: 'Apa keluhan saya akan ditanggapi?', content: '<p>Keluhan anda akan langsung masuk ke para direksi Get Tranz, para direksi Get Tranz sendiri yang akan menelusuri dan memberikan jawaban di halaman keluhan anda, agar anda bisa mengikuti proses atas keluhan anda.</p>', 
 	    	attributes: {
 	    		'data-collapsed-icon': 'arrow-r',
 	    		'data-expanded-icon': 'arrow-d' 
@@ -48,13 +48,13 @@ function faq_page_page() {
 	    		'data-expanded-icon': 'arrow-d' 
 	    	} 
 	    },
-	    { header: 'Kenapa saya ditagih untuk biaya parkir?', content: '<p>Biaya layanan kami belum termasuk biaya parkir (jika ada). Apabila alamat pengambilan, penjemputan, pengantaran, toko belanja ada biaya parkir maka biaya parkir akan ditagihkan oleh driver kami.</p>', 
+	    { header: 'Kenapa saya ditagih biaya parkir?', content: '<p>Biaya layanan kami belum termasuk biaya parkir (jika ada). Apabila alamat pengambilan, penjemputan, pengantaran, toko belanja ada biaya parkir maka biaya parkir akan ditagihkan oleh driver kami.</p>', 
 	    	attributes: {
 	    		'data-collapsed-icon': 'arrow-r',
 	    		'data-expanded-icon': 'arrow-d' 
 	    	} 
 	    },
-	    { header: 'Apa saya boleh memberikan tips ke driver?', content: '<p>Silahkan, itu adalah hak anda untuk memberikan tips ke driver.</p>', 
+	    { header: 'Apa saya boleh beri tips ke driver?', content: '<p>Silahkan, itu adalah hak anda untuk memberikan uang tips ke driver.</p>', 
 	    	attributes: {
 	    		'data-collapsed-icon': 'arrow-r',
 	    		'data-expanded-icon': 'arrow-d' 

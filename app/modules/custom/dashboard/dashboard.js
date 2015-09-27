@@ -49,6 +49,11 @@ function dashboard_page() {
       text: 'Ingin menjadi Driver?',
       path: 'how_to_join'
     };
+    content.faq = {
+      theme: 'button_link',
+      text: 'FAQ',
+      path: 'faqpage'
+    };
     content.callcenter = {
       theme: 'button_link',
       text: 'Call Center 08.1234.805.101',

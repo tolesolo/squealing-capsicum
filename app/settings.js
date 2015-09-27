@@ -45,7 +45,7 @@ Drupal.settings.cache.views.expiration = 3600;
 // DrupalGap Mode (defaults to 'web-app')
 //  'web-app' - use this mode to build a web application for a browser window
 //  'phonegap' - use this mode to build a mobile application with phonegap
-drupalgap.settings.mode = 'phonegap';
+drupalgap.settings.mode = 'web-app';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {
@@ -111,6 +111,7 @@ Drupal.modules.custom['my_saran'] = {};
 Drupal.modules.custom['dashboard'] = {};
 Drupal.modules.custom['howtotopup'] = {};
 Drupal.modules.custom['howtojoin'] = {};
+Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.contrib['commerce_drupalgap_stripe'] = {};
 Drupal.modules.contrib['commerce_shipping'] = {};
 Drupal.modules.contrib['telephone'] = {};
@@ -126,6 +127,7 @@ Drupal.modules.contrib['rate'] = {};
 Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['entityreference'] = {};
 Drupal.modules.contrib['votingapi'] = {};
+Drupal.modules.contrib['user_registrationpassword'] = {};
 Drupal.modules.custom['mobile_notifications'] = {};
 Drupal.modules.custom['push_notifications'] = {};
 

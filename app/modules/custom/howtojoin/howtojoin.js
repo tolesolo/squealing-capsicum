@@ -27,6 +27,7 @@ function howtojoin_page() {
 		'<li>Surat Keterangan Domisili apabila KTP dan tempat tinggal beda</li>' +
 		'<li>Usia maksimal 55 thn</li>' +
 		'<li>Pendidikan terakhir SMP</li>' +
+		'<li>Membawa uang Rp.100.000 untuk setoran dan pembukaan rekening ponsel CIMB Niaga</li>' +
 		'<li>Wajib menghadirkan motor saat seleksi</li>' +
 		'<li>Wajib memakai Sepatu</li>' +
 		'<li>Wajib menyerahkan BPKB asli sebagai jaminan</li>' +
@@ -37,7 +38,7 @@ function howtojoin_page() {
 		'<strong><h2>Langkah 2 - Pendaftaran wawancara</h2></strong>' +
 		'<ol>' + 
 		'<li>Mengambil nomor pendaftaran. Untuk memperoleh nomor pendaftaran: <a onclick="javascript:window.open(\'sms:+6285234805101?body=NamaLengkap TglLahir NoHP\', \'_system\', \'location=yes\');">SMS ke 085-234-805-101</a>, format: NamaLengkap[spasi]TglLahir[spasi]NoHP (Contoh: "BudiBaik 1Januari1994 08444433322"). Anda akan mendapat konfirmasi balasan: NamaLengkap_Nomor_Tanggal.</li>' +
-		'<li>Pada tanggal yang ditentukan, mohon datang ke Jalan xxxxxxxxx, antara jam 8 - 10 pagi. Bawa: Motor yang digunakan, persyaratan, dan jaminan seperti yang dijelaskan di bawah. Tunjukkan SMS yang telah diterima.</li>' +
+		'<li>Pada tanggal yang ditentukan, mohon datang ke Jalan xxxxxxxxx, antara jam 8 - 10 pagi. Bawa: Motor yang digunakan, persyaratan, dan jaminan. Tunjukkan SMS yang telah diterima.</li>' +
 		'<li>Akan dilanjutkan dengan proses seleksi dan pelatihan.</li>' +
 		'</ol>'
     };

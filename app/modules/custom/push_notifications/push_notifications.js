@@ -39,14 +39,14 @@ function push_notifications_register() {
 function push_notifications_services_postprocess(options, result) {
   try {
     // When the user login service resource is successful store a token
- //   if (options.service == 'user') {
- //     if (options.resource == 'login') {
+    if (options.service == 'user') {
+      if (options.resource == 'login') {
         push_notifications_register();
- //     }
-//      else if (options.resource == 'logout') {
-//        push_notifications_delete_device_token();
-//      }
-//    }
+      }
+      else if (options.resource == 'logout') {
+        push_notifications_delete_device_token();
+      }
+    }
   }
   catch (error) {
     console('push_notifications_services_postprocess - ' + error);

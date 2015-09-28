@@ -128,7 +128,6 @@ Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['entityreference'] = {};
 Drupal.modules.contrib['votingapi'] = {};
 Drupal.modules.contrib['user_registrationpassword'] = {};
-Drupal.modules.custom['mobile_notifications'] = {};
 Drupal.modules.custom['push_notifications'] = {};
 
 /***************************************|
@@ -165,16 +164,6 @@ drupalgap.settings.menus['user_menu_anonymous'] = {
 drupalgap.settings.menus['user_menu_authenticated'] = {
   options: menu_popup_get_default_options(),
   links: [
-    {
-		title:'Berita',
-		path:'mobile-notifications',	
-	options:{	
-		reloadPage:true,		
-		attributes:{		
-			'data-icon':'info'			
-		}
-	}
-	},
     {
       title:'Pesanan',
       path:'myorders',

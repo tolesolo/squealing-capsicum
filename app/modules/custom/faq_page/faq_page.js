@@ -18,7 +18,7 @@ function faq_page_page() {
 	content['my_collapsibleset'] = {
 	  theme: 'collapsibleset',
 	  items: [
-	    { header: 'Mana peta driver yang dekat saya?', content: '<p>Demi menjaga privasi dan keamanan driver itu sendiri, posisi driver hanya bisa diakses oleh managemen internal kami. Anda bisa langsung melakukan pesanan tanpa harus melihat ada atau tidaknya dirver di sekitar/dekat anda. Kami akan memulai proses penempatan order anda dengan posisi driver yang terdekat.</p>', 
+	    { header: 'Mana peta driver yang dekat saya?', content: '<p>Demi menjaga privasi dan keamanan driver itu sendiri, posisi driver hanya bisa diakses oleh managemen internal kami. Anda bisa langsung melakukan pesanan tanpa harus melihat ada atau tidaknya driver di sekitar/dekat anda. Kami akan memulai proses penempatan order anda dengan posisi driver yang terdekat.</p>', 
 	    	attributes: {
 	    		'data-collapsed-icon': 'arrow-r',
 	    		'data-expanded-icon': 'arrow-d' 

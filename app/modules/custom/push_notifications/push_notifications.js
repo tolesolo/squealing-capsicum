@@ -102,6 +102,8 @@ function onNotificationGCM(e) {
       }
       break;
     case 'message':
+			drupalgap_goto('myorders', {reloadPage:true});
+			//drupalgap.settings.front = 'myorders';
       break;
     case 'error':
         console.log('onNotificationGCM -' . e.msg);

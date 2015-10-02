@@ -10,7 +10,7 @@ var GCM_SENDER_ID = '369967161369';
 
 function push_notifications_deviceready() {
   try {
-    When the device is connected, if the user is anonymous we don't want to register a token
+    //When the device is connected, if the user is anonymous we don't want to register a token
     if (Drupal.user.uid == 0) {
     } else {
       push_notifications_register();

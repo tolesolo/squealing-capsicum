@@ -400,8 +400,8 @@ drupalgap.settings.menus.regions['footer'] = {
         }
       },
       pages: {
-        value: ['node/*'], 
-        mode: 'include'
+        value: ['', 'myorders', 'user/*', 'mysaran', 'topup', 'node/add/*', 'faqpage', 'how_to_join'], 
+        mode: 'exclude'
       }
     }
   ]

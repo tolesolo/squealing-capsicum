@@ -123,10 +123,7 @@ Drupal.modules.contrib['views_litepager'] = {};
 Drupal.modules.contrib['geofield'] = {};
 Drupal.modules.contrib['geofield_gmap'] = {};
 Drupal.modules.contrib['addressfield'] = {};
-Drupal.modules.contrib['rate'] = {};
 Drupal.modules.contrib['force_authentication'] = {};
-Drupal.modules.contrib['entityreference'] = {};
-Drupal.modules.contrib['votingapi'] = {};
 Drupal.modules.contrib['user_registrationpassword'] = {};
 Drupal.modules.custom['push_notifications'] = {};
 
@@ -168,6 +165,7 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
       title:'Pesanan',
       path:'myorders',
       options:{
+        reloadPage:true,
         attributes:{
           'data-icon':'star'
         }
@@ -177,6 +175,7 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
       title:'Keluhan',
       path:'mysaran',
       options:{
+        reloadPage:true,
         attributes:{
           'data-icon':'info'
         }
@@ -387,8 +386,22 @@ drupalgap.settings.menus.regions['footer'] = {
         }
       },
       pages: {
-        value: [''],
+        value: ['','node/*','myorders'], 
         mode: 'exclude'
+      }
+    },
+    {
+      title:'Telusuri pesanan saya',
+      options: {
+        attributes: {
+          'data-icon': 'back',
+          'class': 'ui-btn-left',
+          'onclick': 'javascript:drupalgap_goto(\'myorders\');'
+        }
+      },
+      pages: {
+        value: ['node/*'], 
+        mode: 'include'
       }
     }
   ]

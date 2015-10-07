@@ -20,8 +20,7 @@ function block_copyright_block_view(delta, region) {
     var content = '';
     if (delta == 'copyrightgt') {
       content = '<p style="text-align: center; color:#666666;">' + t('&copy; Copyright 2015 - ') + 
-          l('Get Tranz', 'http://www.gettranz.co.id', {InAppBrowser: true}) +
-        '</p>';
+          '<a onclick="javascript:window.open(\'http://www.gettranz.co.id\', \'_system\', \'location=yes\');">Get Tranz</a></p>';
     }
     return content;
   }

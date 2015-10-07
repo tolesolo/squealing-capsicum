@@ -19,6 +19,18 @@ function my_saran_menu() {
 function my_saran_page() {
   try {
     var content = {};
+    content['addreload_button'] = {
+		theme: 'button_link',
+		text: 'Reload',
+		path:'mysaran',
+		options: {
+        	reloadPage:true,
+        	reset:false,
+        	attributes:{
+          		'data-icon': 'refresh'
+        	}
+		}
+    };
     content['addsaran_link'] = {
 		theme: 'button_link',
 		text: 'Kirim saran, rating & keluhan',
@@ -63,7 +75,7 @@ function my_saran_page_row(view, row) {
  */
 function my_saran_page_empty(view) {
   try {
-    return 'Maaf, anda belum pernah memesan layanan.';
+    return 'Maaf, anda belum pernah mengirim saran/keluhan.';
   }
   catch (error) { console.log('my_saran_page_empty - ' + error); }
 }

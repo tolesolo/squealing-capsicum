@@ -7,7 +7,6 @@ function my_orders_menu() {
     title: 'Pesanan saya',
     page_callback: 'my_orders_page',
     options:{
-        reloadPage:true
       }
   };
   return items;
@@ -19,6 +18,21 @@ function my_orders_menu() {
 function my_orders_page() {
   try {
     var content = {};
+    content['addreload_button'] = {
+		theme: 'button_link',
+		text: 'Reload',
+		path:'myorders',
+		options: {
+        	reloadPage:true,
+        	reset:false,
+        	attributes:{
+          		'data-icon': 'refresh'
+        	}
+		}
+    };
+    content['line_break'] = {
+      markup: '<br>'
+    };
     content['myorders'] = {
       theme: 'view',
       pager_pos: 'bottom',

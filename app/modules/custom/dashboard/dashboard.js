@@ -94,7 +94,7 @@ function dashboard_map_pageshow() {
         setTimeout(function() {
             google.maps.event.trigger(_dashboard_map, 'resize');
             _dashboard_map.setCenter(myLatlng);
-        }, 2000);
+        }, 500);
         
         // Add a marker for the user's current position.
         var marker = new google.maps.Marker({
@@ -146,8 +146,7 @@ function _dashboard_map_button_click() {
   try {
     // Build the path to the view to retrieve the results.
     var range = 5; // Search within a 5 mile radius, for illustration purposes.
-    var path = 'orders-nearby-locations.json/' +
-      _dashboard_user_latitude + ',' + _dashboard_user_longitude + '_' + range;
+    var path = 'orders-nearby-locations.json/-7.2574719,112.75208829999997';
       
     // Call the server.
     views_datasource_get_view_result(path, {

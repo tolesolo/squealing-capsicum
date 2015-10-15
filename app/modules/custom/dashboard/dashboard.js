@@ -10,7 +10,7 @@ function dashboard_menu() {
   try {
     var items = {};
     items['hello_dashboard'] = {
-      title: 'Daftar Pesanan',
+      title: 'Map',
       page_callback: 'dashboard_map',
       pageshow: 'dashboard_map_pageshow'
     };
@@ -25,28 +25,28 @@ function dashboard_menu() {
 function dashboard_map() {
   try {
     var content = {};
-	content['find_nearby_locations'] = {
-	  theme: 'button',
-	  text: 'Find Nearby Orders',
-	  attributes: {
-	    onclick: "_dashboard_map_button_click()",
-	    'data-theme': 'b'
-	  }
-	};
     var map_attributes = {
       id: 'dashboard_map',
       style: 'width: 100%; height: 320px;'
     };
+    content['find_nearby_locations'] = {
+  theme: 'button',
+  text: 'Find Nearby Locations',
+  attributes: {
+    onclick: "_dashboard_map_button_click()",
+    'data-theme': 'b'
+  }
+};
     content['map'] = {
       markup: '<div ' + drupalgap_attributes(map_attributes) + '></div>'
     };
-	content['location_results'] = {
-	  theme: 'jqm_item_list',
-	  items: [],
-	  attributes: {
-	    id: 'location_results_list'
-	  }
-	};
+    content['location_results'] = {
+  theme: 'jqm_item_list',
+  items: [],
+  attributes: {
+    id: 'location_results_list'
+  }
+};
     return content;
   }
   catch (error) { console.log('dashboard_map - ' + error); }
@@ -75,7 +75,7 @@ function dashboard_map_pageshow() {
         // Set the map's options.
         var mapOptions = {
           center: myLatlng,
-          zoom: 11,
+          zoom: 16,
           mapTypeControl: true,
           mapTypeControlOptions: {
             style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
@@ -94,7 +94,7 @@ function dashboard_map_pageshow() {
         setTimeout(function() {
             google.maps.event.trigger(_dashboard_map, 'resize');
             _dashboard_map.setCenter(myLatlng);
-        }, 500);
+        }, 5000);
         
         // Add a marker for the user's current position.
         var marker = new google.maps.Marker({
@@ -145,15 +145,20 @@ function dashboard_map_pageshow() {
 function _dashboard_map_button_click() {
   try {
     // Build the path to the view to retrieve the results.
-    var range = 5; // Search within a 5 mile radius, for illustration purposes.
-    var path = 'orders-nearby-locations.json/-7.2574719,112.75208829999997';
+    var range = 4; // Search within a 4 mile radius, for illustration purposes.
+    var path = 'orders-nearby-locations.json/' +
+      _dashboard_user_latitude + ',' + _dashboard_user_longitude;
+    drupalgap_alert(
+          'Latitude: '          + _dashboard_user_latitude          + '\n' +
+          'Longitude: '         + _dashboard_user_longitude         + '\n' + path
+        );
       
     // Call the server.
     views_datasource_get_view_result(path, {
         success: function(data) {
           
           if (data.nodes.length == 0) {
-            drupalgap_alert('Sorry, we did not find any orders nearby your locations!');
+            drupalgap_alert('Sorry, we did not find any nearby locations!');
             return;
           }
 
@@ -163,7 +168,7 @@ function _dashboard_map_button_click() {
               
               // Render a nearby location, and add it to the item list.
               var row = object.node;
-              //var image_html = theme('image', { path: row.field_image.src });
+              var image_html = theme('image', { path: row.field_image.src });
               var distance =
                 row.field_geofield_distance + ' ' +
                 drupalgap_format_plural(row.field_geofield_distance, 'mile', 'miles');

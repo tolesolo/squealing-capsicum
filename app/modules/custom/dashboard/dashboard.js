@@ -42,6 +42,7 @@ function dashboard_map() {
     };
     content['location_results'] = {
   theme: 'jqm_item_list',
+  title: 'Pesanan',
   items: [],
   attributes: {
     id: 'location_results_list'
@@ -158,7 +159,7 @@ function _dashboard_map_button_click() {
         success: function(data) {
           
           if (data.nodes.length == 0) {
-            drupalgap_alert('Sorry, we did not find any nearby locations!');
+            drupalgap_alert('Maaf, kami tidak menemukan pesanan di sekitar anda!');
             return;
           }
 
@@ -168,14 +169,15 @@ function _dashboard_map_button_click() {
               
               // Render a nearby location, and add it to the item list.
               var row = object.node;
-              var image_html = theme('image', { path: row.field_image.src });
+              //var image_html = theme('image', { path: row.field_image.src });
               var distance =
                 row.field_geofield_distance + ' ' +
-                drupalgap_format_plural(row.field_geofield_distance, 'mile', 'miles');
+                drupalgap_format_plural(row.field_geofield_distance, 'km', 'kilometers');
               var description =
                 '<h2>' + distance + '</h2>' +
                 '<p>' + row.title + '</p>';
-              var link = l(image_html + description, 'node/' + row.nid);
+              //var link = l(image_html + description, 'node/' + row.nid);
+              var link = l(description, 'node/' + row.nid);
               items.push(link);
               
               // Add a marker on the map for the location.
@@ -187,7 +189,7 @@ function _dashboard_map_button_click() {
               });
               
           });
-          drupalgap_item_list_populate("#location_results_list", items);
+          drupalgap_item_list_populate('#location_results_list', items);
 
         }
     });

@@ -31,7 +31,7 @@ function dashboard_map() {
     };
     content['find_nearby_locations'] = {
   theme: 'button',
-  text: 'Find Nearby Locations',
+  text: 'Find Orders Nearby',
   attributes: {
     onclick: "_dashboard_map_button_click()",
     'data-theme': 'b'
@@ -76,7 +76,7 @@ function dashboard_map_pageshow() {
         // Set the map's options.
         var mapOptions = {
           center: myLatlng,
-          zoom: 16,
+          zoom: 14,
           mapTypeControl: true,
           mapTypeControlOptions: {
             style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
@@ -149,10 +149,6 @@ function _dashboard_map_button_click() {
     var range = 4; // Search within a 4 mile radius, for illustration purposes.
     var path = 'orders-nearby-locations.json/' +
       _dashboard_user_latitude + ',' + _dashboard_user_longitude;
-    drupalgap_alert(
-          'Latitude: '          + _dashboard_user_latitude          + '\n' +
-          'Longitude: '         + _dashboard_user_longitude         + '\n' + path
-        );
       
     // Call the server.
     views_datasource_get_view_result(path, {
@@ -175,9 +171,9 @@ function _dashboard_map_button_click() {
                 drupalgap_format_plural(row.field_geofield_distance, 'km', 'kilometers');
               var description =
                 '<h2>' + distance + '</h2>' +
-                '<p>' + row.title + '</p>';
+                '<p>Kode pesanan: ' + row.title + ', Lokasi pertama: ' + row.field_ofd_from_address +  '</p>';
               //var link = l(image_html + description, 'node/' + row.nid);
-              var link = l(description, 'node/' + row.nid);
+              var link = l(description, 'http://test.getranz.com/orders/driver/accept/' + row.nid, { InAppBrowser:true });
               items.push(link);
               
               // Add a marker on the map for the location.

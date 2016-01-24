@@ -15,7 +15,7 @@ Drupal.settings.debug = true;
 /* Drupal Paths */
  
 // Site Path (do not use a trailing slash)
-Drupal.settings.site_path = 'http://test.getranz.com'; // e.g. http://www.example.com
+Drupal.settings.site_path = 'http://gettranz.com'; // e.g. http://www.example.com
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';
@@ -162,16 +162,6 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
   options: menu_popup_get_default_options(),
   links: [
     {
-      title:'Pesanan',
-      path:'myorders',
-      options:{
-        reloadPage:true,
-        attributes:{
-          'data-icon':'star'
-        }
-      }
-    },
-    {
       title:'Keluhan',
       path:'mysaran',
       options:{
@@ -198,48 +188,20 @@ drupalgap.settings.menus['main_menu'] = {
   options: menu_popup_get_default_options(),
   links: [
     {
-      title:'Get Transport',
-      path:'node/add/order_get_transport',
-      options:{
-        attributes:{
-          'data-icon':'navigation'
-        }
-      }
-    },
-    {
-      title:'Get Courier',
-      path:'node/add/order_get_courier',
-      options:{
-        attributes:{
-          'data-icon':'recycle'
-        }
-      }
-    },
-    {
-      title:'Get Shop',
-      path:'node/add/order_get_shop',
-      options:{
-        attributes:{
-          'data-icon':'shop'
-        }
-      }
-    },
-    {
-      title:'Get Eat',
-      path:null,
-      options:{
-        attributes:{
-          'data-icon':'location',
-          onclick: "window.open('http://test.getranz.com/merchants/type/get-eat', '_system', 'location=yes')"
-        }
-      }
-    },
-    {
-      title: 'How to top-up',
+      title: 'Tambah top-up',
       path: 'topup',
       options: {
         attributes: {
           'data-icon': 'plus'
+        }
+      }
+    },
+    {
+      title:'Tarik Dana',
+      path:'node/add/withdraw',
+      options:{
+        attributes:{
+          'data-icon':'minus'
         }
       }
     }
@@ -288,12 +250,6 @@ drupalgap.settings.blocks.easystreet3 = {
     copyrightgt: {
        pages: {
         value: ['user/login', 'user/register'],
-        mode: 'include'
-      }
-    },
-    flat_fees: {
-       pages: {
-        value: ['node/add/order_get_courier', 'node/add/order_get_transport', 'node/add/order_get_shop'],
         mode: 'include'
       }
     }

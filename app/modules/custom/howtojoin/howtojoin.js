@@ -37,7 +37,7 @@ function howtojoin_page() {
 
 		'<strong><h2>Langkah 2 - Pendaftaran wawancara</h2></strong>' +
 		'<ol>' + 
-		'<li>Mengambil nomor pendaftaran. Untuk memperoleh nomor pendaftaran: <a onclick="javascript:window.open(\'sms:+6285234805101?body=NamaLengkap TglLahir NoHP\', \'_system\', \'location=yes\');">SMS ke 085-234-805-101</a>, format: NamaLengkap[spasi]TglLahir[spasi]NoHP (Contoh: "BudiBaik 1Januari1994 08444433322"). Anda akan mendapat konfirmasi balasan: NamaLengkap_Nomor_Tanggal.</li>' +
+		'<li>Mengambil nomor pendaftaran. Untuk memperoleh nomor pendaftaran: <a onclick="javascript:window.open(\'sms:+62081311669328?body=NamaLengkap TglLahir NoHP\', \'_system\', \'location=yes\');">SMS ke 0813-1166-9328</a>, format: NamaLengkap[spasi]TglLahir[spasi]NoHP (Contoh: "BudiBaik 1Januari1994 08444433322"). Anda akan mendapat konfirmasi balasan: Nomor_Tanggal_Alamat.</li>' +
 		'<li>Pada tanggal yang ditentukan, mohon datang ke Jalan xxxxxxxxx, antara jam 8 - 10 pagi. Bawa: Motor yang digunakan, persyaratan, dan jaminan. Tunjukkan SMS yang telah diterima.</li>' +
 		'<li>Akan dilanjutkan dengan proses seleksi dan pelatihan.</li>' +
 		'</ol>'

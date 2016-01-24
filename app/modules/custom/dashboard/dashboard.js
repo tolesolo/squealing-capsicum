@@ -31,7 +31,7 @@ function dashboard_map() {
     };
     content['find_nearby_locations'] = {
   theme: 'button',
-  text: 'Find Orders Nearby',
+  text: 'Cari Order Terdekat',
   attributes: {
     onclick: "_dashboard_map_button_click()",
     'data-theme': 'b'
@@ -173,7 +173,7 @@ function _dashboard_map_button_click() {
                 '<h2>' + distance + '</h2>' +
                 '<p>Kode pesanan: ' + row.title + ', Lokasi pertama: ' + row.field_ofd_from_address +  '</p>';
               //var link = l(image_html + description, 'node/' + row.nid);
-              var link = l(description, 'http://test.getranz.com/orders/driver/accept/' + row.nid, { InAppBrowser:true });
+              var link = l(description, 'http://gettranz.com/orders/driver/accept/' + row.nid, { InAppBrowser:true });
               items.push(link);
               
               // Add a marker on the map for the location.

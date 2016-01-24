@@ -23,8 +23,8 @@ function howtotopup_page() {
       markup: '<h2 style="text-align: center;">' + t('How to top up GT Wallet?') + '</h2>' +
       t('Prasyarat:') + '</br><ol>' +
 		'<li>Siapkan ibanking, mbanking atau rekening ponsel anda</li>' +
-		'<li>Layanan penambahkan saldo hanya tersedia selama jam kerja (jam 7 pagi s/d 5 sore)</li>' +
-		'<li>Setelah anda melakukan transfer, silahkan memberikan kami konfirmasi untuk mendapatkan respon yang cepat melalui call center 08-123456-0736</li>' +
+		'<li>Layanan penambahkan saldo hanya tersedia selama jam kerja (jam 8 pagi s/d 5 sore)</li>' +
+		'<li>Setelah anda melakukan transfer, silahkan memberikan kami konfirmasi untuk mendapatkan respon yang cepat melalui call center 08-123456-OJEG(0736)</li>' +
 		'</ol>' + 
       t('Bagaimana cara menambah saldo GT Wallet:') + '</br><ol>' +
 		'<li>Masuk ke http://www.gettranz.com/gtwallet/top-up (harus login terlebih dahulu)</li>' +

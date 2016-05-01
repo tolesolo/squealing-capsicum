@@ -19,7 +19,7 @@ function block_copyright_block_view(delta, region) {
   try {
     var content = '';
     if (delta == 'copyrightgt') {
-      content = '<p style="text-align: center; color:#666666;">' + t('&copy; Copyright 2015 - ') + 
+      content = '<p style="text-align: center; color:#666666;">' + t('&copy; Copyright 2016 - ') + 
           '<a onclick="javascript:window.open(\'http://www.gettranz.co.id\', \'_system\', \'location=yes\');">Get Tranz</a></p>';
     }
     return content;

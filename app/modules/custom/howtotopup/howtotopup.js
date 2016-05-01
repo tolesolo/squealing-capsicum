@@ -29,7 +29,7 @@ function howtotopup_page() {
       t('Bagaimana cara menambah saldo GT Wallet:') + '</br><ol>' +
 		'<li>Masuk ke http://www.gettranz.com/gtwallet/top-up (harus login terlebih dahulu)</li>' +
 		'<li>Pilih dari nominal yang tersedia dan ikuti tahapannya hingga akhir</li>' +
-		'<li>Silahkan transfer ke rekening di bawah ini:</li>' +
+		'<li>Silahkan transfer ke rekening di bawah ini:</br>Bank : CIMB Niaga</br>Nama Rekening: CV. Berkat Bersama</br>Nomor Rekening: 800-13475-6000</li>' +
 		'</ol>'
     };
     content.driver_kami = {

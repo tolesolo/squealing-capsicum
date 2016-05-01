@@ -19,7 +19,7 @@ function block_flat_fees_block_view(delta, region) {
   try {
     var content = '';
     if (delta == 'flat_fees') {
-      content = '<p style="text-align: right; color:black;">Ongkos : Rp. 15.000,-</p>';
+      content = '<p style="text-align: right; color:black;">Ongkos : Rp. 12.500,- (Promo April & Mei)</p>';
     }
     return content;
   }

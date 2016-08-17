@@ -6,16 +6,16 @@
 //window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
-Drupal.settings.debug = false;
+Drupal.settings.debug = true;
 
 /****************************************|
  * Drupal Settings (provided by jDrupal) |
  ****************************************/
- 
-/* Drupal Paths */
+
+/* DRUPAL PATHS */
  
 // Site Path (do not use a trailing slash)
-Drupal.settings.site_path = 'http://www.gettranz.com'; // e.g. http://www.example.com
+Drupal.settings.site_path = ''; // e.g. http://www.example.com
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';
@@ -27,16 +27,73 @@ Drupal.settings.file_public_path = 'sites/default/files';
 // The Default Language Code
 Drupal.settings.language_default = 'und';
 
-/* Drupal Caching */
+/* CACHING AND PERFORMANCE */
 
-// Set to true to enable local storage caching.
-Drupal.settings.cache.entity.enabled = false;
-Drupal.settings.cache.views.enabled = false;
+// Entity Caching
+Drupal.settings.cache.entity = {
 
-// Number of seconds before cached copy expires. Set to 0 to cache forever, set
-// to 60 for one minute, etc.
-Drupal.settings.cache.entity.expiration = 3600;
-Drupal.settings.cache.views.expiration = 3600;
+  /* Globals (will be used if not overwritten below) */
+  enabled: false,
+  expiration: 60, // # of seconds to cache, set to 0 to cache forever
+
+  /* Entity types */
+  entity_types: {
+
+    /* Comments */
+    /*comment: {
+     bundles: {}
+     },*/
+
+    /* Files */
+    /*file: {
+     bundles: {}
+     },*/
+
+    // Nodes
+    /*node: {
+
+      // Node Globals (will be used if not overwritten below)
+      enabled: true,
+      expiration: 120,
+
+      // Content types (aka bundles)
+      bundles: {
+
+        article: {
+          expiration: 3600
+        },
+        page: {
+          enabled: false
+        }
+
+      }
+    },*/
+
+    /* Terms */
+    /*taxonomy_term: {
+     bundles: {}
+     },*/
+
+    /* Vocabularies */
+    /*taxonomy_vocabulary: {
+     bundles: {}
+     },*/
+
+    /* Users */
+    /*user: {
+     bundles: {}
+     }*/
+
+  }
+
+};
+
+/* Views Caching */
+
+Drupal.settings.cache.views = {
+  enabled: false,
+  expiration: 3600
+};
 
 /*********************|
  * DrupalGap Settings |
@@ -49,7 +106,7 @@ drupalgap.settings.mode = 'phonegap';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {
-/* es: { } */
+   /* es: { } */
 };
 
 /*************|
@@ -60,7 +117,6 @@ drupalgap.settings.locale = {
 drupalgap.settings.title = 'Get Tranz';
  
 // App Front Page
-//drupalgap.settings.front = 'hello_world';
 drupalgap.settings.front = 'hello_dashboard';
 
 // Theme
@@ -70,7 +126,7 @@ drupalgap.settings.theme = 'easystreet3';
 drupalgap.settings.logo = 'themes/easystreet3/images/logogettranz-small.png';
 
 // Offline Warning Message. Set to false to hide message.
-drupalgap.settings.offline_message = 'No connection found!';
+drupalgap.settings.offline_message = 'Tidak ada koneksi!!';
 
 // Exit app message.
 drupalgap.settings.exit_message = 'Exit ' + drupalgap.settings.title + '?';
@@ -99,19 +155,6 @@ drupalgap.settings.loader = {
  *****************************************/
 
 /** Contributed Modules - www/app/modules **/
-
-//Drupal.modules.contrib['example'] = {};
-
-/** Custom Modules - www/app/modules/custom **/
-
-Drupal.modules.custom['my_orders'] = {};
-Drupal.modules.custom['block_flat_fees'] = {};
-Drupal.modules.custom['block_copyright'] = {};
-Drupal.modules.custom['my_saran'] = {};
-Drupal.modules.custom['dashboard'] = {};
-Drupal.modules.custom['howtotopup'] = {};
-Drupal.modules.custom['howtojoin'] = {};
-Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.contrib['commerce_drupalgap_stripe'] = {};
 Drupal.modules.contrib['commerce_shipping'] = {};
 Drupal.modules.contrib['telephone'] = {};
@@ -125,7 +168,21 @@ Drupal.modules.contrib['geofield_gmap'] = {};
 Drupal.modules.contrib['addressfield'] = {};
 Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['user_registrationpassword'] = {};
+
+//Drupal.modules.contrib['example'] = {};
+
+/** Custom Modules - www/app/modules/custom **/
+Drupal.modules.custom['my_orders'] = {};
+Drupal.modules.custom['block_flat_fees'] = {};
+Drupal.modules.custom['block_copyright'] = {};
+Drupal.modules.custom['my_saran'] = {};
+Drupal.modules.custom['dashboard'] = {};
+Drupal.modules.custom['howtotopup'] = {};
+Drupal.modules.custom['howtojoin'] = {};
+Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.custom['push_notifications'] = {};
+
+//Drupal.modules.custom['my_module'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
@@ -141,12 +198,13 @@ drupalgap.settings.menus['user_menu_anonymous'] = {
       path: 'user/login',
       options: {
         attributes: {
-          'data-icon': 'lock'
+          'data-icon': 'lock',
+          'class': 'ui-btn ui-btn-icon-right'
         }
       }
     },
     {
-      title: 'Create new account',
+      title: 'Buat akaun baru',
       path: 'user/register',
       options: {
         attributes: {
@@ -270,12 +328,7 @@ drupalgap.settings.blocks.easystreet3 = {
     main_menu: { }
   },
   sub_header: {
-    title: { 
-		pages: {
-			value: ['node/*'],
-			mode: 'exclude',
-		}
-    }
+    title: { }
   },
   navigation: {
     primary_local_tasks: { }
@@ -290,13 +343,6 @@ drupalgap.settings.blocks.easystreet3 = {
         value: ['user/login', 'user/register'],
         mode: 'include'
       }
-    },
-    flat_fees: {
-       pages: {
-        value: ['node/add/order_get_courier', 'node/add/order_get_transport', 'node/add/order_get_shop'],
-        mode: 'include'
-      }
-    }
   }
 };
 
@@ -367,7 +413,7 @@ drupalgap.settings.menus.regions['header'] = {
         value: ['authenticated user'],
         mode: 'include',
       }
-    },
+    }
   ]
 };
 
@@ -376,7 +422,6 @@ drupalgap.settings.menus.regions['footer'] = {
   links: [
     /* Back Button */
     {
-      title:'Back',
       options: {
         attributes: {
           'data-icon': 'back',
@@ -411,7 +456,7 @@ drupalgap.settings.menus.regions['footer'] = {
  * Camera |
  **********/
 drupalgap.settings.camera = {
-  quality: 80
+  quality: 90
 };
 
 /***********************|

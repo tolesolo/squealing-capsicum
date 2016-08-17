@@ -36,9 +36,67 @@ function addressfield_field_value_callback(id, element) {
       if (typeof val !== 'undefined') { values.push(val); }
     }
     if (values.length == 0 || (values.length == 1 && empty(values[0]))) { return null; }
-    return values.join(',');
+    if (element.is_field) { return values.join(','); }
+    else {
+      var result = {};
+      var widgets = addressfield_get_components();
+      $.each(widgets, function(index, widget) {
+        var widget_id = element.id + '-' + widget;
+        result[widget] = $('#' + widget_id).val();
+      });
+      return result;
+    }
+
   }
   catch (error) { console.log('addressfield_field_value_callback - ' + error); }
+}
+
+/**
+ * Used to place an address field onto a non entity form.
+ */
+function theme_addressfield_form_element(variables) {
+
+  // Determine the country widget id and init the global array for this element.
+  var country_widget_id = variables.id + '-country';
+  _address_field_items[variables.name] = [];
+
+  // If no value callback was provided, set it to the default.
+  if (!variables.element.value_callback) {
+    variables.element.value_callback = 'addressfield_field_value_callback';
+  }
+
+  // Prepare the child element.
+  var onchange = "_addressfield_field_widget_form_country_onchange(this, " +
+      "'" + variables.id + "'," +
+      0 + "," +
+      "'" + variables.name + "'" +
+  ")";
+  var child = {
+    title: 'Country',
+    options: {},
+    attributes: {
+      id: country_widget_id,
+      onchange: onchange
+    }
+  };
+  if (empty(variables.default_country) && !variables.required) {
+    child.options[''] = '- None -';
+  }
+
+  // All countries allowed.
+  return theme('select', child) + '<div id="' + country_widget_id + '-widget"></div>' + drupalgap_jqm_page_event_script_code({
+    page_id: drupalgap_get_page_id(),
+    jqm_page_event: 'pageshow',
+    jqm_page_event_callback: '_addressfield_field_widget_form_country_pageshow',
+    jqm_page_event_args: JSON.stringify({
+      country_widget_id: country_widget_id,
+      delta: 0,
+      field_name: variables.name,
+      default_country: variables.default_country,
+      required: variables.required
+    })
+  });
+
 }
 
 /**
@@ -57,7 +115,7 @@ function addressfield_field_widget_form(form, form_state, field, instance, langc
     // later, the latter form will inherit the country code from the prior.
 
     // Is this a new or existing entity?
-    _address_field_new_entity = form.arguments[0][entity_primary_key(form.entity_type)] ? false : true;
+    _address_field_new_entity = form.arguments.length && form.arguments[0][entity_primary_key(form.entity_type)] ? false : true;
 
     // Extract the countries. If it's an array and empty, that means every
     // country is allowed and we'll need to grab them from the server. If it's
@@ -87,7 +145,7 @@ function addressfield_field_widget_form(form, form_state, field, instance, langc
     }
 
     // What's the default country? An empty string means "none", otherwise it
-    // will be the country code, or site_default. If it was an emptry string,
+    // will be the country code, or site_default. If it was an empty string,
     // and there is only one country available, use it.
     // @TODO - properly handle the site_default country. This will probably need
     // to be delivered via drupalgap system connect and made available to the
@@ -114,7 +172,8 @@ function addressfield_field_widget_form(form, form_state, field, instance, langc
           "'" + items[delta].id + "'," +
           delta + "," +
           "'" + field.field_name + "'" +
-        ")"
+        ")",
+        entity_type: form.entity_type
       }
     };
     if (empty(default_country) && !instance.required) {
@@ -165,14 +224,14 @@ function addressfield_field_widget_form(form, form_state, field, instance, langc
     }
 
     // Finally push the child onto the element and place an empty container for
-    // the country's widet to be injected dynamically.
+    // the country's widget to be injected dynamically.
     items[delta].children.push(child);
     items[delta].children.push({
         markup: '<div id="' + country_widget_id + '-widget"></div>'
     });
 
   }
-  catch (error) { console.log('hook_field_widget_form - ' + error); }
+  catch (error) { console.log('addressfield_field_widget_form - ' + error); }
 }
 
 /**
@@ -284,26 +343,37 @@ function _addressfield_field_widget_form_country_onchange(select, widget_id, del
           var html = '';
           var components = [];
 
-          // thoroughfare
-          var widget = {
-            theme: 'textfield',
-            attributes: {
-              placeholder: 'Address 1',
-              id: widget_id + '-thoroughfare'
-            },
-            required: true
-          };
-          components.push(widget);
+          // Grab the field instance.
+          var instance = field_name.indexOf('field_') != -1 ?
+              drupalgap_field_info_instance($(select).attr('entity_type'), field_name) : null;
 
-          // premise
-          var widget = {
-            theme: 'textfield',
-            attributes: {
-              placeholder: 'Address 2',
-              id: widget_id + '-premise'
-            }
-          };
-          components.push(widget);
+          // @TODO - need to add support for name components!
+
+          // If we're not hiding the street components...
+          if (instance && instance.widget.settings.format_handlers['address-hide-street'] == 0) {
+
+            // thoroughfare
+            var widget = {
+              theme: 'textfield',
+              attributes: {
+                placeholder: 'Address 1',
+                id: widget_id + '-thoroughfare'
+              },
+              required: true
+            };
+            components.push(widget);
+
+            // premise
+            var widget = {
+              theme: 'textfield',
+              attributes: {
+                placeholder: 'Address 2',
+                id: widget_id + '-premise'
+              }
+            };
+            components.push(widget);
+
+          }
 
           // locality
           var widget = {
@@ -323,10 +393,10 @@ function _addressfield_field_widget_form_country_onchange(select, widget_id, del
               options: administrative_areas,
               attributes: {
                 id: widget_id + '-administrative_area'
-              }
+              },
+              required: _addressfield_widget_field_required(address_format, 'administrative_area')
             };
             components.push(widget);
-            //_addressfield_widget_field_required(address_format, 'administrative_area')
           }
 
           // postal_code
@@ -361,14 +431,7 @@ function _addressfield_field_widget_form_country_onchange(select, widget_id, del
  */
 function _addressfield_widget_field_required(address_format, field_name) {
   try {
-    var result = false;
-    $.each(address_format.required_fields, function(index, _field_name) {
-        if (field_name == _field_name) {
-          result = true;
-          return false;
-        }
-    });
-    return result;
+    return in_array(field_name, address_format.required_fields);
   }
   catch (error) { console.log('_addressfield_widget_field_required - ' + error); }
 }

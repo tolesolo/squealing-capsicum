@@ -120,10 +120,10 @@ drupalgap.settings.title = 'Get Tranz';
 drupalgap.settings.front = 'hello_dashboard';
 
 // Theme
-drupalgap.settings.theme = 'easystreet3';
+drupalgap.settings.theme = 'gettranzv2';
 
 // Logo
-drupalgap.settings.logo = 'themes/easystreet3/images/logogettranz-small.png';
+drupalgap.settings.logo = 'themes/gettranzv2/images/logogettranz-small.png';
 
 // Offline Warning Message. Set to false to hide message.
 drupalgap.settings.offline_message = 'Tidak ada koneksi!!';
@@ -251,6 +251,48 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
   ]
 };
 
+// Navigation menu
+drupalgap.settings.menus['menu_halaman_utama'] = {
+  links: [
+    {
+      title: 'Facebook',
+      path: 'node/123',
+      options: {
+        attributes: {
+          'data-icon': 'star'
+        }
+      }
+    },
+    {
+      title: 'Instagram',
+      path: 'user',
+      options: {
+        attributes: {
+          'data-icon': 'star'
+        }
+      }
+    },
+    {
+      title: 'Call Center',
+      path: 'user',
+      options: {
+        attributes: {
+          'data-icon': 'star'
+        }
+      }
+    },
+    {
+      title: 'Lain',
+      path: 'user',
+      options: {
+        attributes: {
+          'data-icon': 'star'
+        }
+      }
+    }
+  ]
+};
+
 // Main Menu
 drupalgap.settings.menus['main_menu'] = {
   options: menu_popup_get_default_options(),
@@ -309,8 +351,8 @@ drupalgap.settings.menus['main_menu'] = {
  ****************************************/
 drupalgap.settings.blocks = {}; // Do not remove this line.
 
-// Easy Street 3 Theme Blocks
-drupalgap.settings.blocks.easystreet3 = {
+// Get Tranz V2 Theme Blocks
+drupalgap.settings.blocks.gettranzv2 = {
   header: {
     user_menu_anonymous: {
       roles: {
@@ -331,7 +373,13 @@ drupalgap.settings.blocks.easystreet3 = {
     title: { }
   },
   navigation: {
-    primary_local_tasks: { }
+    primary_local_tasks: { },
+    menu_halaman_utama: {
+      roles: {
+        value: [' '],
+        mode: 'include',
+      }
+    }
   },
   content: {
     messages: { },

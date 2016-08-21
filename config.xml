@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget xmlns     = "http://www.w3.org/ns/widgets"
+<widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id="com.gettranz.app"
     	versionCode="1"
-	version   = "1">
+	version   = "2.0.0">
 
 <name>Get Tranz</name>
 <description>
@@ -18,11 +18,11 @@
         following tag to your config.xml; you will still have the INTERNET
         permission on your app, which PhoneGap requires.
    
-    <preference name="permissions"                value="none"/> -->
+    <preference name="permissions"                value="none"/>
 
 		<feature name="http://api.phonegap.com/1.0/geolocation"/>
 		<feature name="http://api.phonegap.com/1.0/network"/>
-		<feature name="http://api.phonegap.com/1.0/notification"/>
+		<feature name="http://api.phonegap.com/1.0/notification"/> -->
 
     <!-- Customize your app and platform with the preference element. -->
     <preference name="orientation"                value="default" />        <!-- all: default means both landscape and portrait are enabled -->
@@ -58,7 +58,7 @@
 	</platform> 
 --> 
     
-    <!-- Plugins
+    <!-- Plugins tag gap:plugin sudah tidak dipakai lagi
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
     <gap:plugin name="cordova-plugin-network-information" source="npm" />
     <gap:plugin name="cordova-plugin-device" source="npm" />

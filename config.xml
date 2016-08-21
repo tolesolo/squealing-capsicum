@@ -35,7 +35,7 @@
     <preference name="detect-data-types"          value="true" />           <!-- ios: controls whether data types (such as phone no. and dates) are automatically turned into links by the system -->
     <preference name="exit-on-suspend"            value="true" />          <!-- ios: if set to true, app will terminate when home button is pressed -->
     <preference name="show-splash-screen-spinner" value="false" />           <!-- ios: if set to false, the spinner won't appear on the splash screen during app loading -->
-    <preference name="auto-hide-splash-screen"    value="false" />           <!-- ios: if set to false, the splash screen must be hidden using a JavaScript API -->
+    <preference name="auto-hide-splash-screen"    value="true" />           <!-- ios: if set to false, the splash screen must be hidden using a JavaScript API -->
     <preference name="disable-cursor"             value="false" />          <!-- blackberry: prevents a mouse-icon/cursor from being displayed on the app -->
     <preference name="android-installLocation"    value="auto" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
 	<preference name="DisallowOverscroll" value="false"/>
@@ -71,8 +71,9 @@
    <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
    <plugin name="cordova-plugin-network-information" spec="1.2.1" />
    <plugin name="cordova-plugin-push-notification " spec="2.5.2" />
-   <plugin name="cordova-plugin-splashscreen" />
-    <plugin name="cordova-plugin-vibration" />
+   <plugin name="cordova-plugin-splashscreen" spec="3.2.2" />
+   <plugin name="cordova-plugin-vibration" spec="2.1.1" />
+
     
 
      <!--Core plugins 

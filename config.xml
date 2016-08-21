@@ -48,7 +48,7 @@
     
     <!--
         Define a specific version of PhoneGap to build into your app.
-	<preference name="phonegap-version" value="cli-5.1.1" />-->
+        <preference name="phonegap-version" value="cli-6.2.0" />-->
 	<!-- 
 	<platform name="android"> 
 		<gap:plugin name="cordova-plugin-whitelist" source="npm" version="1.1.0" /> 
@@ -57,18 +57,21 @@
 		<gap:plugin name="cordova-plugin-legacy-whitelist" source="npm" version="1.1.0" /> 
 	</platform> 
 --> 
-<preference name="phonegap-version" value="cli-6.2.0" />
     
-    <!-- Plugins -->
+    <!-- Plugins
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
     <gap:plugin name="cordova-plugin-network-information" source="npm" />
     <gap:plugin name="cordova-plugin-device" source="npm" />
     <gap:plugin name="cordova-plugin-geolocation" source="npm" />
-    <gap:plugin name="cordova-plugin-push-notification " source="npm" />
-	<!--<gap:plugin name="cordova-plugin-dialogs" source="npm"  />
-    <gap:plugin name="phonegap-plugin-push" source="npm"  />
-    <gap:plugin name="cordova-plugin-googleplayservices" source="npm" />
-    <gap:plugin name="cordova-plugin-android-support-v4" source="npm" /> -->
+    <gap:plugin name="cordova-plugin-push-notification " source="npm" /> -->
+    
+   <!-- this version -->
+   <plugin name="cordova-plugin-device" spec="1.1.2" />
+   <plugin name="cordova-plugin-geolocation" spec="2.2.0" />
+   <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
+   <plugin name="cordova-plugin-network-information" spec="1.2.1" />
+   <plugin name="cordova-plugin-push-notification " spec="2.5.2" />
+   <plugin name="cordova-plugin-whitelist" spec="1.2.2" />
     
 
      <!--Core plugins 

@@ -120,10 +120,10 @@ drupalgap.settings.title = 'Get Tranz';
 drupalgap.settings.front = 'hello_dashboard';
 
 // Theme
-drupalgap.settings.theme = 'gettranzv2';
+drupalgap.settings.theme = 'easystreet3';
 
 // Logo
-drupalgap.settings.logo = 'themes/gettranzv2/images/logogettranz-small.png';
+drupalgap.settings.logo = 'themes/easystreet3/images/logogettranz-small.png';
 
 // Offline Warning Message. Set to false to hide message.
 drupalgap.settings.offline_message = 'Tidak ada koneksi!!';
@@ -352,7 +352,7 @@ drupalgap.settings.menus['main_menu'] = {
 drupalgap.settings.blocks = {}; // Do not remove this line.
 
 // Get Tranz V2 Theme Blocks
-drupalgap.settings.blocks.gettranzv2 = {
+drupalgap.settings.blocks.easystreet3 = {
   header: {
     user_menu_anonymous: {
       roles: {

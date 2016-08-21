@@ -57,6 +57,7 @@
 		<gap:plugin name="cordova-plugin-legacy-whitelist" source="npm" version="1.1.0" /> 
 	</platform> 
 --> 
+<preference name="phonegap-version" value="cli-6.2.0" />
     
     <!-- Plugins -->
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />

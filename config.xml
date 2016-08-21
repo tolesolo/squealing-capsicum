@@ -19,10 +19,6 @@
         permission on your app, which PhoneGap requires.-->
    
     <preference name="permissions"                value="none"/>
- <!--
-		<feature name="http://api.phonegap.com/1.0/geolocation"/>
-		<feature name="http://api.phonegap.com/1.0/network"/>
-		<feature name="http://api.phonegap.com/1.0/notification"/> -->
 
     <!-- Customize your app and platform with the preference element. -->
     <preference name="orientation"                value="default" />        <!-- all: default means both landscape and portrait are enabled -->
@@ -43,20 +39,12 @@
         tambahan ku sendiri
     -->
     <preference name="android-minSdkVersion" value="14" />
-    <!--<preference name="android-build-tool" value="ant" />-->
-    <preference name="android-build-tool" value="gradle" />
+    <preference name="android-build-tool" value="ant" />
+    <!--<preference name="android-build-tool" value="gradle" />-->
     
     <!--
         Define a specific version of PhoneGap to build into your app.
         <preference name="phonegap-version" value="cli-6.2.0" />-->
-	<!-- 
-	<platform name="android"> 
-		<gap:plugin name="cordova-plugin-whitelist" source="npm" version="1.1.0" /> 
-	</platform> 
-	<platform name="ios"> 
-		<gap:plugin name="cordova-plugin-legacy-whitelist" source="npm" version="1.1.0" /> 
-	</platform> 
---> 
     
     <!-- Plugins tag gap:plugin sudah tidak dipakai lagi
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
@@ -73,13 +61,6 @@
    <plugin name="cordova-plugin-push-notification " spec="2.5.2" />
    <plugin name="cordova-plugin-splashscreen" spec="3.2.2" />
    <plugin name="cordova-plugin-vibration" spec="2.1.1" />
-
-    
-
-     <!--Core plugins 
-	<preference name="phonegap-version" value="3.7.0" />
-    <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />-->
-    
     
     <icon src="icon.png" />
     

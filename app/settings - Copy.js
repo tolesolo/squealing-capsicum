@@ -6,7 +6,7 @@
 //window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
-Drupal.settings.debug = true;
+Drupal.settings.debug = false;
 
 /****************************************|
  * Drupal Settings (provided by jDrupal) |
@@ -102,7 +102,7 @@ Drupal.settings.cache.views = {
 // DrupalGap Mode (defaults to 'web-app')
 //  'web-app' - use this mode to build a web application for a browser window
 //  'phonegap' - use this mode to build a mobile application with phonegap
-drupalgap.settings.mode = 'web-app';
+drupalgap.settings.mode = 'phonegap';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {
@@ -123,10 +123,10 @@ drupalgap.settings.front = 'hello_dashboard';
 drupalgap.settings.theme = 'gettranzv2';
 
 // Logo
-drupalgap.settings.logo = 'app/themes/gettranzv2/images/logogettranz-small.png';
+drupalgap.settings.logo = 'themes/gettranzv2/images/logogettranz-small.png';
 
 // Offline Warning Message. Set to false to hide message.
-drupalgap.settings.offline_message = 'Tidak ada koneksi!';
+drupalgap.settings.offline_message = 'Tidak ada koneksi!!';
 
 // Exit app message.
 drupalgap.settings.exit_message = 'Exit ' + drupalgap.settings.title + '?';
@@ -155,8 +155,6 @@ drupalgap.settings.loader = {
  *****************************************/
 
 /** Contributed Modules - www/app/modules **/
-
-//Drupal.modules.contrib['example'] = {};
 Drupal.modules.contrib['commerce_drupalgap_stripe'] = {};
 Drupal.modules.contrib['commerce_shipping'] = {};
 Drupal.modules.contrib['telephone'] = {};
@@ -171,9 +169,9 @@ Drupal.modules.contrib['addressfield'] = {};
 Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['user_registrationpassword'] = {};
 
-/** Custom Modules - www/app/modules/custom **/
+//Drupal.modules.contrib['example'] = {};
 
-//Drupal.modules.custom['my_module'] = {};
+/** Custom Modules - www/app/modules/custom **/
 Drupal.modules.custom['my_orders'] = {};
 Drupal.modules.custom['block_flat_fees'] = {};
 Drupal.modules.custom['block_copyright'] = {};
@@ -183,6 +181,8 @@ Drupal.modules.custom['howtotopup'] = {};
 Drupal.modules.custom['howtojoin'] = {};
 Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.custom['push_notifications'] = {};
+
+//Drupal.modules.custom['my_module'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
@@ -251,6 +251,48 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
   ]
 };
 
+// Navigation menu
+drupalgap.settings.menus['menu_halaman_utama'] = {
+  links: [
+    {
+      title: 'Facebook',
+      path: 'node/123',
+      options: {
+        attributes: {
+          'data-icon': 'star'
+        }
+      }
+    },
+    {
+      title: 'Instagram',
+      path: 'user',
+      options: {
+        attributes: {
+          'data-icon': 'star'
+        }
+      }
+    },
+    {
+      title: 'Call Center',
+      path: 'user',
+      options: {
+        attributes: {
+          'data-icon': 'star'
+        }
+      }
+    },
+    {
+      title: 'Lain',
+      path: 'user',
+      options: {
+        attributes: {
+          'data-icon': 'star'
+        }
+      }
+    }
+  ]
+};
+
 // Main Menu
 drupalgap.settings.menus['main_menu'] = {
   options: menu_popup_get_default_options(),
@@ -309,7 +351,7 @@ drupalgap.settings.menus['main_menu'] = {
  ****************************************/
 drupalgap.settings.blocks = {}; // Do not remove this line.
 
-// Easy Street 3 Theme Blocks
+// Get Tranz V2 Theme Blocks
 drupalgap.settings.blocks.gettranzv2 = {
   header: {
     user_menu_anonymous: {
@@ -331,19 +373,24 @@ drupalgap.settings.blocks.gettranzv2 = {
     title: { }
   },
   navigation: {
-    primary_local_tasks: { }
+    primary_local_tasks: { },
+    menu_halaman_utama: {
+      roles: {
+        value: [' '],
+        mode: 'include',
+      }
+    }
   },
   content: {
     messages: { },
     main: { }
   },
   footer: {
-    copyrightgt: { 
+    copyrightgt: {
        pages: {
         value: ['user/login', 'user/register'],
         mode: 'include'
       }
-   }
   }
 };
 
@@ -432,7 +479,7 @@ drupalgap.settings.menus.regions['footer'] = {
         }
       },
       pages: {
-        value: ['','node/*','myorders'],
+        value: ['','node/*','myorders'], 
         mode: 'exclude'
       }
     },
@@ -446,7 +493,7 @@ drupalgap.settings.menus.regions['footer'] = {
         }
       },
       pages: {
-        value: ['', 'myorders', 'user/*', 'mysaran', 'topup', 'node/add/*', 'faqpage', 'how_to_join','user/login', 'user/register', 'user/password'], 
+        value: ['', 'myorders', 'user/*', 'mysaran', 'topup', 'node/add/*', 'faqpage', 'how_to_join'], 
         mode: 'exclude'
       }
     }

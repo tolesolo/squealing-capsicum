@@ -50,9 +50,7 @@
     
     <!--
         Define a specific version of PhoneGap to build into your app.
-        <preference name="phonegap-version" value="cli-6.2.0" />-->
-        
-        <preference name="phonegap-version" value="cli-6.1.0" />
+        <preference name="phonegap-version" value="cli-6.3.0" />-->
     
     <!-- Plugins tag gap:plugin sudah tidak dipakai lagi
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />

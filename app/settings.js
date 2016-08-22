@@ -6,7 +6,7 @@
 //window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
-Drupal.settings.debug = true;
+Drupal.settings.debug = false;
 
 /****************************************|
  * Drupal Settings (provided by jDrupal) |
@@ -102,7 +102,7 @@ Drupal.settings.cache.views = {
 // DrupalGap Mode (defaults to 'web-app')
 //  'web-app' - use this mode to build a web application for a browser window
 //  'phonegap' - use this mode to build a mobile application with phonegap
-drupalgap.settings.mode = 'web-app';
+drupalgap.settings.mode = 'phonegap';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {

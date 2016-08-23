@@ -18,15 +18,15 @@ function gettranzv2_info() {
             'data-role': 'header'
           }
         },
-        navigation: {
-          attributes: {
-            'data-role': 'navbar'
-          }
-        },
         content: {
           attributes: {
             'class': 'ui-content',
             'role': 'main'
+          }
+        },
+        navigation: {
+          attributes: {
+            'data-role': 'navbar'
           }
         },
         footer: {

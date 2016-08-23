@@ -7,6 +7,16 @@
  #_drupalgap_splash_content {
    width: 100%; height: 100%; position: relative;
  }
+ 
+ #_gettranz_splash .ui-content {
+   position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+   background-image: url(images/splash-bg1.png);
+  background-color: #bfefff;
+   background-repeat: repeat;
+ }
+ #_gettranz_splash_content {
+   width: 100%; height: 100%; position: relative;
+ }
 
 /**
  * Logo

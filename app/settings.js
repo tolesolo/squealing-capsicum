@@ -6,7 +6,7 @@
 //window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
-Drupal.settings.debug = false;
+Drupal.settings.debug = true;
 
 /****************************************|
  * Drupal Settings (provided by jDrupal) |
@@ -102,7 +102,7 @@ Drupal.settings.cache.views = {
 // DrupalGap Mode (defaults to 'web-app')
 //  'web-app' - use this mode to build a web application for a browser window
 //  'phonegap' - use this mode to build a mobile application with phonegap
-drupalgap.settings.mode = 'phonegap';
+drupalgap.settings.mode = 'web-app';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {
@@ -117,7 +117,7 @@ drupalgap.settings.locale = {
 drupalgap.settings.title = 'Get Tranz';
  
 // App Front Page
-drupalgap.settings.front = 'hello_dashboard';
+drupalgap.settings.front = 'dashboardv2';
 
 // Theme
 drupalgap.settings.theme = 'gettranzv2';
@@ -183,6 +183,7 @@ Drupal.modules.custom['howtotopup'] = {};
 Drupal.modules.custom['howtojoin'] = {};
 Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.custom['push_notifications'] = {};
+Drupal.modules.custom['dashboardv2'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
@@ -300,6 +301,24 @@ drupalgap.settings.menus['main_menu'] = {
           'data-icon': 'plus'
         }
       }
+    },
+    {
+      title: 'How to become our driver',
+      path: 'how_to_join',
+      options: {
+        attributes: {
+          'data-icon': 'check'
+        }
+      }
+    },
+    {
+      title: 'FAQ',
+      path: 'faqpage',
+      options: {
+        attributes: {
+          'data-icon': 'info'
+        }
+      }
     }
   ]
 };
@@ -343,7 +362,13 @@ drupalgap.settings.blocks.gettranzv2 = {
         value: ['user/login', 'user/register'],
         mode: 'include'
       }
-   }
+   },
+    flat_fees: {
+       pages: {
+        value: ['node/add/order_get_courier', 'node/add/order_get_transport', 'node/add/order_get_shop'],
+        mode: 'include'
+      }
+    }
   }
 };
 

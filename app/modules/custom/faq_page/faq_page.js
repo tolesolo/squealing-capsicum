@@ -42,7 +42,7 @@ function faq_page_page() {
 	    		'data-expanded-icon': 'arrow-d' 
 	    	} 
 	    },
-	    { header: 'Jam berapa layanan Get Tranz?', content: '<p>Jam layanan normal dimulai dari pukul 08:00 s/d 17:00. Dari Senin sampai Minggu, kecuali ada hari libur yang akan kami beritahukan lebih lanjut.</p>', 
+	    { header: 'Jam berapa layanan Get Tranz?', content: '<p>Jam layanan pemesanan online 24 jam. Untuk layanan Call Center dimulai dari pukul 08:00 s/d 17:00. Dari Senin sampai Minggu, kecuali ada hari libur yang akan kami beritahukan lebih lanjut.</p>', 
 	    	attributes: {
 	    		'data-collapsed-icon': 'arrow-r',
 	    		'data-expanded-icon': 'arrow-d' 
@@ -55,6 +55,12 @@ function faq_page_page() {
 	    	} 
 	    },
 	    { header: 'Apa saya boleh beri tips ke driver?', content: '<p>Silahkan, itu adalah hak anda untuk memberikan uang tips ke driver.</p>', 
+	    	attributes: {
+	    		'data-collapsed-icon': 'arrow-r',
+	    		'data-expanded-icon': 'arrow-d' 
+	    	} 
+	    },
+	    { header: 'Apa itu Get Monster?', content: '<p>Layanan yang dikhususkan untuk memesan ojek Pokemon Go dengan durasi 2 jam. Sudah termasuk jemput dan antar kembali pulang.</p>', 
 	    	attributes: {
 	    		'data-collapsed-icon': 'arrow-r',
 	    		'data-expanded-icon': 'arrow-d' 

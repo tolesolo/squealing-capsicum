@@ -427,16 +427,8 @@ button[disabled],
 
 /* Icon facebook, instagram, twitter
 -----------------------------------------------------------------------------------------------------------*/
-.ui-icon-facebook:after{background-image:url("data:image/svg+xml;charset=UTF-8,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="14px" height="14px" viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve">
-<polygon fill="none" points="10.243,1.275 10.399,3.619 8.774,3.619 8.774,4.181 9.586,4.4 9.586,6.526 8.774,6.526 8.774,11.777 
-	5.743,11.777 5.743,6.526 4.993,6.526 4.993,4.275 5.743,4.275 5.805,2.056 6.586,2.087 6.524,1.275 "/>
-</svg>")}
-.ui-alt-icon.ui-icon-facebook:after,.ui-alt-icon .ui-icon-facebook:after{background-image:url("data:image/svg+xml;charset=UTF-8,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="14px" height="14px" viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve">
-<polygon fill="none" points="10.243,1.275 10.399,3.619 8.774,3.619 8.774,4.181 9.586,4.4 9.586,6.526 8.774,6.526 8.774,11.777 
-	5.743,11.777 5.743,6.526 4.993,6.526 4.993,4.275 5.743,4.275 5.805,2.056 6.586,2.087 6.524,1.275 "/>
-</svg>")}
+.ui-icon-facebook:after{background-image:url(images/icons-png/facebook-white.png)}
+.ui-alt-icon.ui-icon-facebook:after,.ui-alt-icon .ui-icon-facebook:after{background-image:url(images/icons-png/facebook-white.png)}
 .ui-nosvg .ui-icon-facebook:after{background-image:url(images/icons-png/facebook-white.png)}
 .ui-nosvg .ui-alt-icon.ui-icon-facebook:after,.ui-nosvg .ui-alt-icon .ui-icon-facebook:after{background-image:url(images/icons-png/facebook-black.png)}
 

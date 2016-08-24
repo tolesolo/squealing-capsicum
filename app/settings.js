@@ -6,7 +6,7 @@
 //window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
-Drupal.settings.debug = true;
+Drupal.settings.debug = false;
 
 /****************************************|
  * Drupal Settings (provided by jDrupal) |
@@ -129,24 +129,24 @@ drupalgap.settings.logo = 'app/themes/gettranzv2/images/logogettranz-small.png';
 drupalgap.settings.offline_message = 'Tidak ada koneksi!';
 
 // Exit app message.
-drupalgap.settings.exit_message = 'Exit ' + drupalgap.settings.title + '?';
+drupalgap.settings.exit_message = 'Keluar ' + drupalgap.settings.title + '?';
 
 // Loader Animations - http://demos.jquerymobile.com/1.4.0/loader/
 drupalgap.settings.loader = {
   loading: {
     text: 'Loading...',
     textVisible: true,
-    theme: 'b'
+    theme: 'a'
   },
   saving: {
-    text: 'Saving...',
+    text: 'Menyimpan...',
     textVisible: true,
-    theme: 'b'
+    theme: 'a'
   },
   deleting: {
-    text: 'Deleting...',
+    text: 'Menghapus...',
     textVisible: true,
-    theme: 'b'
+    theme: 'a'
   }
 };
 
@@ -178,7 +178,6 @@ Drupal.modules.custom['my_orders'] = {};
 Drupal.modules.custom['block_flat_fees'] = {};
 Drupal.modules.custom['block_copyright'] = {};
 Drupal.modules.custom['my_saran'] = {};
-Drupal.modules.custom['dashboard'] = {};
 Drupal.modules.custom['howtotopup'] = {};
 Drupal.modules.custom['howtojoin'] = {};
 Drupal.modules.custom['faq_page'] = {};
@@ -323,6 +322,54 @@ drupalgap.settings.menus['main_menu'] = {
   ]
 };
 
+drupalgap.settings.menus['menu_home_footer'] = {
+  links:[
+    {
+      title: 'Facebook',
+      path: null,
+      options: {
+        attributes: {
+          'data-icon': 'facebook',
+         // 'onclick':'javascript:drupalgap_back();' //working
+         // 'onclick': 'window.open("'"example.com"'", "'"_system"'", "'"location=yes"'")'
+         // 'onclick':'javascript:window.open("'"example.com"'", "'"_system"'", "'"location=yes"'");'
+        // 'InAppBrowser': 'true'
+        		'onclick':'window.open("http://www.drupalgap.org", "_system", "location=yes");'
+        }
+      }
+    },
+    {
+      title: 'Instagram',
+      path: null,
+      options: {
+        attributes: {
+          'data-icon': 'instagram',
+    		 'href': 'www.instagram.com/gettranz'
+        }
+      }
+    },
+    {
+      title: 'Twitter',
+      path: null,
+      options: {
+        attributes: {
+          'data-icon': 'twitter',
+    		href: 'www.twitter.com/gettranz'
+        }
+      }
+    },
+    {
+      title: 'Call Us',
+      path: null,
+      options: {
+        attributes: {
+          'data-icon': 'phone'
+        }
+      }
+    }
+  ]
+};
+
 /****************************************|
  * Blocks - http://drupalgap.org/node/83 |
  ****************************************/
@@ -350,6 +397,12 @@ drupalgap.settings.blocks.gettranzv2 = {
     title: { }
   },
   navigation: {
+   menu_home_footer:{
+       pages: {
+        value: [''],
+        mode: 'include'
+      }
+   },
     primary_local_tasks: { }
   },
   content: {

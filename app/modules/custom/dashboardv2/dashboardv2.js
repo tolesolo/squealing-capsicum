@@ -1,19 +1,19 @@
 /**
  * Implements hook_menu().
  */
-function dashboard_menu() {
+function dashboardv2_menu() {
   try {
     var items = {};
     items['dashboardv2'] = {
       title: 'Layanan Get-Tranz',
-      page_callback: 'dashboard_page'
+      page_callback: 'dashboardv2_page'
     };
     return items;
   }
-  catch (error) { console.log('dashboard_menu - ' + error); }
+  catch (error) { console.log('dashboardv2_menu - ' + error); }
 }
 
-function dashboard_page() {
+function dashboardv2_page() {
   try {
     var content = {};
     content.icon = {
@@ -26,5 +26,5 @@ function dashboard_page() {
     };
     return content;
   }
-  catch (error) { console.log('dashboard_page - ' + error); }
+  catch (error) { console.log('dashboardv2_page - ' + error); }
 }

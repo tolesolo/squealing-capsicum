@@ -148,7 +148,7 @@ function find_eat_nearest_map_pageshow() {
 function _find_eat_nearest_map_button_click() {
   try {
     // Build the path to the view to retrieve the results.
-    var range = 15; // Search within a 4 mile radius, for illustration purposes.
+    var range = 5; // Search within a 4 mile radius, for illustration purposes.
     var path = 'eatnearbylocationsjson/' +
       _find_eat_nearest_user_latitude + ',' + _find_eat_nearest_user_longitude;
       
@@ -173,8 +173,8 @@ function _find_eat_nearest_map_button_click() {
                 drupalgap_format_plural(row.field_geofield_distance, 'km', 'kilometers');
               var description =
                 '<h2>' + distance + '</h2>' +
-                '<p>' + row.field_acc_handphone_number + '</p>';
-              var link = l(image_html + description, 'node/' + row.uid);
+                '<p>' + row.Merchant + '</p>';
+              var link = l(description, 'merchants/type/get-eat/' + row.uid);
               items.push(link);
               
               // Add a marker on the map for the location.

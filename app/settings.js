@@ -183,6 +183,7 @@ Drupal.modules.custom['howtojoin'] = {};
 Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.custom['push_notifications'] = {};
 Drupal.modules.custom['dashboardv2'] = {};
+Drupal.modules.custom['find_eat_nearest'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
@@ -284,11 +285,10 @@ drupalgap.settings.menus['main_menu'] = {
     },
     {
       title:'Get Eat',
-      path:null,
+      path:'eat_nearest',
       options:{
         attributes:{
-          'data-icon':'location',
-          onclick: "window.open('http://gettranz.com/get-eat', '_system', 'location=yes')"
+          'data-icon':'location'
         }
       }
     },
@@ -510,7 +510,7 @@ drupalgap.settings.menus.regions['footer'] = {
         }
       },
       pages: {
-        value: ['','node/*','myorders'],
+        value: ['','node/*','myorders','eat_nearest'],
         mode: 'exclude'
       }
     },
@@ -524,7 +524,7 @@ drupalgap.settings.menus.regions['footer'] = {
         }
       },
       pages: {
-        value: ['', 'myorders', 'user/*', 'mysaran', 'topup', 'node/add/*', 'faqpage', 'how_to_join','user/login', 'user/register', 'user/password'], 
+        value: ['', 'myorders', 'user/*', 'mysaran', 'topup', 'node/add/*', 'faqpage', 'how_to_join','user/login', 'user/register', 'user/password','eat_nearest'], 
         mode: 'exclude'
       }
     }

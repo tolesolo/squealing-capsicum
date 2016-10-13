@@ -163,7 +163,6 @@ Drupal.modules.contrib['telephone'] = {};
 Drupal.modules.contrib['title'] = {};
 Drupal.modules.contrib['pathfix'] = {};
 Drupal.modules.contrib['link'] = {};
-Drupal.modules.contrib['commerce'] = {};
 Drupal.modules.contrib['views_litepager'] = {};
 Drupal.modules.contrib['geofield'] = {};
 Drupal.modules.contrib['geofield_gmap'] = {};
@@ -184,6 +183,30 @@ Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.custom['push_notifications'] = {};
 Drupal.modules.custom['dashboardv2'] = {};
 Drupal.modules.custom['find_eat_nearest'] = {};
+Drupal.modules.custom['get_eat_produk'] = {};
+
+Drupal.modules.contrib['commerce'] = {
+  minified: true
+};
+drupalgap.settings.commerce = {
+  bundles: {
+    get_eat: {
+      product_reference_field_name: 'field_product'
+    },
+    get_monsters: {
+      product_reference_field_name: 'field_product'
+    },
+    get_courier: {
+      product_reference_field_name: 'field_product'
+    },
+    get_shop: {
+      product_reference_field_name: 'field_product'
+    },
+    get_transport: {
+      product_reference_field_name: 'field_product'
+    }
+  }
+};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
@@ -285,7 +308,7 @@ drupalgap.settings.menus['main_menu'] = {
     },
     {
       title:'Get Eat',
-      path:'eat_nearest',
+      path:'menu-list',
       options:{
         attributes:{
           'data-icon':'location'
@@ -391,6 +414,12 @@ drupalgap.settings.blocks.gettranzv2 = {
       }
     },
     logo: { },
+    commerce_cart: {
+  	pages: {
+    	mode: 'exclude',
+    	value: ['cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*', 'checkout/payment/*']
+  	}
+    },
     main_menu: { }
   },
   sub_header: {

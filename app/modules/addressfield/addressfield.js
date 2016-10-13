@@ -125,7 +125,7 @@ function addressfield_field_widget_form(form, form_state, field, instance, langc
     var country_widget_id = items[delta].id + '-country';
 
     // How many available countries are there?
-    var country_count = 0; // we'll default to all countries, aka zero
+    var country_count = 1; // we'll default to all countries, aka zero
     for (var country_code in countries) {
       if (!countries.hasOwnProperty(country_code)) { continue; }
       var country = countries[country_code];

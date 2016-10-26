@@ -157,8 +157,8 @@ drupalgap.settings.loader = {
 /** Contributed Modules - www/app/modules **/
 
 //Drupal.modules.contrib['example'] = {};
-Drupal.modules.contrib['commerce_drupalgap_stripe'] = {};
-Drupal.modules.contrib['commerce_shipping'] = {};
+//Drupal.modules.contrib['commerce_drupalgap_stripe'] = {};
+//Drupal.modules.contrib['commerce_shipping'] = {};
 Drupal.modules.contrib['telephone'] = {};
 Drupal.modules.contrib['title'] = {};
 Drupal.modules.contrib['pathfix'] = {};
@@ -184,7 +184,7 @@ Drupal.modules.custom['push_notifications'] = {};
 Drupal.modules.custom['dashboardv2'] = {};
 Drupal.modules.custom['find_eat_nearest'] = {};
 Drupal.modules.custom['get_eat_produk'] = {};
-
+Drupal.modules.custom['commerce_thankyou'] = {};
 Drupal.modules.contrib['commerce'] = {
   minified: true
 };

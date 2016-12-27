@@ -174,7 +174,7 @@ function _find_eat_nearest_map_button_click() {
               var description =
                 '<h2>' + distance + '</h2>' +
                 '<p>' + row.Merchant + '</p>';
-              var link = l(description, 'merchants/type/get-eat/' + row.uid);
+              var link = l(description, 'menueatjson/' + row.uid);
               items.push(link);
               
               // Add a marker on the map for the location.

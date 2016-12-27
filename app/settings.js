@@ -166,7 +166,9 @@ Drupal.modules.contrib['link'] = {};
 Drupal.modules.contrib['views_litepager'] = {};
 Drupal.modules.contrib['geofield'] = {};
 Drupal.modules.contrib['geofield_gmap'] = {};
-Drupal.modules.contrib['addressfield'] = {};
+Drupal.modules.contrib['addressfield'] = {
+  minified: true
+};
 Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['user_registrationpassword'] = {};
 
@@ -184,10 +186,9 @@ Drupal.modules.custom['push_notifications'] = {};
 Drupal.modules.custom['dashboardv2'] = {};
 Drupal.modules.custom['find_eat_nearest'] = {};
 Drupal.modules.custom['get_eat_produk'] = {};
+Drupal.modules.custom['commerce_pembayaran'] = {};
 Drupal.modules.custom['commerce_thankyou'] = {};
-Drupal.modules.contrib['commerce'] = {
-  minified: true
-};
+Drupal.modules.contrib['commerce'] = {};
 drupalgap.settings.commerce = {
   bundles: {
     get_eat: {
@@ -417,7 +418,7 @@ drupalgap.settings.blocks.gettranzv2 = {
     commerce_cart: {
   	pages: {
     	mode: 'exclude',
-    	value: ['cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*', 'checkout/payment/*']
+    	value: ['cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*']
   	}
     },
     main_menu: { }
@@ -553,7 +554,7 @@ drupalgap.settings.menus.regions['footer'] = {
         }
       },
       pages: {
-        value: ['', 'myorders', 'user/*', 'mysaran', 'topup', 'node/add/*', 'faqpage', 'how_to_join','user/login', 'user/register', 'user/password','eat_nearest'], 
+        value: ['', 'myorders', 'user/*', 'mysaran', 'topup', 'node/add/*', 'faqpage', 'how_to_join','user/login', 'user/register', 'user/password','eat_nearest','cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*', 'checkout/payment/*'], 
         mode: 'exclude'
       }
     }

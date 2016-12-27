@@ -119,7 +119,7 @@ function theme_commerce_cart_line_item_review(variables) {
     var quantity = Math.floor(variables.line_item.quantity);
     var label = variables.line_item.line_item_label;
     var html = '<h2>' + quantity + ' x ' + label  + '</h2>' +
-        '<p><strong>Price</strong>: ' + variables.line_item.commerce_unit_price_formatted + '</p>';
+        '<p><strong>Harga</strong>: ' + variables.line_item.commerce_unit_price_formatted + '</p>';
     html += '<p class="ui-li-aside"><strong>Total</strong>: ' +
         variables.line_item.commerce_total_formatted +
         '</p>';
@@ -155,7 +155,7 @@ function theme_commerce_cart_line_item_quantity(variables) {
 function theme_commerce_cart_line_item_remove(variables) {
   try {
     var html = '<p>' +
-        l('Remove', null, {
+        l('Hapus', null, {
           attributes: {
             onclick: '_commerce_cart_line_item_remove(' + variables.order.order_id + ', ' + variables.line_item.line_item_id + ')'
           }

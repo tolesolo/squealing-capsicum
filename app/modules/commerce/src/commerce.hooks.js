@@ -33,15 +33,14 @@ function commerce_menu() {
       'page_arguments': ['commerce_checkout_shipping_view', 2]
     };
     items['checkout/review/%'] = {
-      'title': 'Review Order',
-      'page_callback': 'drupalgap_get_form',
-      'page_arguments': ['commerce_checkout_review_order_view', 2],
-      'pageshow': 'commerce_checkout_review_order_view_pageshow'
+      'title': 'Review order',
+      'page_callback': 'commerce_checkout_review_order_page',
+      'page_arguments': [2],
+      'pageshow': 'commerce_checkout_review_order_pageshow'
     };
     items['checkout/complete/%'] = {
-      'title': 'Checkout Complete',
+      'title': 'Checkout complete',
       'page_callback': 'commerce_checkout_complete_view',
-      'pageshow': 'commerce_checkout_complete_view_pageshow',
       'page_arguments': [2]
     };
     return items;
@@ -49,11 +48,14 @@ function commerce_menu() {
   catch (error) { console.log('commerce_menu - ' + error); }
 }
 
+
+
 /**
  * Implements hook_services_success().
  */
 function commerce_services_postprocess(options, data) {
   try {
+    //console.log(options.service, options.resource);
     // Extract the commerce object from the system connect result data.
     if (options.service == 'system' && options.resource == 'connect') {
       if (data.commerce) { drupalgap.commerce = data.commerce; }
@@ -61,6 +63,23 @@ function commerce_services_postprocess(options, data) {
         console.log('commerce_services_postprocess - failed to extract ' +
             ' commerce object from system connect. Is the commerce_drupalgap ' +
             ' module enabled on your Drupal site?');
+      }
+    }
+    else if (options.service == 'commerce_order' && options.resource == 'retrieve') {
+      // Set aside orders when they are loaded.
+      _commerce_order[data.order_id] = data;
+    }
+
+    // When retrieving address information, inject it into the order's address fields if possible.
+    else if (options.service == 'services_addressfield' &&
+        options.resource == 'get_address_format_and_administrative_areas') {
+      switch (drupalgap_router_path_get()) {
+        case 'checkout/%':
+          _commerce_addressfield_inject_onto_pane(_commerce_order[arg(1)]);
+          break;
+        case 'checkout/shipping/%':
+          _commerce_addressfield_inject_onto_pane(_commerce_order[arg(2)]);
+          break;
       }
     }
   }

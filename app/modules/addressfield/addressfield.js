@@ -31,7 +31,7 @@ function addressfield_inject_components(form_id, name, address) {
     if (input.get(0)) {
       // If the address' country differs from the widgets country, force change the
       // country, which then in turn re triggers this via a services post process.
-      if (component == 'country' && value != 'US' && value != $(input).val()) {
+      if (component == 'country' && value != 'ID' && value != $(input).val()) {
         $(input).val(value).selectmenu('refresh', true).change();
         return false;
       }
@@ -113,7 +113,7 @@ function addressfield_field_widget_form(form, form_state, field, instance, langc
     // to be delivered via drupalgap system connect and made available to the
     // SDK.
     var default_country = instance.widget.settings.default_country;
-    if (default_country == 'site_default') { default_country = 'US'; }
+    if (default_country == 'site_default') { default_country = 'ID'; }
     else if (empty(default_country) && country_count == 1) {
       for (var country_code in countries) {
         if (!countries.hasOwnProperty(country_code)) { continue; }
@@ -664,7 +664,7 @@ function _addressfield_field_widget_form_country_onchange(select, widget_id, del
           components.push({
             theme: 'textfield',
             attributes: {
-              placeholder: t('Address 2'),
+              placeholder: t('Handphone'),
               id: widget_id + '-premise',
               class: 'addressfield-premise'
             }

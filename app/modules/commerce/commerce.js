@@ -167,11 +167,40 @@ function commerce_cart_container_id(entity_type, entity_id) {
   catch (error) { console.log('commerce_cart_container_id - ' + error); }
 }
 
+
+function commerce_checkout_complete_container_id(order_id) {
+  return 'commerce_checkout_complete_' + order_id;
+}
 /**
  *
  */
 function commerce_checkout_complete_view(order_id) {
   try {
+    commerce_order_load(order_id, {
+      success: function(order) {
+              
+    commerce_checkout_complete({
+      data: {
+        order_id: order_id,
+      },
+      success: function(result) {
+        var checkout_complete_html = '<div>Checkout Complete</div>';
+        $('#commerce_checkout_complete_' + order_id).html(checkout_complete_html).trigger('create');
+        
+        // return '<div id="' + commerce_checkout_complete_container_id(order_id) + '">heckout Complete</div>';
+      },
+      error: function(xhr, status, message) {
+        try {
+          if (options.error) {
+            options.error(xhr, status, message);
+          }
+        }
+        catch (error) {
+          console.log('commerce_checkout_complete - error - ' + error);
+        }
+      }
+    });
+    }})
     return '<div id="commerce_checkout_complete_' + order_id + '"></div>';
   }
   catch (error) {
@@ -185,6 +214,7 @@ function commerce_checkout_complete_view(order_id) {
  */
 function commerce_checkout_complete_view_pageshow(order_id) {
   try {
+        
     commerce_checkout_complete({
       data: {
         order_id: order_id,
@@ -192,6 +222,8 @@ function commerce_checkout_complete_view_pageshow(order_id) {
       success: function(result) {
         var checkout_complete_html = '<div>Checkout Complete</div>';
         $('#commerce_checkout_complete_' + order_id).html(checkout_complete_html).trigger('create');
+        
+        // return '<div id="' + commerce_checkout_complete_container_id(order_id) + '">heckout Complete</div>';
       },
       error: function(xhr, status, message) {
         try {
@@ -204,7 +236,7 @@ function commerce_checkout_complete_view_pageshow(order_id) {
         }
       }
     });
-
+    
   }
   catch (error) {
     console.log('commerce_checkout_complete_view_pageshow - ' + error);
@@ -228,7 +260,7 @@ function commerce_checkout_view(form, form_state, order_id) {
       type: 'hidden',
       default_value: order_id
     };
-
+/*
     // Billing Information
     form.elements['billing_information'] = {
       title: 'Billing Information',
@@ -236,57 +268,58 @@ function commerce_checkout_view(form, form_state, order_id) {
     };
     form.elements['billing_name_line'] = {
       type: 'textfield',
-      title: 'Full name',
+      title: 'Nama Lengkap',
       required: true
     };
     // @TODO - need dynamic data fetching here.
     form.elements['billing_country'] = {
-      title: 'Country',
+      title: 'Negara',
       type: 'select',
       options: {
-        'US': 'United States',
-        'UK': 'United Kingdom',
-        'CA': 'Canada'
+        'ID': 'Indonesia'
       },
-      default_value: 'US'
+      default_value: 'ID'
     };
     form.elements['billing_thoroughfare'] = {
       type: 'textfield',
-      title: 'Address 1',
+      title: 'Alamat',
       required: true
     };
     form.elements['billing_premise'] = {
       type: 'textfield',
-      title: 'Address 2',
-      required: false
+      title: 'Handphone',
+      required: true
     };
     form.elements['billing_locality'] = {
-      type: 'textfield',
-      title: 'City',
+      title: 'Kota',
+      type: 'select',
+      options: {
+        'Surabaya': 'Surabaya'
+      },
+      default_value: 'Surabaya',
       required: true
     };
     form.elements['billing_administrative_area'] = {
-      title: 'State',
+      title: 'Propinsi',
       type: 'select',
       options: {
-        'MI': 'Michigan',
-        'TX': 'Texas'
+        'JI': 'Jawa Timur',
       },
-      default_value: 'MI',
+      default_value: 'JI',
       required: true
     };
     form.elements['billing_postal_code'] = {
       type: 'textfield',
-      title: 'Zip',
-      required: true
+      title: 'Kode Pos',
+      required: false
     };
-
+*/
     // Shipping Information
     form.elements['shipping_information'] = {
       title: 'Shipping Information',
       markup: ''
     };
-    form.elements['customer_profile_copy'] = {
+/*    form.elements['customer_profile_copy'] = {
       title: 'Same as Billing Information',
       type: 'checkbox',
       description: '',
@@ -297,49 +330,52 @@ function commerce_checkout_view(form, form_state, order_id) {
         }
       }
     };
+    */
     form.elements['shipping_name_line'] = {
       type: 'textfield',
-      title: 'Full name',
+      title: 'Nama Lengkap',
       required: true
     };
     form.elements['shipping_country'] = {
-      title: 'Country',
+      title: 'Negara',
       type: 'select',
       options: {
-        'US': 'United States',
-        'UK': 'United Kingdom',
-        'CA': 'Canada'
+        'ID': 'Indonesia'
       },
       default_value: 'US'
     };
     form.elements['shipping_thoroughfare'] = {
       type: 'textfield',
-      title: 'Address 1',
+      title: 'Alamat',
       required: true
     };
     form.elements['shipping_premise'] = {
       type: 'textfield',
-      title: 'Address 2',
-      required: false
+      title: 'Handphone',
+      required: true
     };
     form.elements['shipping_locality'] = {
-      type: 'textfield',
-      title: 'City',
+      title: 'Kota',
+      type: 'select',
+      options: {
+        'Surabaya': 'Surabaya'
+      },
+      default_value: 'Surabaya',
       required: true
     };
     form.elements['shipping_administrative_area'] = {
-      title: 'State',
+      title: 'Propinsi',
       type: 'select',
       options: {
-        'TX': 'Texas'
+        'JI': 'Jawa Timur'
       },
-      default_value: 'TX',
+      default_value: 'JI',
       required: true
     };
     form.elements['shipping_postal_code'] = {
       type: 'textfield',
-      title: 'Zip',
-      required: true
+      title: 'Kode Pos',
+      required: false
     };
 
     // Buttons
@@ -359,7 +395,7 @@ function commerce_checkout_view(form, form_state, order_id) {
  */
 function commerce_checkout_view_pageshow(form_id, order_id) {
   try {
-    commerce_checkout_customer_profile_copy_toggle();
+    //commerce_checkout_customer_profile_copy_toggle();
   }
   catch (error) { console.log('commerce_checkout_view_pageshow - ' + error); }
 }
@@ -371,6 +407,7 @@ function commerce_checkout_view_validate(form, form_state) {
   try {
     // If the shipping info checkbox is checked, fill in the shipping fields
     // with the billing fields.
+    /*
     if (form_state.values['customer_profile_copy']) {
       var names = commerce_checkout_shipping_element_names();
       $.each(names, function(index, name) {
@@ -378,21 +415,247 @@ function commerce_checkout_view_validate(form, form_state) {
         form_state.values[name] = form_state.values[_name];
       });
     }
+    */
   }
   catch (error) { console.log('commerce_checkout_view_validate - ' + error); }
 }
+
 
 /**
  *
  */
 function commerce_checkout_view_submit(form, form_state) {
-  try {
+  try {        
     variable_set('commerce_checkout_form_state', form_state);
-    var path = 'checkout/review/' + form_state.values['order_id'];
-    if (module_exists('commerce_shipping')) {
-      path = 'checkout/shipping/' + form_state.values['order_id'];
-    }
-    drupalgap_goto(path);
+    
+    var order_id = form_state.values.order_id;
+            
+    
+    commerce_order_load(order_id, {
+      success: function(order) {        
+        // When continuing, send them along to review their order unless shipping is enabled,
+        // then send them off to shipping first.
+        var done = function() {
+             var path = 'checkout/review/' + form_state.values['order_id'] ;
+    
+            drupalgap_goto(path);
+             
+            };
+        
+        var done2 = function(){
+            // shipping Information
+            var variables2 = {};
+            var names = commerce_checkout_shipping_element_names();
+            $.each(names, function(index, name) {
+                if (typeof form_state.values[name] !== 'undefined') {
+                variables2[name.replace('shipping_', '')] = form_state.values[name];
+            }
+            });
+            // If there is no shipping customer profile on the order, create the customer
+            // profile and attach it to the order,
+            if (!order.commerce_customer_shipping) {
+              commerce_customer_profile_create({
+                type: 'shipping',
+                //commerce_customer_address: form_state.values.shipping_information
+              }, {
+                success: function(customer_profile) {
+                  order.commerce_customer_shipping = customer_profile.profile_id;
+                  delete order['revision_id'];
+                  delete order['revision_uid'];
+                  delete order['revision_timestamp'];
+                  delete order['revision_hostname'];
+                  delete order['data'];
+                  delete order['uid'];
+                  delete order['created'];
+                  delete order['changed'];
+                  delete order['status'];
+                  delete order['commerce_order_total_formatted'];
+                  delete order['commerce_discounts'];
+                  delete order['commerce_line_items'];
+                  delete order['commerce_line_items_entities'];
+                  delete order['commerce_order_total'];
+                  delete order['commerce_customer_billing_entities'];
+                  commerce_order_update(order, { success: function(order1){
+                    commerce_order_load(order_id, {
+                    success: function(order) {  
+                      // They already have a shipping customer profile on the order, update the customer profile
+                      // then continue.
+                      var profile_id = order.commerce_customer_shipping;
+                      var customer_profile = order.commerce_customer_shipping_entities[profile_id];
+                      
+                      delete customer_profile.field_custprof_address_from;
+                      delete customer_profile.field_custprof_city ;
+                      delete customer_profile.field_custprof_compose_address;
+                      delete customer_profile.field_custprof_name_from;
+                      delete customer_profile.field_mobile_phone;
+                      delete customer_profile.field_last_position_geofield;
+                      delete customer_profile.field_order_batal_otomatis;
+                                         
+                      delete customer_profile.field_alamat ;                   
+                      /*              
+                      customer_profile['field_alamat']={};
+                      customer_profile['field_alamat']['name_line']= variables2['name_line'];
+                      customer_profile['field_alamat']['locality']= variables2['locality'];
+                      customer_profile['field_alamat']['postal_code']= variables2['postal_code'];
+                      customer_profile['field_alamat']['administrative_area']= variables2['administrative_area'];
+                      customer_profile['field_alamat']['country']= variables2['country'];
+                      customer_profile['field_alamat']['thoroughfare']= variables2['thoroughfare'];              
+                      */        
+                      customer_profile['field_last_position_geofield']={};
+                      customer_profile['field_last_position_geofield']['lat']= 0.123;
+                      customer_profile['field_last_position_geofield']['lon']= 1.123;
+                      customer_profile['field_last_position_geofield']['geo_type']= 'point';
+                      customer_profile['field_last_position_geofield']['geom']= 'POINT (0.123 1.123)';
+              
+                      customer_profile['field_mobile_phone'] = variables2['premise'];
+                      customer_profile['field_custprof_city'] = variables2['locality'];
+                      customer_profile['field_custprof_address_from'] = variables2['thoroughfare'];
+                      customer_profile['field_custprof_name_from'] = variables2['name_line'];
+                      customer_profile['field_order_batal_otomatis'] = 90;
+                 
+                      commerce_customer_profile_update(customer_profile, { success: done });
+                    } });                      
+                  } });
+                }
+              });
+            }
+            else {
+              // They already have a shipping customer profile on the order, update the customer profile
+              // then continue.
+              var profile_id = order.commerce_customer_shipping;
+              var customer_profile = order.commerce_customer_shipping_entities[profile_id];
+
+              delete customer_profile.field_custprof_address_from;
+              delete customer_profile.field_custprof_city ;
+              delete customer_profile.field_custprof_compose_address;
+              delete customer_profile.field_custprof_name_from;
+              delete customer_profile.field_mobile_phone;
+              delete customer_profile.field_last_position_geofield;
+              delete customer_profile.field_order_batal_otomatis;                                 
+              delete customer_profile.field_alamat ;                   
+                            
+              /*customer_profile['field_alamat']={};
+              customer_profile['field_alamat']['name_line']= variables2['name_line'];
+              customer_profile['field_alamat']['locality']= variables2['locality'];
+              customer_profile['field_alamat']['postal_code']= variables2['postal_code'];
+              customer_profile['field_alamat']['administrative_area']= variables2['administrative_area'];
+              customer_profile['field_alamat']['country']= variables2['country'];
+              customer_profile['field_alamat']['thoroughfare']= variables2['thoroughfare'];       
+               */
+              customer_profile['field_last_position_geofield']={};
+              customer_profile['field_last_position_geofield']['lat']= 0.123;
+              customer_profile['field_last_position_geofield']['lon']= 1.123;
+              customer_profile['field_last_position_geofield']['geo_type']= 'point';
+              customer_profile['field_last_position_geofield']['geom']= 'POINT (0.123 1.123)';
+                     
+              customer_profile['field_mobile_phone'] = variables2['premise'];
+              customer_profile['field_custprof_city'] = variables2['locality'];
+              customer_profile['field_custprof_address_from'] = variables2['thoroughfare'];
+              customer_profile['field_custprof_name_from'] = variables2['name_line'];
+              customer_profile['field_order_batal_otomatis'] = 90;
+         
+              commerce_customer_profile_update(customer_profile, { success: done });
+            }
+        }
+        done2();
+/*
+        // Billing Information
+        var variables = {};
+        var names = commerce_checkout_billing_element_names();
+        $.each(names, function(index, name) {
+            if (typeof form_state.values[name] !== 'undefined') {
+            variables[name.replace('billing_', '')] = form_state.values[name];
+        }
+        });
+        // If there is no billing customer profile on the order, create the customer
+        // profile and attach it to the order,
+        if (!order.commerce_customer_billing) {
+          commerce_customer_profile_create({
+            type: 'billing'
+          }, {
+            success: function(customer_profile) {
+              order.commerce_customer_billing = customer_profile.profile_id;
+              delete order['revision_id'];
+              delete order['revision_uid'];
+              delete order['revision_timestamp'];
+              delete order['revision_hostname'];
+              delete order['data'];
+              delete order['uid'];
+              delete order['created'];
+              delete order['changed'];
+              delete order['status'];
+              delete order['commerce_order_total_formatted'];
+              delete order['commerce_discounts'];
+              delete order['commerce_line_items'];
+              delete order['commerce_line_items_entities'];
+              delete order['commerce_order_total'];
+              commerce_order_update(order, { success: function(order1){
+                  commerce_order_load(order_id, {
+                    success: function(order) {   
+                      // They already have a billing customer profile on the order, update the customer profile
+                      // then continue.
+                      var profile_id = order.commerce_customer_billing;
+                      var customer_profile = order.commerce_customer_billing_entities[profile_id];
+                      
+                      delete customer_profile.field_alamat1 ;
+                      delete customer_profile.field_custprof_address_from;
+                      delete customer_profile.field_custprof_city ;
+                      delete customer_profile.field_custprof_compose_address;
+                      delete customer_profile.field_custprof_name_from;
+                      delete customer_profile.field_mobile_phone;
+                      
+                      customer_profile['field_alamat1']={};
+                      customer_profile['field_alamat1']['name_line']= variables['name_line']
+                      customer_profile['field_alamat1']['locality']= variables['locality']
+                      customer_profile['field_alamat1']['postal_code']= variables['postal_code']
+                      customer_profile['field_alamat1']['administrative_area']= variables['administrative_area']
+                      customer_profile['field_alamat1']['country']= variables['country']
+                      customer_profile['field_alamat1']['thoroughfare']= variables['thoroughfare'];
+                      customer_profile['field_mobile_phone'] = variables['premise']
+                      customer_profile['field_custprof_city'] =  variables['locality'];
+                      customer_profile['field_custprof_address_from'] = variables['thoroughfare'];
+                      customer_profile['field_custprof_name_from'] = variables['name_line']
+                     
+                      commerce_customer_profile_update(customer_profile, { success: done2 });
+                  
+}});
+              } });
+            }
+          });
+        }
+        else { 
+          // They already have a billing customer profile on the order, update the customer profile
+          // then continue.
+          var profile_id = order.commerce_customer_billing;
+          var customer_profile = order.commerce_customer_billing_entities[profile_id];
+          
+          delete customer_profile.field_alamat1 ;
+          delete customer_profile.field_custprof_address_from;
+          delete customer_profile.field_custprof_city ;
+          delete customer_profile.field_custprof_compose_address;
+          delete customer_profile.field_custprof_name_from;
+          delete customer_profile.field_mobile_phone;
+          
+          customer_profile['field_alamat1']={};
+          customer_profile['field_alamat1']['name_line']= variables['name_line']
+          customer_profile['field_alamat1']['locality']= variables['locality']
+          customer_profile['field_alamat1']['postal_code']= variables['postal_code']
+          customer_profile['field_alamat1']['administrative_area']= variables['administrative_area']
+          customer_profile['field_alamat1']['country']= variables['country']
+          customer_profile['field_alamat1']['thoroughfare']= variables['thoroughfare'];
+          customer_profile['field_mobile_phone'] = variables['premise']
+          customer_profile['field_custprof_city'] =  variables['locality'];
+          customer_profile['field_custprof_address_from'] = variables['thoroughfare'];
+          customer_profile['field_custprof_name_from'] = variables['name_line']
+         
+          commerce_customer_profile_update(customer_profile, { success: done2 });
+        }                
+*/
+      }
+    });  
+        
+   
+   
   }
   catch (error) { console.log('commerce_checkout_view_submit - ' + error); }
 }
@@ -426,6 +689,7 @@ function commerce_checkout_review_order_view(form, form_state, order_id) {
       markup: markup
     };
 
+/*
     // Billing Information
     var variables = {};
     var names = commerce_checkout_billing_element_names();
@@ -438,7 +702,7 @@ function commerce_checkout_review_order_view(form, form_state, order_id) {
       title: 'Billing Information',
       markup: theme('addressfield', variables)
     };
-
+*/
     // Shipping Information
     var variables = {};
     var names = commerce_checkout_shipping_element_names();
@@ -502,8 +766,84 @@ function commerce_checkout_review_order_view_pageshow(form_id, order_id) {
  *
  */
 function commerce_checkout_review_order_view_submit(form, form_state) {
+  try {  
+    variable_set('commerce_shipping_form_state', form_state);    
+    var order_id = form_state.values.order_id;
+    
+    
+    // Load the order...
+    commerce_order_load(order_id, {
+      success: function(order) {
+        
+        
+        
+        var done = function() {
+          drupalgap_goto('checkout/complete/' + form_state.values['order_id']);
+        };
+              delete order['revision_id'];
+              delete order['revision_uid'];
+              delete order['revision_timestamp'];
+              delete order['revision_hostname'];
+              delete order['data'];
+              delete order['uid'];
+              delete order['created'];
+              delete order['changed'];
+              delete order['commerce_order_total_formatted'];
+              delete order['commerce_discounts'];
+              delete order['commerce_line_items'];
+              delete order['commerce_line_items_entities'];
+              delete order['commerce_order_total'];
+              delete order['commerce_customer_billing_entities'];
+              delete order['commerce_customer_shipping_entities'];
+              order['status'] = 'checkout_complete'
+              commerce_order_update(order, { success: done  });
+
+      }
+    });      
+  
+    //drupalgap_goto('checkout/payment/' + form_state.values['order_id']);
+  }
+  catch (error) { console.log('commerce_checkout_review_order_view_submit - ' + error); }
+}
+
+/**
+ *
+ */
+function commerce_checkout_payment_view_pageshow(form_id, order_id) {
   try {
-    drupalgap_goto('checkout/payment/' + form_state.values['order_id']);
+    var container_id = commerce_checkout_review_cart_container_id(order_id);
+    commerce_order_load(order_id, {
+      success: function(order) {
+        try {
+          var html = '';
+          // Render each line item.
+          var items = [];
+          $.each(order.commerce_line_items_entities, function(line_item_id, line_item) {
+            var item = theme('commerce_cart_line_item_review', {
+              line_item: line_item,
+              order: order
+            });
+            items.push(item);
+          });
+          html += theme('jqm_item_list', { items: items });
+
+          // Render the order total, then inject the html into the container.
+          html += theme('commerce_cart_total', { order: order });
+          $('#' + container_id).html(html).trigger('create');
+        }
+        catch (error) { console.log('commerce_checkout_review_order_view_pageshow - success - ' + error); }
+      }
+    });
+  }
+  catch (error) { console.log('commerce_checkout_review_order_view_pageshow - ' + error); }
+}
+
+/**
+ *
+ */
+function commerce_checkout_payment_view_submit(form, form_state) {
+  try {
+    drupalgap_goto('checkout/complete/' + form_state.values['order_id']);
   }
   catch (error) { console.log('commerce_checkout_review_order_view_submit - ' + error); }
 }
@@ -1618,3 +1958,62 @@ function theme_commerce_cart_total(variables) {
   }
   catch (error) { console.log('theme_commerce_cart_total - ' + error); }
 }
+
+/**
+ * CUSTOMER PROFILE
+ */
+
+/**
+ * Creates a customer profile.
+ * @param {Object} options
+ */
+function commerce_customer_profile_create(customer_profile, options) {
+  try {
+    options.method = 'POST';
+    options.path = 'customer-profile.json';
+    options.service = 'customer-profile';
+    options.resource = 'create';
+    options.data = JSON.stringify(customer_profile);
+    Drupal.services.call(options);
+  }
+  catch (error) { console.log('commerce_customer_profile_create - ' + error); }
+}
+
+/**
+ * Update a customer profile.
+ * @param {Object} customer_profile
+ * @param {Object} options
+ */
+function commerce_customer_profile_update(customer_profile, options) {
+  try {
+    // Cleanse some properties before the call.
+    customer_profile.profile_id = parseInt(customer_profile.profile_id);
+    customer_profile.uid = parseInt(customer_profile.uid);
+    customer_profile.created = parseInt(customer_profile.created);
+    customer_profile.changed = parseInt(customer_profile.changed);
+    
+    delete customer_profile.revision_id;
+    delete customer_profile.revision_uid;
+    delete customer_profile.revision_timestamp;
+    delete customer_profile.rdf_mapping;
+    delete customer_profile.data;
+           
+    var path = 'customer-profile/' + customer_profile.profile_id + '.json' ;
+    options.method = 'PUT';
+    options.path = path;
+    options.service = 'customer-profile';
+    options.resource = 'update';
+    options.entity_type= 'customer-profile';
+    options.entity_id= customer_profile.profile_id;
+    delete customer_profile.profile_id;
+    options.data = JSON.stringify(customer_profile);    
+    
+    Drupal.services.call(options);
+  }
+  catch (error) { console.log('commerce_customer_profile_update - ' + error); }
+}
+
+function commerce_customer_profile_primary_key() {
+  return 'profile_id';
+}
+

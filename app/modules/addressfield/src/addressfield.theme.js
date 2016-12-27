@@ -338,3 +338,32 @@ function theme_addressfield_US(variables) {
   }
   catch (error) { console.log('theme_addressfield_US - ' + error); }
 }
+
+/**
+ * Indonesia address field theme.
+ */
+function theme_addressfield_ID(variables) {
+  try {
+    var html = theme_addressfield_name(variables);
+    if (variables.thoroughfare && variables.thoroughfare != '') {
+      html += variables.thoroughfare + '<br />';
+    }
+    if (variables.premise && variables.premise != '') {
+      html += variables.premise + '<br />';
+    }
+    if (variables.locality && variables.locality != '') {
+      html += variables.locality;
+      if (variables.administrative_area && variables.administrative_area != '') {
+        html += ', ';
+      }
+    }
+    if (variables.administrative_area && variables.administrative_area != '') {
+      html += variables.administrative_area;
+      if (variables.postal_code && variables.postal_code != '') {
+        html += ' ';
+      }
+    }
+    return html;
+  }
+  catch (error) { console.log('theme_addressfield_ID - ' + error); }
+}

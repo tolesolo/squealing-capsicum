@@ -1,14 +1,14 @@
 /**
  * Implements hook_deviceready().
  */
-function commerce_thankyou_deviceready() {
+function commerce_pembayaran_deviceready() {
 
   // Take over the rendering of the checkout complete page.
-  drupalgap.menu_links['checkout/complete/%'].pageshow = 'commerce_thankyou_checkout_complete_pageshow';
+  drupalgap.menu_links['checkout/payment/%'].pageshow = 'commerce_pembayaran_pageshow';
 
 }
 
-function commerce_thankyou_checkout_complete_pageshow(order_id) {
+function commerce_pembayaran_pageshow(order_id) {
   // Load the order, build our thank you message, then inject it into the page.
   commerce_order_load(order_id, {
     success: function(order) {

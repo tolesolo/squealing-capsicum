@@ -34,7 +34,7 @@ Drupal.settings.cache.entity = {
 
   /* Globals (will be used if not overwritten below) */
   enabled: false,
-  expiration: 60, // # of seconds to cache, set to 0 to cache forever
+  expiration: 3600, // # of seconds to cache, set to 0 to cache forever
 
   /* Entity types */
   entity_types: {
@@ -184,6 +184,12 @@ Drupal.modules.custom['howtojoin'] = {};
 Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.custom['push_notifications'] = {};
 Drupal.modules.custom['dashboardv2'] = {};
+Drupal.modules.custom['kategori_get_med'] = {};
+Drupal.modules.custom['get_med_product_98'] = {};
+Drupal.modules.custom['get_med_product_100'] = {};
+Drupal.modules.custom['get_med_product_97'] = {};
+Drupal.modules.custom['get_med_product_99'] = {};
+Drupal.modules.custom['get_med_product_101'] = {};
 Drupal.modules.custom['find_eat_nearest'] = {};
 Drupal.modules.custom['get_eat_produk'] = {};
 Drupal.modules.custom['commerce_pembayaran'] = {};
@@ -201,6 +207,12 @@ drupalgap.settings.commerce = {
       product_reference_field_name: 'field_product'
     },
     get_shop: {
+      product_reference_field_name: 'field_product'
+    },
+    get_beer: {
+      product_reference_field_name: 'field_product'
+    },
+    get_med: {
       product_reference_field_name: 'field_product'
     },
     get_transport: {
@@ -540,7 +552,7 @@ drupalgap.settings.menus.regions['footer'] = {
         }
       },
       pages: {
-        value: ['','node/*','myorders','eat_nearest'],
+        value: ['','node/*','myorders', 'checkout/complete/*'],
         mode: 'exclude'
       }
     },
@@ -554,7 +566,7 @@ drupalgap.settings.menus.regions['footer'] = {
         }
       },
       pages: {
-        value: ['', 'myorders', 'user/*', 'mysaran', 'topup', 'node/add/*', 'faqpage', 'how_to_join','user/login', 'user/register', 'user/password','eat_nearest','cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*', 'checkout/payment/*'], 
+        value: ['', 'myorders', 'kategori_get_med', 'user/*', 'mysaran', 'topup', 'node/add/*', 'faqpage', 'how_to_join','user/login', 'user/register', 'user/password','eat_nearest','cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*', 'checkout/payment/*', 'checkout/complete/*'], 
         mode: 'exclude'
       }
     }

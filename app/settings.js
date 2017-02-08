@@ -184,12 +184,17 @@ Drupal.modules.custom['howtojoin'] = {};
 Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.custom['push_notifications'] = {};
 Drupal.modules.custom['dashboardv2'] = {};
-Drupal.modules.custom['kategori_get_med'] = {};
+Drupal.modules.custom['get_med_lokasi'] = {};
+Drupal.modules.custom['kategori_get_medSurabaya'] = {};
 Drupal.modules.custom['get_med_product_98'] = {};
 Drupal.modules.custom['get_med_product_100'] = {};
 Drupal.modules.custom['get_med_product_97'] = {};
 Drupal.modules.custom['get_med_product_99'] = {};
 Drupal.modules.custom['get_med_product_101'] = {};
+Drupal.modules.custom['get_snack_lokasi'] = {};
+Drupal.modules.custom['kategori_get_snackSurabaya'] = {};
+Drupal.modules.custom['get_snack_makan_surabaya'] = {};
+Drupal.modules.custom['get_snack_minum_surabaya'] = {};
 Drupal.modules.custom['find_eat_nearest'] = {};
 Drupal.modules.custom['get_eat_produk'] = {};
 Drupal.modules.custom['commerce_pembayaran'] = {};
@@ -213,6 +218,12 @@ drupalgap.settings.commerce = {
       product_reference_field_name: 'field_product'
     },
     get_med: {
+      product_reference_field_name: 'field_product'
+    },
+    get_snack: {
+      product_reference_field_name: 'field_product'
+    },
+    get_toys: {
       product_reference_field_name: 'field_product'
     },
     get_transport: {
@@ -292,42 +303,6 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
 drupalgap.settings.menus['main_menu'] = {
   options: menu_popup_get_default_options(),
   links: [
-    {
-      title:'Get Transport',
-      path:'node/add/order_get_transport',
-      options:{
-        attributes:{
-          'data-icon':'navigation'
-        }
-      }
-    },
-    {
-      title:'Get Courier',
-      path:'node/add/order_get_courier',
-      options:{
-        attributes:{
-          'data-icon':'recycle'
-        }
-      }
-    },
-    {
-      title:'Get Shop',
-      path:'node/add/order_get_shop',
-      options:{
-        attributes:{
-          'data-icon':'shop'
-        }
-      }
-    },
-    {
-      title:'Get Eat',
-      path:'menu-list',
-      options:{
-        attributes:{
-          'data-icon':'location'
-        }
-      }
-    },
     {
       title: 'How to top-up',
       path: 'topup',
@@ -430,7 +405,7 @@ drupalgap.settings.blocks.gettranzv2 = {
     commerce_cart: {
   	pages: {
     	mode: 'exclude',
-    	value: ['cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*']
+    	value: ['cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*', 'getmedlokasi', 'getsnacklokasi']
   	}
     },
     main_menu: { }
@@ -439,12 +414,6 @@ drupalgap.settings.blocks.gettranzv2 = {
     title: { }
   },
   navigation: {
-   menu_home_footer:{
-       pages: {
-        value: [''],
-        mode: 'include'
-      }
-   },
     primary_local_tasks: { }
   },
   content: {
@@ -544,6 +513,7 @@ drupalgap.settings.menus.regions['footer'] = {
     /* Back Button */
     {
       options: {
+        reloadPage:true,
         attributes: {
           'data-icon': 'back',
           'data-iconpos': 'notext',
@@ -553,20 +523,6 @@ drupalgap.settings.menus.regions['footer'] = {
       },
       pages: {
         value: ['','node/*','myorders', 'checkout/complete/*'],
-        mode: 'exclude'
-      }
-    },
-    {
-      title:'Telusuri pesanan saya',
-      options: {
-        attributes: {
-          'data-icon': 'back',
-          'class': 'ui-btn-left',
-          'onclick': 'javascript:drupalgap_goto(\'myorders\');'
-        }
-      },
-      pages: {
-        value: ['', 'myorders', 'kategori_get_med', 'user/*', 'mysaran', 'topup', 'node/add/*', 'faqpage', 'how_to_join','user/login', 'user/register', 'user/password','eat_nearest','cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*', 'checkout/payment/*', 'checkout/complete/*'], 
         mode: 'exclude'
       }
     }

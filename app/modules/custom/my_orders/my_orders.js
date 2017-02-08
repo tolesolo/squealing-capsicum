@@ -54,7 +54,11 @@ function my_orders_page() {
  */
 function my_orders_page_row(view, row) {
   try {
-    return l(row.Isi, 'node/' + row.nid);
+    var title = '<h2>' + row.oid + '</h2>' + 
+     		  '<p>' + row.date + row.batal + '</p>' +
+                '<p>' + row.Isi + '</p>' +
+                '<p>' + row.posisi + '</p>';
+    return l(title, 'node/' + row.nid);
   }
   catch (error) { console.log('my_orders_page_row - ' + error); }
 }

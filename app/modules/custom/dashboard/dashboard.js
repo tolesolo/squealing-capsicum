@@ -1,3 +1,8 @@
+// Create global variables to hold onto the coordinates and the map.
+var _dashboard_user_latitude = null;
+var _dashboard_user_longitude = null;
+var _dashboard_map = null;
+
 /**
  * Implements hook_menu().
  */
@@ -5,85 +10,188 @@ function dashboard_menu() {
   try {
     var items = {};
     items['hello_dashboard'] = {
-      title: 'Layanan Get-Tranz',
-      page_callback: 'dashboard_page'
+      title: 'Map',
+      page_callback: 'dashboard_map',
+      pageshow: 'dashboard_map_pageshow'
     };
     return items;
   }
   catch (error) { console.log('dashboard_menu - ' + error); }
 }
 
-function dashboard_page() {
+/**
+ * The map page callback.
+ */
+function dashboard_map() {
   try {
     var content = {};
-/*    content.site_info = {
-      markup: '<h4 style="text-align: center;">' +
-        Drupal.settings.site_path +
-      '</h4>'
-    }; */
-    content.icon = {
-      markup:  '<h2 style="text-align: center;">' +
-      '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_transport\');"><img src="images/gettransport.png"></a>&nbsp;&nbsp;' +
-      '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_courier\');"><img src="images/getcourier.png"></a>&nbsp;&nbsp;' +
-      '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_shop\');"><img src="images/getshop.png"></a>&nbsp;&nbsp;' +
-      '<a onclick="javascript:window.open(\'http://gettranz.com/get-eat\', \'_system\', \'location=yes\');"><img src="images/geteat.png"></a>' +
-      '</h2>'
+    var map_attributes = {
+      id: 'dashboard_map',
+      style: 'width: 100%; height: 320px;'
     };
-/*    content.welcome = {
-      markup: '<h2 style="text-align: center;">' +
-        t('Welcome to Get Tranz') +
-      '</h2>' +
-      '<p style="text-align: center;">' +
-        t('Get more time today') +
-      '</p>'
-    };*/
-    if (drupalgap.settings.logo) {
-      content.logo = {
-        markup: '<center>' +
-                 theme('image', {path: drupalgap.settings.logo}) +
-               '</center>'
-      };
-    }
-    content.driver_kami = {
-      theme: 'button_link',
-      text: 'Ingin menjadi Driver?',
-      path: 'how_to_join'
+    content['find_nearby_locations'] = {
+  theme: 'button',
+  text: 'Cari Order Terdekat',
+  attributes: {
+    onclick: "_dashboard_map_button_click()",
+    'data-theme': 'b'
+  }
+};
+    content['map'] = {
+      markup: '<div ' + drupalgap_attributes(map_attributes) + '></div>'
     };
-    content.faq = {
-      theme: 'button_link',
-      text: 'FAQ',
-      path: 'faqpage'
-    };
-    content.callcenter = {
-      theme: 'button_link',
-      text: 'Call Center 08.123456.OJEG(0736)',
-      path: null,
-	  attributes: {
-		'data-icon': 'phone',
-    	href: 'tel:+6281234560736'
-  	  }
-    };
-/*    content.link1 = {
-		theme: 'link',
-		text: '<img src="images/gettransport.png">&nbsp;',
-		path: 'node/add/order_get_transport'
-	};
-   content.link2 = {
-		theme: 'link',
-		text: '<img src="images/getcourier.png">&nbsp;',
-		path: 'node/123'
-	};
-   content.link3 = {
-		theme: 'link',
-		text: '<img src="images/getshop.png">&nbsp;',
-		path: 'node/123'
-	};
-   content.link4 = {
-		theme: 'link',
-		text: '<img src="images/geteat.png">&nbsp;',
-		path: 'node/123'
-	};*/
+    content['location_results'] = {
+  theme: 'jqm_item_list',
+  title: 'Pesanan',
+  items: [],
+  attributes: {
+    id: 'location_results_list'
+  }
+};
     return content;
   }
-  catch (error) { console.log('dashboard_page - ' + error); }
+  catch (error) { console.log('dashboard_map - ' + error); }
+}
+
+/**
+ * The map pageshow callback.
+ */
+function dashboard_map_pageshow() {
+  try {
+    navigator.geolocation.getCurrentPosition(
+      
+      // Success.
+      function(position) {
+
+        // Set aside the user's position.
+        _dashboard_user_latitude = position.coords.latitude;
+        _dashboard_user_longitude = position.coords.longitude;
+        
+        // Build the lat lng object from the user's current position.
+        var myLatlng = new google.maps.LatLng(
+          _dashboard_user_latitude,
+          _dashboard_user_longitude
+        );
+        
+        // Set the map's options.
+        var mapOptions = {
+          center: myLatlng,
+          zoom: 14,
+          mapTypeControl: true,
+          mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+          },
+          zoomControl: true,
+          zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.SMALL
+          }
+        };
+        
+        // Initialize the map, and set a timeout to resize it properly.
+        _dashboard_map = new google.maps.Map(
+          document.getElementById("dashboard_map"),
+          mapOptions
+        );
+        setTimeout(function() {
+            google.maps.event.trigger(_dashboard_map, 'resize');
+            _dashboard_map.setCenter(myLatlng);
+        }, 5000);
+        
+        // Add a marker for the user's current position.
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: _dashboard_map,
+            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        });
+        
+      },
+      
+            // Error
+      function(error) {
+        
+        // Provide debug information to developer and user.
+        console.log(error);
+        drupalgap_alert(error.message);
+        
+        // Process error code.
+        switch (error.code) {
+
+          // PERMISSION_DENIED
+          case 1:
+            break;
+
+          // POSITION_UNAVAILABLE
+          case 2:
+            break;
+
+          // TIMEOUT
+          case 3:
+            break;
+
+        }
+
+      },
+      
+      // Options
+      { enableHighAccuracy: true }
+      
+    );
+  }
+  catch (error) { console.log('dashboard_map_pageshow - ' + error); }
+}
+
+/**
+ * The "Find Nearby Locations" click handler.
+ */
+function _dashboard_map_button_click() {
+  try {
+    // Build the path to the view to retrieve the results.
+    var range = 4; // Search within a 4 mile radius, for illustration purposes.
+    var path = 'orders-nearby-locations.json/' +
+      _dashboard_user_latitude + ',' + _dashboard_user_longitude;
+      
+    // Call the server.
+    views_datasource_get_view_result(path, {
+        success: function(data) {
+          
+          if (data.nodes.length == 0) {
+            drupalgap_alert('Maaf, kami tidak menemukan pesanan di sekitar anda!');
+            return;
+          }
+
+          // Iterate over each spot, add it to the list and place a marker on the map.
+          var items = [];
+          $.each(data.nodes, function(index, object) {
+              
+              // Render a nearby location, and add it to the item list.
+              var row = object.node;
+              //var image_html = theme('image', { path: row.field_image.src });
+              var distance =
+                row.field_geofield_distance + ' ' +
+                drupalgap_format_plural(row.field_geofield_distance, 'km', 'kilometers');
+              var description =
+                '<h2>' + distance + '</h2>' +
+                '<p>Kode pesanan: ' + row.title + '</p>' +
+                '<p>Tipe: ' + row.ordertype + ' (' + row.payment +')</p>' +
+                '<p>Alamat ambil: ' + row.alamatasal +  '</p>' +
+                '<p>Alamat antar: ' + row.alamatantar +  '</p>';
+              //var link = l(image_html + description, 'node/' + row.nid);
+              var link = l(description, 'http://www.gettranz.com/orders/driver/accept/' + row.nid, { InAppBrowser:true });
+              items.push(link);
+              
+              // Add a marker on the map for the location.
+              var locationLatlng = new google.maps.LatLng(row.latitude, row.longitude);
+              var marker = new google.maps.Marker({
+                  position: locationLatlng,
+                  map: _dashboard_map,
+                  data: row
+              });
+              
+          });
+          drupalgap_item_list_populate('#location_results_list', items);
+
+        }
+    });
+  }
+  catch (error) { console.log('_dashboard_map_button_click - ' + error); }
 }

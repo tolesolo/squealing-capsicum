@@ -24,22 +24,28 @@ function howtojoin_page() {
 		'<strong><h2>Langkah 1 - Persyaratan:</h2></strong>' +
 		'<ol>' +
 		'<li>Fotokopi KTP, SIM C, STNK, KK yang masih berlaku</li>' +
-		'<li>Surat Keterangan Domisili apabila KTP dan tempat tinggal beda</li>' +
 		'<li>Usia maksimal 55 thn</li>' +
 		'<li>Pendidikan terakhir SMP</li>' +
-		'<li>Membawa uang Rp.50.000 untuk setoran dan pembukaan rekening ponsel CIMB Niaga</li>' +
+		'<li>Membawa uang Rp.50.000 untuk top-up saldo wallet</li>' +
+		'<li>Wajib mempunyai rekening ponsel CIMB Niaga</li>' +
 		'<li>Wajib menghadirkan motor saat seleksi</li>' +
 		'<li>Wajib memakai Sepatu</li>' +
 		'<li>Wajib mempunyai Ponsel Android</li>' +
 		'<li>Wajib mempunyai email</li>' +
+		'<li>TANPA TITIP JAMINAN</li>' +
 		'</ol>' +
 
-		'<strong><h2>Langkah 2 - Pendaftaran wawancara</h2></strong>' +
+		'<strong><h2>Langkah 2 - Pendaftaran</h2></strong>' +
 		'<ol>' + 
-		'<li>Mengambil nomor pendaftaran. Untuk memperoleh nomor pendaftaran: <a onclick="javascript:window.open(\'sms:+6281232444511?body=NamaLengkap TglLahir NoHP\', \'_system\', \'location=yes\');">SMS ke 0812-3244-4511</a>, format: NamaLengkap[spasi]TglLahir[spasi]NoHP (Contoh: "BudiBaik 1Januari1994 08444433322"). Anda akan mendapat konfirmasi balasan: Nomor_Tanggal_Alamat.</li>' +
-		'<li>Pada tanggal yang ditentukan, mohon datang ke Jalan xxxxxxxxx, antara jam 8 - 10 pagi. Bawa: Motor yang digunakan, persyaratan, dan jaminan. Tunjukkan SMS yang telah diterima.</li>' +
-		'<li>Akan dilanjutkan dengan proses seleksi dan pelatihan.</li>' +
+		'<li>Cara 1. Online, klik tombol di bawah ini</li>' +
+		'<li>Cara 2. Datang langsung dengan membawa pesyaratan ke alamat Jalan Sutorejo Utara E5-11, Surabaya</li>' +
 		'</ol>'
+    };
+    content.driver_kami = {
+      theme: 'button_link',
+      text: t('Ke halaman top-up'),
+      path: 'www.gettranz.com/pendaftarandriver',
+      options: {InAppBrowser: true}
     };
   return content;
 }

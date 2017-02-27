@@ -33,8 +33,14 @@ function get_snack_minum_surabaya_list_page() {
 function get_snack_minum_surabaya_list_page_row(view, row) {
   try {
     var image = theme('image', { path: row.photo.src });
+	if (row.diskon=='') {
     var title = '<h2>' + row.nama + '</h2>' +
                 '<p>' + row.harga + '</p>';
+} else { 
+    var title = '<h2>' + row.nama + '</h2>' +
+                '<p><del>' + row.hargaasli + '</del></p>' +
+                '<p>' + row.harga + ' ' + '<b>-' + row.diskon + '</b></p>';
+}
     var html = l(image + title, 'node/' + row.nid);
     return html;
   }

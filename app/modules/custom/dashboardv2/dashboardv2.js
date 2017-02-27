@@ -23,6 +23,7 @@ function dashboardv2_page() {
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_transport\');"><img src="app/modules/custom/dashboardv2/images/icon_gettranzv2_transport.png" width="79" height="86"></a>' +
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_courier\');"><img src="app/modules/custom/dashboardv2/images/icon_gettranzv2_courier.png" width="79" height="86"></a>' +
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_shop\');"><img src="app/modules/custom/dashboardv2/images/icon_gettranzv2_shop.png" width="79" height="86"></a>' +
+      '<a onclick="javascript:drupalgap_goto(\'geteatlokasi\', {reloadPage:true});"><img src="app/modules/custom/dashboardv2/images/icon_gettranzv2_eat.png" width="79" height="86"></a>' +
       '<a onclick="javascript:drupalgap_goto(\'getsnacklokasi\', {reloadPage:true});"><img src="app/modules/custom/dashboardv2/images/icon-gettranzv2-snack.png" width="79" height="86"></a>' +
       '</h2>'
     };

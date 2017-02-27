@@ -195,6 +195,7 @@ Drupal.modules.custom['get_snack_lokasi'] = {};
 Drupal.modules.custom['kategori_get_snackSurabaya'] = {};
 Drupal.modules.custom['get_snack_makan_surabaya'] = {};
 Drupal.modules.custom['get_snack_minum_surabaya'] = {};
+Drupal.modules.custom['get_eat_lokasi'] = {};
 Drupal.modules.custom['find_eat_nearest'] = {};
 Drupal.modules.custom['get_eat_produk'] = {};
 Drupal.modules.custom['commerce_pembayaran'] = {};

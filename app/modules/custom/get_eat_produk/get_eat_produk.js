@@ -4,7 +4,7 @@
 function get_eat_produk_menu() {
   try {
     var items = {};
-    items['menu-list'] = {
+    items['menu-Surabaya'] = {
       title: 'Menu',
       page_callback: 'get_eat_produk_list_page'
     };
@@ -33,7 +33,14 @@ function get_eat_produk_list_page() {
 function get_eat_produk_list_page_row(view, row) {
   try {
     var image = theme('image', { path: row.photo.src });
-    var title = '<h2>' + row.nama + '</h2>';
+	if (row.diskon=='') {
+    var title = '<h2>' + row.nama + '</h2>' +
+                '<p>' + row.harga + '</p>';
+} else { 
+    var title = '<h2>' + row.nama + '</h2>' +
+                '<p><del>' + row.hargaasli + '</del></p>' +
+                '<p>' + row.harga + ' ' + '<b>-' + row.diskon + '</b></p>';
+}
     var html = l(image + title, 'node/' + row.nid);
     return html;
   }

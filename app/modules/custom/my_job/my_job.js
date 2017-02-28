@@ -54,9 +54,10 @@ function my_job_page() {
  */
 function my_job_page_row(view, row) {
   try {
+    if (row.posisi=='Terima') {
     var title = '<h2>' + row.oid + '</h2>' + 
-     		  '<p>' + row.date + ', ' + row.posisi + '</p>' +
-     		  '<p>Tipe: ' + row.ordertype + ', Status: ' + row.payment + '</p>' +
+     		  '<p>' + row.date + ', Status: ' + row.posisi + '</p>' +
+     		  '<p>Tipe: ' + row.ordertype + ', ' + row.payment + '</p>' +
      		  '<h3>Alamat ambil</h3>' +
      		  '<p>' + row.namaasal + '</p>' +
      		  '<p>' + row.hpasal + '  ' + row.teleponasal + '</p>' +
@@ -64,9 +65,18 @@ function my_job_page_row(view, row) {
      		  '<p>' + row.barang + '</p>' +
      		  '<p>' + row.estimasibiaya + '</p>' +
                 '<p>' + row.belanja + '</p>';
-    //return l(title, 'node/' + row.nid);
     return l(title, 'http://www.gettranz.com/orders/driver/srcaddress/' + row.nid, { InAppBrowser:true }); //link jika status terima
-   // return l(title, 'http://www.gettranz.com/orders/driver/completed/' + row.nid, { InAppBrowser:true }); //link jika status sampai dilokasi pertama
+} else if (row.posisi=='Sampai di lokasi pertama') {
+    var title = '<h2>' + row.oid + '</h2>' + 
+     		  '<p>' + row.date + ', Status: ' + row.posisi + '</p>' +
+     		  '<p>Tipe: ' + row.ordertype + ', ' + row.payment + '</p>' +
+     		  '<h3>Alamat antar</h3>' +
+     		  '<p>' + row.alamatantar + '</p>' +
+     		  '<p>' + row.namatujuan + '</p>' +
+                '<p>' + row.handphonetujuan + '</p>';
+    return l(title, 'http://www.gettranz.com/orders/driver/completed/' + row.nid, { InAppBrowser:true }); //link jika status sampai dilokasi pertama
+}
+   
   } 
   catch (error) { console.log('my_job_page_row - ' + error); }
 }

@@ -4,7 +4,7 @@
 function howtowithdraw_menu() {
   var items = {};
   items['how_to_withdraw'] = {
-    title: 'Menjadi Driver Get Tranz',
+    title: 'Tarik Dana',
     page_callback: 'howtowithdraw_page'
   };
   return items;

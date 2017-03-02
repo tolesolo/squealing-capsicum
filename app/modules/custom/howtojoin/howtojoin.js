@@ -37,13 +37,13 @@ function howtojoin_page() {
 
 		'<strong><h2>Langkah 2 - Pendaftaran</h2></strong>' +
 		'<ol>' + 
-		'<li>Cara 1. Online, klik tombol di bawah ini</li>' +
-		'<li>Cara 2. Datang langsung dengan membawa pesyaratan ke alamat Jalan Sutorejo Utara E5-11, Surabaya</li>' +
+		'<li>Cara 1. Daftar Online, klik tombol di bawah ini</li>' +
+		'<li>atau Cara 2. Datang langsung dengan membawa pesyaratan ke alamat Jalan Sutorejo Utara E5-11, Surabaya</li>' +
 		'</ol>'
     };
     content.driver_kami = {
       theme: 'button_link',
-      text: t('Ke halaman top-up'),
+      text: t('Pendaftaran online'),
       path: 'www.gettranz.com/pendaftarandriver',
       options: {InAppBrowser: true}
     };

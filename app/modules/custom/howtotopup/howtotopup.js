@@ -32,11 +32,20 @@ function howtotopup_page() {
 		'<li>Silahkan transfer ke rekening di bawah ini:</br>Bank : CIMB Niaga</br>Nama Rekening: CV. Berkat Bersama</br>Nomor Rekening: 800-13475-6000</li>' +
 		'</ol>'
     };
-    content.driver_kami = {
+    content.topup = {
       theme: 'button_link',
       text: t('Ke halaman top-up'),
       path: 'http://www.gettranz.com/gtwallet/top-up',
       options: {InAppBrowser: true}
+    };
+    content.callcenter = {
+      theme: 'button_link',
+      text: 'Call Center 08.123456.OJEG(0736)',
+      path: null,
+	  attributes: {
+		'data-icon': 'phone',
+    	href: 'tel:+6281234560736'
+  	  }
     };
     return content;
   }

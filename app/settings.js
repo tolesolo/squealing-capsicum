@@ -102,7 +102,7 @@ Drupal.settings.cache.views = {
 // DrupalGap Mode (defaults to 'web-app')
 //  'web-app' - use this mode to build a web application for a browser window
 //  'phonegap' - use this mode to build a mobile application with phonegap
-drupalgap.settings.mode = 'phonegap';
+drupalgap.settings.mode = 'web-app';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {
@@ -177,9 +177,11 @@ Drupal.modules.custom['my_job'] = {};
 Drupal.modules.custom['block_copyright'] = {};
 Drupal.modules.custom['my_saran'] = {};
 Drupal.modules.custom['howtotopup'] = {};
+Drupal.modules.custom['howtowithdraw'] = {};
 Drupal.modules.custom['howtojoin'] = {};
 Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.custom['push_notifications'] = {};
+Drupal.modules.custom['saldowallet'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
@@ -227,6 +229,16 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
       }
     },
     {
+      title:'Saldo Wallet',
+      path:'saldo',
+      options:{
+        reloadPage:true,
+        attributes:{
+          'data-icon':'shop'
+        }
+      }
+    },
+    {
       title:'Keluhan',
       path:'mysaran',
       options:{
@@ -253,7 +265,7 @@ drupalgap.settings.menus['main_menu'] = {
   options: menu_popup_get_default_options(),
   links: [
     {
-      title: 'How to top-up',
+      title: 'Top-Up Wallet',
       path: 'topup',
       options: {
         attributes: {
@@ -262,7 +274,16 @@ drupalgap.settings.menus['main_menu'] = {
       }
     },
     {
-      title: 'How to become our driver',
+      title: 'Tarik dana',
+      path: 'how_to_withdraw',
+      options: {
+        attributes: {
+          'data-icon': 'minus'
+        }
+      }
+    },
+    {
+      title: 'Gabung menjadi mitra kami',
       path: 'how_to_join',
       options: {
         attributes: {

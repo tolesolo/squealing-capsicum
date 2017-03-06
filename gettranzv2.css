@@ -446,3 +446,37 @@ button[disabled],
 /* Navigation region pindah ke bot
 -----------------------------------------------------------------------------------------------------------
 .ui-navbar{bottom:0;width:100%;z-index:2000;position:absolute!important}*/
+
+
+/* Halaman SALDO
+-----------------------------------------------------------------------------------------------------------*/
+.saldo td {
+	background-image: url("images/background-saldo.png");
+    background-repeat: no-repeat;
+    background-position: center top; 
+  }
+.saldo h2 {
+	color:#4FC0E8;
+}
+.saldo hr {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    color: #D7DBE1;
+    background-color:#D7DBE1;
+}
+
+a:link.buttonmati.ui-link.ui-btn.ui-shadow.ui-corner-all {
+  background-color: #BBBBBB;
+  text-shadow: none;
+  color: #fff;
+  border-color: #A4A4A4;
+}
+
+a:hover.buttonmati.ui-link.ui-btn.ui-shadow.ui-corner-all {
+  background-color: #BBBBBB;
+  text-shadow: none;
+  color: #fff;
+  border-color: #A4A4A4;
+}

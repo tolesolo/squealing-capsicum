@@ -31,12 +31,6 @@ function howtowithdraw_page() {
 		'<li>Untuk proses lebih cepat, silahkan konfirmasi ke call center 08-123456-0736</li>' +
 		'</ol>' 
     };
-    content.tarikdana = {
-      theme: 'button_link',
-      text: t('Tarik dana'),
-      path: 'www.gettranz.com/tarikdana',
-      options: {InAppBrowser: true}
-    };
     content.callcenter = {
       theme: 'button_link',
       text: 'Call Center 08.123456.OJEG(0736)',

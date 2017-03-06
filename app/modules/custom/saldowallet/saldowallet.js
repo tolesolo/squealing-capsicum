@@ -45,8 +45,32 @@ function saldowallet_page() {
  */
 function saldowallet_page_row(view, row) {
   try {
+    var content = {};
+    var tanggal = new Date();
+    var jam = tanggal.getHours();
+    var menit = tanggal.getMinutes();
+    if ((jam>8 && menit>=0) && (jam<=17 && menit<=59)) {
   	var html =
-  '<td align="center" width="100%"><h2>' + row.username + '</h2>Sisa Saldo:<br>' +  row.totalwallet + '</td>';
+  '<td align="center" width="100%" class="saldo"><br><br><h2>' + row.username +
+  '<hr align="center" width="60%">' + 
+  '</h2><b>SALDO<br>' + 
+  row.totalwallet +
+  '</b><br><br><br><br><br>' + 
+  bl('+ Tambah Saldo', 'http://www.gettranz.com/gtwallet/top-up', { InAppBrowser: true }) + 
+  bl('- Tarik Saldo', 'http://www.gettranz.com/tarikdana', { InAppBrowser: true }) +
+    '</td>';
+    } else {
+  	var html =
+  '<td align="center" width="100%" class="saldo"><br><br><h2>' + row.username +
+  '<hr align="center" width="60%">' + 
+  '</h2><b>SALDO<br>' + 
+  row.totalwallet +
+  '</b><br><br><br><br><br>' + 
+  bl('+ Tambah Saldo', 'saldo', { attributes: {'class': 'buttonmati'}}) + 
+  'Penambahan saldo dimulai jam 8.00 s/d jam 17.00 setiap hari.<br>' + 
+  bl('- Tarik Saldo', 'http://www.gettranz.com/tarikdana', { InAppBrowser: true }) +
+    '</td>';
+    }
 return html;
   } 
   catch (error) { console.log('saldowallet_page_row - ' + error); }

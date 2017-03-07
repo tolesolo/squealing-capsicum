@@ -49,7 +49,7 @@ function saldowallet_page_row(view, row) {
     var tanggal = new Date();
     var jam = tanggal.getHours();
     var menit = tanggal.getMinutes();
-    if ((jam>8 && menit>=0) && (jam<=17 && menit<=59)) {
+    if ((jam>=8 && menit>=0) && (jam<=17 && menit<=59)) {
   	var html =
   '<td align="center" width="100%" class="saldo"><br><br><h2>' + row.username +
   '<hr align="center" width="60%">' + 

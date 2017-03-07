@@ -117,7 +117,7 @@ drupalgap.settings.locale = {
 drupalgap.settings.title = 'Get Tranz';
  
 // App Front Page
-drupalgap.settings.front = 'hello_dashboard';
+drupalgap.settings.front = 'dashboardv2';
 
 // Theme
 drupalgap.settings.theme = 'gettranzv2';
@@ -166,22 +166,73 @@ Drupal.modules.contrib['link'] = {};
 Drupal.modules.contrib['views_litepager'] = {};
 Drupal.modules.contrib['geofield'] = {};
 Drupal.modules.contrib['geofield_gmap'] = {};
+Drupal.modules.contrib['addressfield'] = {
+  minified: true
+};
 Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['user_registrationpassword'] = {};
 
 /** Custom Modules - www/app/modules/custom **/
 
 //Drupal.modules.custom['my_module'] = {};
-Drupal.modules.custom['dashboard'] = {};
-Drupal.modules.custom['my_job'] = {};
+Drupal.modules.custom['my_orders'] = {};
+Drupal.modules.custom['block_flat_fees'] = {};
 Drupal.modules.custom['block_copyright'] = {};
 Drupal.modules.custom['my_saran'] = {};
 Drupal.modules.custom['howtotopup'] = {};
 Drupal.modules.custom['howtowithdraw'] = {};
-Drupal.modules.custom['howtojoin'] = {};
+Drupal.modules.custom['saldowallet'] = {};
 Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.custom['push_notifications'] = {};
-Drupal.modules.custom['saldowallet'] = {};
+Drupal.modules.custom['dashboardv2'] = {};
+Drupal.modules.custom['get_med_lokasi'] = {};
+Drupal.modules.custom['kategori_get_medSurabaya'] = {};
+Drupal.modules.custom['get_med_product_98'] = {};
+Drupal.modules.custom['get_med_product_100'] = {};
+Drupal.modules.custom['get_med_product_97'] = {};
+Drupal.modules.custom['get_med_product_99'] = {};
+Drupal.modules.custom['get_med_product_101'] = {};
+Drupal.modules.custom['get_snack_lokasi'] = {};
+Drupal.modules.custom['kategori_get_snackSurabaya'] = {};
+Drupal.modules.custom['get_snack_makan_surabaya'] = {};
+Drupal.modules.custom['get_snack_minum_surabaya'] = {};
+Drupal.modules.custom['get_eat_lokasi'] = {};
+Drupal.modules.custom['find_eat_nearest'] = {};
+Drupal.modules.custom['get_eat_produk'] = {};
+Drupal.modules.custom['commerce_pembayaran'] = {};
+Drupal.modules.custom['commerce_thankyou'] = {};
+Drupal.modules.contrib['commerce'] = {};
+drupalgap.settings.commerce = {
+  bundles: {
+    get_eat: {
+      product_reference_field_name: 'field_product'
+    },
+    get_monsters: {
+      product_reference_field_name: 'field_product'
+    },
+    get_courier: {
+      product_reference_field_name: 'field_product'
+    },
+    get_shop: {
+      product_reference_field_name: 'field_product'
+    },
+    get_beer: {
+      product_reference_field_name: 'field_product'
+    },
+    get_med: {
+      product_reference_field_name: 'field_product'
+    },
+    get_snack: {
+      product_reference_field_name: 'field_product'
+    },
+    get_toys: {
+      product_reference_field_name: 'field_product'
+    },
+    get_transport: {
+      product_reference_field_name: 'field_product'
+    }
+  }
+};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
@@ -219,8 +270,8 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
   options: menu_popup_get_default_options(),
   links: [
     {
-      title:'Posisi Pesanan',
-      path:'myjob',
+      title:'Pesanan',
+      path:'myorders',
       options:{
         reloadPage:true,
         attributes:{
@@ -265,7 +316,7 @@ drupalgap.settings.menus['main_menu'] = {
   options: menu_popup_get_default_options(),
   links: [
     {
-      title: 'Top-Up Wallet',
+      title: 'How to top-up',
       path: 'topup',
       options: {
         attributes: {
@@ -283,20 +334,59 @@ drupalgap.settings.menus['main_menu'] = {
       }
     },
     {
-      title: 'Gabung menjadi mitra kami',
-      path: 'how_to_join',
-      options: {
-        attributes: {
-          'data-icon': 'check'
-        }
-      }
-    },
-    {
       title: 'FAQ',
       path: 'faqpage',
       options: {
         attributes: {
           'data-icon': 'info'
+        }
+      }
+    }
+  ]
+};
+
+drupalgap.settings.menus['menu_home_footer'] = {
+  links:[
+    {
+      title: 'Facebook',
+      path: null,
+      options: {
+        attributes: {
+          'data-icon': 'facebook',
+         // 'onclick':'javascript:drupalgap_back();' //working
+         // 'onclick': 'window.open("'"example.com"'", "'"_system"'", "'"location=yes"'")'
+         // 'onclick':'javascript:window.open("'"example.com"'", "'"_system"'", "'"location=yes"'");'
+        // 'InAppBrowser': 'true'
+        		'onclick':'window.open("http://www.drupalgap.org", "_system", "location=yes");'
+        }
+      }
+    },
+    {
+      title: 'Instagram',
+      path: null,
+      options: {
+        attributes: {
+          'data-icon': 'instagram',
+    		 'href': 'www.instagram.com/gettranz'
+        }
+      }
+    },
+    {
+      title: 'Twitter',
+      path: null,
+      options: {
+        attributes: {
+          'data-icon': 'twitter',
+    		href: 'www.twitter.com/gettranz'
+        }
+      }
+    },
+    {
+      title: 'Call Us',
+      path: null,
+      options: {
+        attributes: {
+          'data-icon': 'phone'
         }
       }
     }
@@ -324,6 +414,12 @@ drupalgap.settings.blocks.gettranzv2 = {
       }
     },
     logo: { },
+    commerce_cart: {
+  	pages: {
+    	mode: 'exclude',
+    	value: ['cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*', 'getmedlokasi', 'getsnacklokasi']
+  	}
+    },
     main_menu: { }
   },
   sub_header: {
@@ -342,7 +438,13 @@ drupalgap.settings.blocks.gettranzv2 = {
         value: ['user/login', 'user/register'],
         mode: 'include'
       }
-   }
+   },
+    flat_fees: {
+       pages: {
+        value: ['node/add/order_get_courier', 'node/add/order_get_transport', 'node/add/order_get_shop'],
+        mode: 'include'
+      }
+    }
   }
 };
 
@@ -373,7 +475,6 @@ drupalgap.settings.menus.regions['header'] = {
     {
       path: '',
       options: {
-        reloadPage:true,
         attributes: {
           'data-icon': 'home',
           'data-iconpos': 'notext',
@@ -433,7 +534,7 @@ drupalgap.settings.menus.regions['footer'] = {
         }
       },
       pages: {
-        value: [''],
+        value: ['','node/*','myorders', 'checkout/complete/*'],
         mode: 'exclude'
       }
     }

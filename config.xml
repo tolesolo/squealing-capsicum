@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id="com.gettranz.driverapp"
-	version   = "2.1.0">
+        id="com.gettranz.app"
+	version   = "2.2.1">
 
-<name>Get Tranz Driver</name>
+<name>Get Tranz</name>
 <description>
 	Aplikasi online untuk moda transportasi, kurir, layanan belanja, dan makanan.
 </description>

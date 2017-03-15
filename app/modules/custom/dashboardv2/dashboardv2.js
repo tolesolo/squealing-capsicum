@@ -28,13 +28,14 @@ function dashboardv2_pageshow(){
     
     CheckGPS.check(function(){
     //GPS is enabled!
-drupalgap_alert('GPS OFF');
+drupalgap_alert('GPS ON');
   },
   function(){
     //GPS is disabled!
 drupalgap_alert('GPS OFF');
+cordova.plugins.diagnostic.switchToLocationSettings();
   });
-  
+  //setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
 }
 function dashboardv2_page() {
   try {

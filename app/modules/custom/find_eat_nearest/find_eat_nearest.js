@@ -3,6 +3,7 @@ var _find_eat_nearest_user_latitude = null;
 var _find_eat_nearest_user_longitude = null;
 var _find_eat_nearest_map = null;
 var _last_time = null;
+var _marker = null;
 /**
  * Implements hook_menu().
  */
@@ -112,11 +113,15 @@ else{
         }, 500);
         
         // Add a marker for the user's current position.
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            map: _find_eat_nearest_map,
-            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-        });
+        if(_marker == null){
+            _marker = new google.maps.Marker({
+                position: myLatlng,
+                map: _find_eat_nearest_map,
+                icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+            });
+        }
+        else
+            _marker.setPosition(myLating);
         
        setTimeout(_find_eat_nearest_map_button_click(),1000);
          

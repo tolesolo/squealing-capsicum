@@ -44,7 +44,24 @@
 
       <!-- Load DrupalGap -->
       <script type="text/javascript">
+      //document.addEventListener ( "deviceready", locationOn,false);
         drupalgap_onload();
+        /*
+        if (drupalgap_has_connection()) {
+            cordova.plugins.diagnostic.isLocationAvailable(locationOn, locationOff);
+        }
+        */
+        
+        //cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff)
+        //function locationOn(){
+        //    drupalgap.alert('GPS ON');
+        //}
+        /*
+        function locationOff(){
+            drupalgap.alert('GPS OFF');
+            cordova.plugins.diagnostic.switchToLocationSettings();
+        }
+        */
       </script>
 
     </body>

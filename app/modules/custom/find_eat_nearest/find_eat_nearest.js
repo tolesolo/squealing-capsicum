@@ -29,14 +29,14 @@ function find_eat_nearest_map() {
       id: 'find_eat_nearest_map',
       style: 'width: 100%; height: 250px;'
     };
-    content['find_nearby_locations'] = {
+    /*content['find_nearby_locations'] = {
   theme: 'button',
   text: 'Cari Resto Terdekat',
   attributes: {
     onclick: "_find_eat_nearest_map_button_click()",
     'data-theme': 'b'
   }
-};
+};*/
     content['map'] = {
       markup: '<div ' + drupalgap_attributes(map_attributes) + '></div>'
     };
@@ -48,6 +48,10 @@ function find_eat_nearest_map() {
     id: 'location_results_list'
   }
 };
+  /*  content['map2'] = {
+        markup:'<script>setInterval(_find_eat_nearest_map_button_click(),10000)</script>'
+    }
+*/
     return content;
   }
   catch (error) { console.log('find_eat_nearest_map - ' + error); }
@@ -57,11 +61,12 @@ function find_eat_nearest_map() {
  * The map pageshow callback.
  */
 function find_eat_nearest_map_pageshow() {
-  try {
-    navigator.geolocation.getCurrentPosition(
-      
-      // Success.
-      function(position) {
+  process_map();
+  //navigator.geolocation.watchPosition(locationonsuccess,geolocationonerror,{ maximumAge: 60000, timeout: 60000, enableHighAccuracy: false });
+}
+
+function locationonsuccess(position){
+    // Success.
 
         // Set aside the user's position.
         _find_eat_nearest_user_latitude = position.coords.latitude;
@@ -104,10 +109,12 @@ function find_eat_nearest_map_pageshow() {
             icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
         });
         
-      },
-      
-      // Error
-      function(error) {
+       setTimeout(_find_eat_nearest_map_button_click(),1000);
+         
+}
+
+function geolocationonerror(error){
+    // Error
         
         // Provide debug information to developer and user.
         console.log(error);
@@ -130,7 +137,15 @@ function find_eat_nearest_map_pageshow() {
 
         }
 
-      },
+}
+function process_map(){
+    try {
+        
+    navigator.geolocation.getCurrentPosition(
+      locationonsuccess
+      ,
+      geolocationonerror
+      ,
       
       // Options
       { enableHighAccuracy: true }
@@ -141,7 +156,6 @@ function find_eat_nearest_map_pageshow() {
     console.log('find_eat_nearest_map_pageshow - ' + error);
   }
 }
-
 /**
  * The "Find Nearby Locations" click handler.
  */
@@ -157,7 +171,9 @@ function _find_eat_nearest_map_button_click() {
         success: function(data) {
           
           if (data.nodes.length == 0) {
-            drupalgap_alert('Maaf, tidak ada restaurant ditemukan!');
+            var items = [];
+            drupalgap_item_list_populate("#location_results_list", items);
+            drupalgap_alert('Maaf, tidak ada restaurant ditemukan!');            
             return;
           }
 

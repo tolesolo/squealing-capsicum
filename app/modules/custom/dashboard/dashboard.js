@@ -15,6 +15,7 @@ function dashboard_menu() {
 
 function dashboard_page() {
   try {
+
     var content = {};
 /*    content.site_info = {
       markup: '<h4 style="text-align: center;">' +

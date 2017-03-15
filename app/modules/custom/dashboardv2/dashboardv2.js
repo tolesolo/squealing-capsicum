@@ -6,15 +6,37 @@ function dashboardv2_menu() {
     var items = {};
     items['dashboardv2'] = {
       title: 'Layanan Get-Tranz',
-      page_callback: 'dashboardv2_page'
+      page_callback: 'dashboardv2_page',
+      pageshow: 'dashboardv2_pageshow'
     };
     return items;
   }
   catch (error) { console.log('dashboardv2_menu - ' + error); }
 }
-
+function locationOn(){
+    drupalgap.alert('GPS ON');
+}
+        
+function locationOff(){
+    drupalgap.alert('GPS OFF');
+    cordova.plugins.diagnostic.switchToLocationSettings();
+}
+function dashboardv2_pageshow(){    
+    setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
+    /*
+    CheckGPS.check(function(){
+    //GPS is enabled!
+drupalgap.alert('GPS OFF');
+  },
+  function(){
+    //GPS is disabled!
+drupalgap.alert('GPS OFF');
+  });
+  */
+}
 function dashboardv2_page() {
   try {
+    
     var content = {};
     content.icon = {
       markup:  '<h2 style="text-align: center;">' +
@@ -23,7 +45,7 @@ function dashboardv2_page() {
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_transport\');"><img src="app/modules/custom/dashboardv2/images/icon_gettranzv2_transport.png" width="79" height="86"></a>' +
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_courier\');"><img src="app/modules/custom/dashboardv2/images/icon_gettranzv2_courier.png" width="79" height="86"></a>' +
       '<a onclick="javascript:drupalgap_goto(\'node/add/order_get_shop\');"><img src="app/modules/custom/dashboardv2/images/icon_gettranzv2_shop.png" width="79" height="86"></a>' +
-      '<a onclick="javascript:drupalgap_goto(\'geteatlokasi\', {reloadPage:true});"><img src="app/modules/custom/dashboardv2/images/icon_gettranzv2_eat.png" width="79" height="86"></a>' +
+      '<a onclick="javascript:drupalgap_goto(\'eat_nearest\', {reloadPage:true});"><img src="app/modules/custom/dashboardv2/images/icon_gettranzv2_eat.png" width="79" height="86"></a>' +
       '<a onclick="javascript:drupalgap_goto(\'getsnacklokasi\', {reloadPage:true});"><img src="app/modules/custom/dashboardv2/images/icon-gettranzv2-snack.png" width="79" height="86"></a>' +
       '<a onclick="javascript:drupalgap_goto(\'getmedlokasi\', {reloadPage:true});"><img src="app/modules/custom/dashboardv2/images/icon-gettranzv2-med.png" width="79" height="86"></a>' +
       '<a onclick="javascript:drupalgap_goto(\'gettoyslokasi\', {reloadPage:true});"><img src="app/modules/custom/dashboardv2/images/icon-gettranzv2-toys.png" width="79" height="86"></a>' +

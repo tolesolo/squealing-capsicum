@@ -14,29 +14,31 @@ function dashboardv2_menu() {
   catch (error) { console.log('dashboardv2_menu - ' + error); }
 }
 function locationOn(){
-    drupalgap.alert('GPS ON');
+    drupalgap_alert('GPS ON');
 }
         
 function locationOff(){
-    drupalgap.alert('GPS OFF');
+    drupalgap_alert('GPS OFF');
     cordova.plugins.diagnostic.switchToLocationSettings();
 }
 function dashboardv2_pageshow(){    
-    setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
-    /*
+    //setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
+    console.log("Masuk MASUK");
+    drupalgap_alert("MAsuk PAGE SHOW");
+    
     CheckGPS.check(function(){
     //GPS is enabled!
-drupalgap.alert('GPS OFF');
+drupalgap_alert('GPS OFF');
   },
   function(){
     //GPS is disabled!
-drupalgap.alert('GPS OFF');
+drupalgap_alert('GPS OFF');
   });
-  */
+  
 }
 function dashboardv2_page() {
   try {
-    setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
+    //setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
     var content = {};
     content.icon = {
       markup:  '<h2 style="text-align: center;">' +

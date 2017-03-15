@@ -61,7 +61,7 @@ function find_eat_nearest_map() {
  * The map pageshow callback.
  */
 function find_eat_nearest_map_pageshow() {
-  process_map();
+  setInterval(process_map(),5000);
   //navigator.geolocation.watchPosition(locationonsuccess,geolocationonerror,{ maximumAge: 60000, timeout: 60000, enableHighAccuracy: false });
 }
 

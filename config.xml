@@ -60,7 +60,7 @@
     <gap:plugin name="cordova-plugin-device" source="npm" />
     <gap:plugin name="cordova-plugin-geolocation" source="npm" />
     <gap:plugin name="cordova-plugin-push-notification " source="npm" /> -->
-    
+    <gap:plugin name="cordova.plugins.diagnostic.api-22" source="npm" />
    <!-- this version -->
    <plugin name="cordova-plugin-device" spec="1.1.2" />
    <plugin name="cordova-plugin-geolocation" spec="2.2.0" />
@@ -68,7 +68,7 @@
    <plugin name="cordova-plugin-network-information" spec="1.2.1" />
    <plugin name="cordova-plugin-push-notification " spec="2.5.2" />
    <plugin name="cordova-plugin-vibration" spec="2.1.1" />
-   <plugin name="cordova.plugins.diagnostic.api-22" source="npm" />
+   <!--<plugin name="cordova.plugins.diagnostic.api-22" source="npm" />-->
    
    
    <!--all plugin example

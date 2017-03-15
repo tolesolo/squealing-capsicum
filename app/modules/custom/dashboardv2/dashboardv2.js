@@ -36,7 +36,7 @@ drupalgap.alert('GPS OFF');
 }
 function dashboardv2_page() {
   try {
-    
+    setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
     var content = {};
     content.icon = {
       markup:  '<h2 style="text-align: center;">' +

@@ -121,9 +121,9 @@ else{
             });
         }
         else
-            _marker.setPosition(myLating);
+            _marker.setPosition(myLatlng);
         
-       setTimeout(_find_eat_nearest_map_button_click(),1000);
+       _find_eat_nearest_map_button_click();
          
 }
 

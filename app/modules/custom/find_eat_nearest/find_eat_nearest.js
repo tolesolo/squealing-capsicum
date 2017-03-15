@@ -62,6 +62,9 @@ function find_eat_nearest_map() {
  * The map pageshow callback.
  */
 function find_eat_nearest_map_pageshow() {
+    _find_eat_nearest_map = null;
+    _marker = null;
+    _last_time = null;
   process_map();
   navigator.geolocation.watchPosition(locationonsuccess,geolocationonerror,{ maximumAge: 60000, timeout: 60000, enableHighAccuracy: true });
 }

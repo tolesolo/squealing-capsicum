@@ -21,25 +21,20 @@ function locationOff(){
     drupalgap_alert('GPS OFF');
     cordova.plugins.diagnostic.switchToLocationSettings();
 }
-function dashboardv2_pageshow(){    
-    //setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
-    console.log("Masuk MASUK");
-    drupalgap_alert("MAsuk PAGE SHOW");
-    
+function dashboardv2_pageshow(){           
     CheckGPS.check(function(){
     //GPS is enabled!
-drupalgap_alert('GPS ON');
+//drupalgap_alert('GPS ON');
   },
   function(){
     //GPS is disabled!
-drupalgap_alert('GPS OFF');
+drupalgap_alert('GPS OFF. Nyalahkan GPS.');
 cordova.plugins.diagnostic.switchToLocationSettings();
   });
   //setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
 }
 function dashboardv2_page() {
-  try {
-    //setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
+  try {    
     var content = {};
     content.icon = {
       markup:  '<h2 style="text-align: center;">' +

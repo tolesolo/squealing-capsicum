@@ -2,7 +2,7 @@
 var _find_eat_nearest_user_latitude = null;
 var _find_eat_nearest_user_longitude = null;
 var _find_eat_nearest_map = null;
-
+var _last_time = null;
 /**
  * Implements hook_menu().
  */
@@ -61,13 +61,21 @@ function find_eat_nearest_map() {
  * The map pageshow callback.
  */
 function find_eat_nearest_map_pageshow() {
-  setInterval(process_map(),5000);
-  //navigator.geolocation.watchPosition(locationonsuccess,geolocationonerror,{ maximumAge: 60000, timeout: 60000, enableHighAccuracy: false });
+  process_map();
+  navigator.geolocation.watchPosition(locationonsuccess,geolocationonerror,{ maximumAge: 60000, timeout: 60000, enableHighAccuracy: true });
 }
 
 function locationonsuccess(position){
     // Success.
-
+var d = new Date();
+var tmp = d.getTime();
+if(_last_time==null) _last_time = tmp;
+else{
+    if( ((tmp-_last_time)/1000) >20){
+        _last_time = tmp;
+    }
+    else return '';
+}
         // Set aside the user's position.
         _find_eat_nearest_user_latitude = position.coords.latitude;
         _find_eat_nearest_user_longitude = position.coords.longitude;
@@ -93,6 +101,7 @@ function locationonsuccess(position){
         };
         
         // Initialize the map, and set a timeout to resize properly.
+        if(_find_eat_nearest_map == null)
         _find_eat_nearest_map = new google.maps.Map(
           document.getElementById("find_eat_nearest_map"),
           mapOptions

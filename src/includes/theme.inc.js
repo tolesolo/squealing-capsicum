@@ -27,6 +27,7 @@ function theme(hook, variables) {
     // If there is HTML markup present, just return it as is. Otherwise, run
     // the theme hook and send along the variables.
     if (!variables) { variables = {}; }
+    if (typeof variables.access !== 'undefined' && !variables.access) { return ''; }
     if (variables.markup) { return variables.markup; }
     var content = '';
     if (!hook) { return content; }
@@ -173,9 +174,13 @@ function theme_controlgroup(variables) {
 function theme_header(variables) {
   try {
     variables.attributes['data-role'] = 'header';
-    if (typeof variables.type === 'undefined') { type = 'h2'; }
+    if (typeof variables.type == 'undefined') {
+      variables.type = 'h2';
+    }
+    var typeAttrs = variables.type_attributes ?
+      ' ' + drupalgap_attributes(variables.type_attributes) : '';
     var html = '<div ' + drupalgap_attributes(variables.attributes) + '>' +
-      '<' + type + '>' + variables.text + '</' + type + '></div>';
+      '<' + variables.type + typeAttrs + '>' + variables.text + '</' + variables.type + '></div>';
     return html;
   }
   catch (error) { console.log('theme_header - ' + error); }
@@ -294,9 +299,9 @@ function theme_item_list(variables) {
     if (variables.items && variables.items.length > 0) {
       var listview = typeof variables.attributes['data-role'] !== 'undefined' &&
         variables.attributes['data-role'] == 'listview';
-      for (var index in variables.items) {
-          if (!variables.items.hasOwnProperty(index)) { continue; }
-          var item = variables.items[index];
+      for (var index = 0; index < variables.items.length; index++) {
+        var item = variables.items[index];
+        if (typeof item === 'string') {
           var icon = null;
           html += '<li';
           if (listview && (icon = $(item).attr('data-icon'))) {
@@ -305,6 +310,12 @@ function theme_item_list(variables) {
             html += ' data-icon="' + icon + '"';
           }
           html += '>' + item + '</li>';
+        }
+        else if (typeof item === 'object') {
+          var attributes = item.attributes ? item.attributes : {};
+          var content = item.content ? item.content : '';
+          html += '<li ' + drupalgap_attributes(attributes) + '>' + drupalgap_render(content) + '</li>';
+        }
       }
     }
     html += '</' + type + '>';

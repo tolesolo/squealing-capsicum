@@ -10,7 +10,7 @@
  
  #_gettranz_splash .ui-content {
    position: absolute; top: 0; right: 0; bottom: 0; left: 0;
-   background-image: url(images/splash-bg1.png);
+   background-image: url(../images/splash-bg1.png);
   background-color: #bfefff;
    background-repeat: repeat;
  }
@@ -46,7 +46,7 @@ div.messages {
 }
 
 div.status {
-  background-image: url(images/message-24-ok.png);
+  background-image: url(../images/message-24-ok.png);
   border-color: #be7;
 }
 div.status,
@@ -59,7 +59,7 @@ table tr.ok {
 }
 
 div.warning {
-  background-image: url(images/message-24-warning.png);
+  background-image: url(../images/message-24-warning.png);
   border-color: #ed5;
 }
 div.warning,
@@ -72,7 +72,7 @@ table tr.warning {
 }
 
 div.error {
-  background-image: url(images/message-24-error.png);
+  background-image: url(../images/message-24-error.png);
   border-color: #ed541d;
 }
 div.error,

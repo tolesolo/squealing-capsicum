@@ -11,23 +11,23 @@
       <link rel="shortcut icon" href="favicon.ico" />
       
       <!-- jQuery Mobile -->
-      <!-- Get Tranz V2-->     
+      <!-- Get Tranz V2-->
       <link rel="stylesheet" href="gettranzv2.css" />
 	<link rel="stylesheet" href="jquery.mobile.icons.min.css" />
       <link rel="stylesheet" href="jquery.mobile.structure-1.4.5.min.css" />
       <script src="phonegap.js"></script> 
-      <script src="jquery-1.11.1.min.js"></script>
+      <script src="jquery-1.9.1.min.js"></script>
       <script src="jquery.mobile-1.4.5.min.js"></script>
       
       <!-- jDrupal -->
-      <script type="text/javascript" charset="utf-8" src="jdrupal-7.0.4.min.js"></script>
+      <script type="text/javascript" charset="utf-8" src="jdrupal-7.0.5.min.js"></script>
       
       <!-- DrupalGap -->
-      <script type="text/javascript" charset="utf-8" src="bin/drupalgap.min.js"></script>
+      <script type="text/javascript" charset="utf-8" src="bin/drupalgap.js"></script>
       <script type="text/javascript" charset="utf-8" src="app/settings.js"></script>
       <link rel="stylesheet" href="css/drupalgap.css" />
       
-      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcyDApIrEiODa5zlGvXnS8ShifiM2tMz0"></script> 
 
     </head>
     <body>
@@ -44,24 +44,7 @@
 
       <!-- Load DrupalGap -->
       <script type="text/javascript">
-      //document.addEventListener ( "deviceready", locationOn,false);
         drupalgap_onload();
-        /*
-        if (drupalgap_has_connection()) {
-            cordova.plugins.diagnostic.isLocationAvailable(locationOn, locationOff);
-        }
-        */
-        
-        //cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff)
-        //function locationOn(){
-        //    drupalgap.alert('GPS ON');
-        //}
-        /*
-        function locationOff(){
-            drupalgap.alert('GPS OFF');
-            cordova.plugins.diagnostic.switchToLocationSettings();
-        }
-        */
       </script>
 
     </body>

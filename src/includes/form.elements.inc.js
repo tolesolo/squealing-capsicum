@@ -252,7 +252,7 @@ function _drupalgap_form_render_element(form, element) {
     if (module) {
       field_widget_form_function_name = module + '_field_widget_form';
 
-      if (drupalgap_function_exists(field_widget_form_function_name)) {
+      if (function_exists(field_widget_form_function_name)) {
         field_widget_form_function = window[field_widget_form_function_name];
       }
       else {
@@ -324,14 +324,14 @@ function _drupalgap_form_render_element(form, element) {
           variables.attributes['placeholder'] = placeholder;
         }
 
-        // If there wasn't a default value provided, set one. Then set the
-        // default value into the variables' attributes. Although, if we have an
-        // item value, just use that.
+        // If there wasn't a default value provided, set one. Then set the default value into the variables' attributes,
+        // if it wasn't already set, otherwise set it to the item's value.
         if (!item.default_value) { item.default_value = ''; }
         variables.attributes.value = item.default_value;
-        if (typeof item.value !== 'undefined') {
-          variables.attributes.value = item.value;
-        }
+        if (
+            typeof item.value !== 'undefined' &&
+            (typeof variables.attributes.value === 'undefined' || empty(variables.attributes.value))
+        ) { variables.attributes.value = item.value; }
 
         // Call the hook_field_widget_form() if necessary. Merge any changes
         // to the item back into this item.
@@ -347,8 +347,6 @@ function _drupalgap_form_render_element(form, element) {
               delta,
               element
           ]);
-          // @TODO - sometimes an item gets merged without a type here, why?
-          // @UPDATE - did the recursive extend fix this?
           item = $.extend(true, item, items[delta]);
           // If the item type got lost, replace it.
           if (!item.type && element.type) { item.type = element.type; }
@@ -440,12 +438,19 @@ function _drupalgap_form_render_element(form, element) {
       }
     }
 
-    // Add the item html if it isn't empty.
-    if (item_html != '') { html += item_html; }
-
-    // Add element description.
-    if (element.description && element.type != 'hidden') {
-      html += '<div class="description">' + t(element.description) + '</div>';
+    // Add the item html if it isn't empty. Place the description "before" or "after" the item, exclude it if set
+    // to "none".
+    if (item_html != '') {
+      if (element.description && element.type != 'hidden') {
+        var descriptionDisplay = element.description_display ? element.description_display : 'after';
+        var descriptionHtml = '<div class="description">' + t(element.description) + '</div>';
+        switch (descriptionDisplay) {
+          case 'before': html += descriptionHtml + item_html; break;
+          case 'after': html += item_html + descriptionHtml; break;
+          case 'none': html += item_html; break;
+        }
+      }
+      else { html += item_html; }
     }
 
     // Close the element container.
@@ -526,7 +531,7 @@ function _drupalgap_form_render_element_item(form, element, variables, item) {
 
     // Run the item through the theme system if a theme function exists, or try
     // to use the item markup, or let the user know the field isn't supported.
-    if (drupalgap_function_exists('theme_' + theme_function)) {
+    if (function_exists('theme_' + theme_function)) {
       html += theme(theme_function, variables);
     }
     else {

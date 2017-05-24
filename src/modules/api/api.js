@@ -1,4 +1,33 @@
 /**
+ * Implements hook_add_page_to_dom_alter().
+ */
+function hook_add_page_to_dom_alter(attributes, options) {
+
+  // Use this hook to make alterations to a page's attributes or options before it is added to the DOM.
+
+  // @param {Object} attributes
+  // The page attributes on a page before it is added to the DOM.
+
+  // @param {Object} options
+  // The page options object containing the rendered html, the menu link object, and the internal page id.
+
+  // Add a custom class to the page indicating the device size. Place
+  // empty spaces around the class name so we don't collide with others.
+  var size = null;
+  var width = $(window).width();
+  if (width <= 414) { size = 'small'; }
+  else if (width < 1024) { size = 'medium'; }
+  else { size = 'large'; }
+  attributes.class += ' ' + size + ' ';
+
+  // Add a custom class to a particular route.
+  if (drupalgap_router_path_get() == 'channel/%') {
+    attributes.class += ' foo-bar ';
+  }
+
+}
+
+/**
  * When a form submission for an entity is assembling the entity json object to
  * send to the server, some form element fields need to be assembled in unique
  * ways to match the entity's structure in Drupal. Modules that implement fields
@@ -22,11 +51,12 @@
  *                           placed around the result object. Defaults to true.
  *                           Set the 'use_delta' boolean property to false when
  *                           a delta value is not needed. Defaults to true.
+ * @param {Object} form
  *
  * @return {*}
  */
 function hook_assemble_form_state_into_field(entity_type, bundle,
-  form_state_value, field, instance, langcode, delta, field_key) {
+  form_state_value, field, instance, langcode, delta, field_key, form) {
   try {
     // Listed below are example use cases. Each show how to assemble the result,
     // and what the resulting field object will look like when assembled by the
@@ -107,16 +137,37 @@ function hook_assemble_form_state_into_field(entity_type, bundle,
 }
 
 /**
- * When the app is first loading up, DrupalGap checks to see if the device has
- * a connection, if it does then this hook is called. Implementations of this
- * hook need to return true if they'd like DrupalGap to continue, or return
- * false if you'd like DrupalGap to NOT continue. If DrupalGap continues, it
- * will perform a System Connect resource call then go to the App's front page.
- * This is called during DrupalGap's "deviceready" implementation for PhoneGap.
- * Note, the Drupal.user object is not initialized at this point, and always
- * appears to be an anonymous user.
+ * When the app is first loading up, DrupalGap checks to see if the device has a connection, if it does then this hook
+ * is called. If DrupalGap doesn't have a connection, then hook_device_offline() is called. Implementations of
+ * hook_deviceready() need to return true if they'd like DrupalGap to continue, or return false if you'd like DrupalGap
+ * to NOT continue. If DrupalGap continues, it will perform a System Connect resource call then go to the App's front
+ * page. This is called during DrupalGap's "deviceready" implementation for PhoneGap. Note, the Drupal.user object is
+ * not initialized at this point, and will always be an anonymous user.
  */
 function hook_deviceready() {}
+
+/**
+ * When someone calls drupalgap_has_connection(), this hook has an opportunity to set drupalgap.online to true or false.
+ * The value of drupalgap.online is returned to anyone who calls drupalgap_has_connection(), including DrupalGap core.
+ */
+function hook_device_connection() {
+
+  // If it is Saturday, take the app offline and force the user to go outside and play.
+  var d = new Date();
+  if (d.getDay() == 6) { drupalgap.online = false; }
+
+}
+
+/**
+ * Called during app startup if the device does not have a connection. Note, the Drupal.user object is ot initialized at
+ * this point, and will always be an anonymous user.
+ */
+function hook_device_offline() {
+
+  // Even though we're offline, let's just go to the front page.
+  drupalgap_goto('');
+
+}
 
 /**
  * Take action when the user presses the "back" button. This includes the soft,
@@ -196,6 +247,44 @@ function hook_block_view(delta, region) {
  * A hook used to handle a 404 in the app.
  */
 function hook_404(router_path) {}
+
+/**
+ * Implements hook_entity_pre_build_content().
+ */
+function hook_entity_pre_build_content(entity, entity_type, bundle) {
+
+  // Change some weights on nodes with a date field.
+  if (entity_type == 'node' && typeof entity.field_date !== 'undefined') {
+    entity.body.weight = 0;
+    entity.field_date.weight = 1;
+  }
+}
+
+/**
+ * Implements hook_entity_post_build_content().
+ */
+function hook_entity_post_build_content(entity, entity_type, bundle) {
+
+}
+
+/**
+ * Implements hook_entity_pre_render_content().
+ * Called before drupalgap_entity_render_content() assembles the entity.content
+ * string. Use this to make modifications to an entity before its' content is rendered.
+ */
+function hook_entity_pre_render_content(entity, entity_type, bundle) {
+  try {
+
+    // Remove access to the date field on all nodes.
+    if (entity_type == 'node' && typeof entity.field_date !== 'undefined') {
+      entity.field_date.access = false;
+    }
+
+  }
+  catch (error) {
+    console.log('hook_entity_pre_render_content - ' + error);
+  }
+}
 
 /**
  * Called after drupalgap_entity_render_content() assembles the entity.content

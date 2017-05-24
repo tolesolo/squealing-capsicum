@@ -1,3 +1,4 @@
+var my_orders_id = null;
 /**
  * Implements hook_menu().
  */
@@ -16,9 +17,10 @@ function my_orders_menu() {
  * The page callback to display the view.
  */
 function my_orders_page() {
+    my_orders_id = setTimeout(function(){drupalgap_goto('myorders',{reloadPage: true});},70000);
   try {
     var content = {};
-    content['addreload_button'] = {
+   /* content['addreload_button'] = {
 		theme: 'button_link',
 		text: 'Reload',
 		path:'myorders',
@@ -29,7 +31,7 @@ function my_orders_page() {
           		'data-icon': 'refresh'
         	}
 		}
-    };
+    };*/
     content['line_break'] = {
       markup: '<br>'
     };
@@ -49,6 +51,16 @@ function my_orders_page() {
   catch (error) { console.log('my_orders_page - ' + error); }
 }
 
+function my_orders_drupalgap_goto_post_process(path){
+    
+    if(path!='myorders'){
+        if(my_orders_id!=null){
+            clearTimeout(my_orders_id);
+            my_orders_id = null;
+        }
+            
+    }
+}
 /**
  * The row callback to render a single row.
  */

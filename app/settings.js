@@ -102,7 +102,7 @@ Drupal.settings.cache.views = {
 // DrupalGap Mode (defaults to 'web-app')
 //  'web-app' - use this mode to build a web application for a browser window
 //  'phonegap' - use this mode to build a mobile application with phonegap
-drupalgap.settings.mode = 'web-app';
+drupalgap.settings.mode = 'phonegap';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {
@@ -133,6 +133,7 @@ drupalgap.settings.exit_message = 'Keluar ' + drupalgap.settings.title + '?';
 
 // Loader Animations - http://demos.jquerymobile.com/1.4.0/loader/
 drupalgap.settings.loader = {
+  enabled: true,
   loading: {
     text: 'Loading...',
     textVisible: true,
@@ -182,23 +183,26 @@ Drupal.modules.custom['my_saran'] = {};
 Drupal.modules.custom['howtotopup'] = {};
 Drupal.modules.custom['howtowithdraw'] = {};
 Drupal.modules.custom['saldowallet'] = {};
+Drupal.modules.custom['saldowalletblock'] = {};
+Drupal.modules.custom['saldowalletjqm'] = {};
 Drupal.modules.custom['faq_page'] = {};
 Drupal.modules.custom['push_notifications'] = {};
 Drupal.modules.custom['dashboardv2'] = {};
-Drupal.modules.custom['get_med_lokasi'] = {};
-Drupal.modules.custom['kategori_get_medSurabaya'] = {};
-Drupal.modules.custom['get_med_product_98'] = {};
-Drupal.modules.custom['get_med_product_100'] = {};
-Drupal.modules.custom['get_med_product_97'] = {};
-Drupal.modules.custom['get_med_product_99'] = {};
-Drupal.modules.custom['get_med_product_101'] = {};
-Drupal.modules.custom['get_snack_lokasi'] = {};
-Drupal.modules.custom['kategori_get_snackSurabaya'] = {};
-Drupal.modules.custom['get_snack_makan_surabaya'] = {};
-Drupal.modules.custom['get_snack_minum_surabaya'] = {};
-Drupal.modules.custom['get_eat_lokasi'] = {};
+
+//menampilkan halaman toko terdekat
 Drupal.modules.custom['find_eat_nearest'] = {};
-Drupal.modules.custom['get_eat_produk'] = {};
+Drupal.modules.custom['find_med_nearest'] = {};
+Drupal.modules.custom['find_musicgear_nearest'] = {};
+Drupal.modules.custom['find_toys_nearest'] = {};
+Drupal.modules.custom['find_snack_nearest'] = {};
+
+//menampilkan produk-produk dari toko tersebut menurut user id (uid)
+Drupal.modules.custom['get_eat'] = {};
+Drupal.modules.custom['get_med'] = {};
+Drupal.modules.custom['get_musicgear'] = {};
+Drupal.modules.custom['get_snack'] = {};
+Drupal.modules.custom['get_toys'] = {};
+
 Drupal.modules.custom['commerce_pembayaran'] = {};
 Drupal.modules.custom['commerce_thankyou'] = {};
 Drupal.modules.contrib['commerce'] = {};
@@ -286,6 +290,43 @@ drupalgap.settings.menus['user_menu_authenticated'] = {
         reloadPage:true,
         attributes:{
           'data-icon':'shop'
+        }
+      }
+    },
+    {
+      title:'Saldo test',
+      path:'saldowalletjqm',
+      options:{
+        reloadPage:true,
+        attributes:{
+          'data-icon':'shop'
+        }
+      }
+    },
+    {
+      title: 'Cara TopUp',
+      path: 'topup',
+      options: {
+        attributes: {
+          'data-icon': 'plus'
+        }
+      }
+    },
+    {
+      title: 'Cara Tarik dana',
+      path: 'how_to_withdraw',
+      options: {
+        attributes: {
+          'data-icon': 'minus'
+        }
+      }
+    },
+    {
+      title: 'FAQ',
+      path: 'faqpage',
+      options: {
+        attributes: {
+          'data-icon': 'info'
         }
       }
     },
@@ -423,7 +464,13 @@ drupalgap.settings.blocks.gettranzv2 = {
     main_menu: { }
   },
   sub_header: {
-    title: { }
+//    title: { },
+    saldoblock: { 
+       pages: {
+        value: ['saldo', 'user/login', 'user/register'],
+        mode: 'exclude'
+      }
+    }
   },
   navigation: {
     primary_local_tasks: { }
@@ -456,7 +503,7 @@ drupalgap.settings.menus.regions = {}; // Do not remove this line.
 // Header Region Links
 drupalgap.settings.menus.regions['header'] = {
   links:[
-    /* Main Menu Popup Menu Button */
+    /* Main Menu Popup Menu Button 
     {
       options: {
         popup: true,
@@ -469,6 +516,22 @@ drupalgap.settings.menus.regions['header'] = {
       roles: {
         value: ['anonymous user'],
         mode: 'exclude',
+      }
+    },*/
+    /* Back Button */
+    {
+      options: {
+        reloadPage:true,
+        attributes: {
+          'data-icon': 'back',
+          'data-iconpos': 'notext',
+          'class': 'ui-btn-left',
+          'onclick': 'javascript:drupalgap_back();'
+        }
+      },
+      pages: {
+        value: ['','node/*','myorders', 'checkout/complete/*'],
+        mode: 'exclude'
       }
     },
     /* Home Button */
@@ -522,22 +585,6 @@ drupalgap.settings.menus.regions['header'] = {
 // Footer Region Links
 drupalgap.settings.menus.regions['footer'] = {
   links: [
-    /* Back Button */
-    {
-      options: {
-        reloadPage:true,
-        attributes: {
-          'data-icon': 'back',
-          'data-iconpos': 'notext',
-          'class': 'ui-btn-left',
-          'onclick': 'javascript:drupalgap_back();'
-        }
-      },
-      pages: {
-        value: ['','node/*','myorders', 'checkout/complete/*'],
-        mode: 'exclude'
-      }
-    }
   ]
 };
 

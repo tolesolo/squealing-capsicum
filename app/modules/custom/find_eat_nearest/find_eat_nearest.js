@@ -4,6 +4,7 @@ var _find_eat_nearest_user_longitude = null;
 var _find_eat_nearest_map = null;
 var _last_time = null;
 var _marker = null;
+var _watch = null;
 /**
  * Implements hook_menu().
  */
@@ -20,6 +21,29 @@ function find_eat_nearest_menu() {
   catch (error) { console.log('find_eat_nearest_menu - ' + error); }
 }
 
+function find_eat_nearest_drupalgap_back(from,to){
+    if(from == 'eat_nearest'){
+        find_eat_nearest_map_clean_data();
+    }
+    if(to== 'eat_nearest'){
+        if(_watch==null){
+            process_eatmap();
+            _watch = navigator.geolocation.watchPosition(locationoneatsuccess,geolocationeatonerror,{ maximumAge: 60000, timeout: 60000, enableHighAccuracy: true });
+        }
+    }
+    
+}
+function find_eat_nearest_drupalgap_goto_post_process(path){
+    if(path != 'eat_nearest'){
+        find_eat_nearest_map_clean_data();
+    }
+    else{
+        if(_watch==null){
+            process_eatmap();        
+            _watch = navigator.geolocation.watchPosition(locationoneatsuccess,geolocationeatonerror,{ maximumAge: 60000, timeout: 60000, enableHighAccuracy: true });
+        }
+    }
+}
 /**
  * The map page callback.
  */
@@ -46,36 +70,37 @@ function find_eat_nearest_map() {
   title: 'Restaurants',
   items: [],
   attributes: {
-    id: 'location_results_list'
+    id: 'location_eat_results_list'
   }
 };
-  /*  content['map2'] = {
-        markup:'<script>setInterval(_find_eat_nearest_map_button_click(),10000)</script>'
-    }
-*/
+  
     return content;
   }
   catch (error) { console.log('find_eat_nearest_map - ' + error); }
 }
 
-/**
- * The map pageshow callback.
- */
-function find_eat_nearest_map_pageshow() {
+function find_eat_nearest_map_clean_data(){
+    if(_watch != null)
+        navigator.geolocation.clearWatch(_watch);
     _find_eat_nearest_map = null;
     _marker = null;
     _last_time = null;
-  process_map();
-  navigator.geolocation.watchPosition(locationonsuccess,geolocationonerror,{ maximumAge: 60000, timeout: 60000, enableHighAccuracy: true });
+    _watch = null;    
+}
+/**
+ * The map pageshow callback.
+ */
+function find_eat_nearest_map_pageshow() {    
+    
 }
 
-function locationonsuccess(position){
+function locationoneatsuccess(position){
     // Success.
 var d = new Date();
 var tmp = d.getTime();
 if(_last_time==null) _last_time = tmp;
 else{
-    if( ((tmp-_last_time)/1000) >20){
+    if( ((tmp-_last_time)/1000) >300){
         _last_time = tmp;
     }
     else return '';
@@ -120,7 +145,7 @@ else{
             _marker = new google.maps.Marker({
                 position: myLatlng,
                 map: _find_eat_nearest_map,
-                icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                icon: 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png'
             });
         }
         else
@@ -130,7 +155,7 @@ else{
          
 }
 
-function geolocationonerror(error){
+function geolocationeatonerror(error){
     // Error
         
         // Provide debug information to developer and user.
@@ -155,13 +180,13 @@ function geolocationonerror(error){
         }
 
 }
-function process_map(){
+function process_eatmap(){
     try {
         
     navigator.geolocation.getCurrentPosition(
-      locationonsuccess
+      locationoneatsuccess
       ,
-      geolocationonerror
+      geolocationeatonerror
       ,
       
       // Options
@@ -189,7 +214,7 @@ function _find_eat_nearest_map_button_click() {
           
           if (data.nodes.length == 0) {
             var items = [];
-            drupalgap_item_list_populate("#location_results_list", items);
+            drupalgap_item_list_populate("#location_eat_results_list", items);
             drupalgap_alert('Maaf, tidak ada restaurant ditemukan!');            
             return;
           }
@@ -209,7 +234,7 @@ function _find_eat_nearest_map_button_click() {
                '<p>' + row.namavendor + '<br>' +
                row.alamat + '<br>' +
                 row.phone + ' ' + row.hp + '</p>' ;
-              var link = l(description, 'menueatjson/' + row.uid);
+              var link = l(description, 'eatjson/' + row.uid);
               items.push(link);
               
               // Add a marker on the map for the location.
@@ -221,7 +246,7 @@ function _find_eat_nearest_map_button_click() {
               });
               
           });
-          drupalgap_item_list_populate("#location_results_list", items);
+          drupalgap_item_list_populate("#location_eat_results_list", items);
 
         }
     });

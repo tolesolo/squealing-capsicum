@@ -19,7 +19,7 @@ function drupalgap_goto(path) {
       }
     }
     drupalgap.page.options = options;
-
+    drupalgap_alert("ARGUMENTS: " + arguments);
     // Prepare the path.
     path = _drupalgap_goto_prepare_path(path, true);
     if (!path) { return false; }
@@ -65,7 +65,7 @@ function drupalgap_goto(path) {
     if (
       drupalgap.menu_links[router_path].type != 'MENU_DEFAULT_LOCAL_TASK' &&
       drupalgap.menu_links[router_path].type != 'MENU_LOCAL_TASK' &&
-      !drupalgap_menu_access(router_path)
+      !drupalgap_menu_access(router_path, path)
     ) {
       path = '401';
       router_path = drupalgap_get_menu_link_router_path(path);
@@ -88,7 +88,7 @@ function drupalgap_goto(path) {
       // @see system_drupalgap_goto_post_process()
       else if (options.reloadPage) {
         _system_reload_page = path;
-        path = '_reload';
+        path = '_reload';console.log("OPTIONS: " + options);
         router_path = drupalgap_get_menu_link_router_path(path);
       }
 
@@ -132,6 +132,7 @@ function drupalgap_goto(path) {
     // page and we're not in the middle of a form submission, prevent the page
     // from processing then change to it.
     if (drupalgap_page_in_dom(page_id)) {
+
       // If there are any hook_menu() item options for this router path, bring
       // them into the current options without overwriting any existing values.
       if (drupalgap.menu_links[router_path].options) {
@@ -141,6 +142,7 @@ function drupalgap_goto(path) {
           options
         );
       }
+
       // Reload the page? If so, remove the page from the DOM, delete the
       // reloadPage option, then set the reloadingPage option to true so others
       // down the line will know the page is reloading. We can't pass along the
@@ -179,13 +181,7 @@ function drupalgap_goto(path) {
     }
 
     // Generate the page.
-    drupalgap_goto_generate_page_and_go(
-      path,
-      page_id,
-      options,
-      drupalgap.menu_links[router_path]
-    );
-
+    drupalgap_goto_generate_page_and_go(path, page_id, options, drupalgap.menu_links[router_path]);
   }
   catch (error) { console.log('drupalgap_goto - ' + error); }
 }
@@ -201,71 +197,54 @@ function drupalgap_goto(path) {
  * @param {Object} options
  * @param {Object} menu_link The menu link object from drupalgap.menu_links.
  */
-function drupalgap_goto_generate_page_and_go(
-  path, page_id, options, menu_link) {
+function drupalgap_goto_generate_page_and_go(path, page_id, options, menu_link) {
   try {
-    var page_template_path = path_to_theme() + '/page.tpl.html';
-    if (!drupalgap_file_exists(page_template_path)) {
-      console.log(
-        'drupalgap_goto_generate_page_and_go - ' +
-        'page template does not exist! (' + page_template_path + ')'
-      );
-    }
+
+    // First see if the theme implements hook_page_tpl_html() and use its string for the page placeholders,
+    // otherwise use the file read method from DrupalGap's early days, and notify the developer to upgrade
+    // their theme.
+    var html = '';
+    var themeName = drupalgap.settings.theme;
+    var pageTplHtmlFunctionName = themeName + '_page_tpl_html';
+    if (function_exists(pageTplHtmlFunctionName)) { html = window[pageTplHtmlFunctionName](); }
     else {
-
-      // Reset the internal query string.
-      _drupalgap_goto_query_string = null;
-
-      // If options wasn't set, set it as an empty JSON object.
-      if (typeof options === 'undefined') { options = {}; }
-
-      // Load the page template html file. Determine if we are going to cache
-      // the template file or not.
-      var file_options = {};
-      if (drupalgap.settings.cache &&
-          drupalgap.settings.cache.theme_registry !== 'undefined' &&
-          !drupalgap.settings.cache.theme_registry) {
-          file_options.cache = false;
-       }
-      var html = drupalgap_file_get_contents(page_template_path, file_options);
-
-      if (html) {
-
-        // Add page to DOM.
-        drupalgap_add_page_to_dom({
-            page_id: page_id,
-            html: html,
-            menu_link: menu_link
-        });
-
-        // Setup change page options if necessary.
-        if (drupalgap_path_get() == path && options.form_submission) {
-          options.allowSamePageTransition = true;
-        }
-
-        // Let's change to the page. Web apps and the ripple emulator do not
-        // seem to like the 'index.html' prefix, so we'll remove that.
-        var destination = 'index.html#' + page_id;
-        if (
-          drupalgap.settings.mode != 'phonegap' ||
-          typeof parent.window.ripple === 'function'
-        ) { destination = '#' + page_id; }
-        $.mobile.changePage(destination, options);
-
-        // Invoke all implementations of hook_drupalgap_goto_post_process().
-        module_invoke_all('drupalgap_goto_post_process', path);
-      }
-      else {
-        drupalgap_alert(
-          'drupalgap_goto_generate_page_and_go - ' +
-          t('failed to load theme\'s page.tpl.html file')
-        );
-      }
+      var pageTemplatePath = path_to_theme() + '/page.tpl.html';
+      console.log('@deprecated: ' + pageTemplatePath + ' - use ' + pageTplHtmlFunctionName + '() in ' +
+          themeName + '.js instead, see: http://docs.drupalgap.org/7/Themes/Create_a_Custom_Theme');
+      html = drupalgap_file_get_contents(pageTemplatePath);
     }
+
+    // Reset the internal query string.
+    _drupalgap_goto_query_string = null;
+
+    // If options wasn't set, set it as an empty JSON object.
+    if (typeof options === 'undefined') { options = {}; }
+
+    // Add page to DOM.
+    drupalgap_add_page_to_dom({
+      page_id: page_id,
+      html: html,
+      menu_link: menu_link
+    });
+
+    // Setup change page options if necessary.
+    if (drupalgap_path_get() == path && options.form_submission) {
+      options.allowSamePageTransition = true;
+    }
+
+    // Let's change to the page. Web apps and the ripple emulator do not
+    // seem to like the 'index.html' prefix, so we'll remove that.
+    var destination = 'index.html#' + page_id;
+    if (
+        drupalgap.settings.mode != 'phonegap' ||
+        typeof parent.window.ripple === 'function'
+    ) { destination = '#' + page_id; }
+    $.mobile.changePage(destination, options); // @see the pagebeforechange handler in page.inc.js
+
+    // Invoke all implementations of hook_drupalgap_goto_post_process().
+    module_invoke_all('drupalgap_goto_post_process', path);
   }
-  catch (error) {
-    console.log('drupalgap_goto_generate_page_and_go - ' + error);
-  }
+  catch (error) { console.log('drupalgap_goto_generate_page_and_go - ' + error); }
 }
 
 /**
@@ -362,6 +341,27 @@ function drupalgap_back() {
     else { _drupalgap_back(); }
   }
   catch (error) { console.log('drupalgap_back - ' + error); }
+}
+
+/**
+ * The DrupalGap "Back to the Future" function goes forward to the previous page by first
+ * removing that page from the DOM, then going "forward" to that page using drupalgap_goto()
+ * with a reloadPage option set to true.
+ */
+function drupalgap_back_2tf() {
+  var back = drupalgap_back_path();
+  drupalgap_remove_page_from_dom(drupalgap_get_page_id(back));
+  drupalgap_goto(back, { reloadPage: true });
+}
+
+/**
+ * Returns the previous page path, or the front page if there is none.
+ * @returns {String}
+ */
+function drupalgap_back_path() {
+  return drupalgap.back_path.length ?
+      drupalgap.back_path[drupalgap.back_path.length - 1] :
+      drupalgap.settings.front;
 }
 
 /**

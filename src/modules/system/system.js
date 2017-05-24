@@ -347,7 +347,7 @@ function offline_try_again() {
       });
     }
     else {
-      var msg = t('Sorry, no connection found!') + ' (' + connection + ')';
+      var msg = t('Maaf, koneksi ke server gagal!') + ' (' + connection + ')';
       drupalgap_alert(msg, {
           title: 'Offline'
       });

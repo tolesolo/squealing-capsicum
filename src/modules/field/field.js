@@ -32,18 +32,19 @@ function drupalgap_field_info_fields() {
 function drupalgap_field_info_instance(entity_type, field_name, bundle_name) {
   try {
     var instances = drupalgap_field_info_instances(entity_type, bundle_name);
+    var warningPrefix = 'WARNING: drupalgap_field_info_instance - ';
     if (!instances) {
-      var msg = 'WARNING: drupalgap_field_info_instance - instance was null ' +
-      'for entity (' + entity_type + ') bundle (' + bundle_name + ') using ' +
-      'field (' + field_name + ')';
-      console.log(msg);
+      console.log(
+        warningPrefix +
+        'instance was null for entity (' + entity_type + ') bundle (' + bundle_name + ') using field (' + field_name + ')'
+      );
       return null;
     }
     if (!instances[field_name]) {
-      var msg = 'WARNING: drupalgap_field_info_instance - ' +
-        '"' + field_name + '" does not exist for entity (' + entity_type + ')' +
-        ' bundle (' + bundle_name + ')';
-      console.log(msg);
+      console.log(
+          warningPrefix +
+          '"' + field_name + '" does not exist for entity (' + entity_type + ') bundle (' + bundle_name + ')'
+      );
       return null;
     }
     return instances[field_name];
@@ -60,27 +61,20 @@ function drupalgap_field_info_instance(entity_type, field_name, bundle_name) {
  */
 function drupalgap_field_info_instances(entity_type, bundle_name) {
   try {
-    var field_info_instances;
+    var instances = drupalgap.field_info_instances;
+    if (!instances) { return null; }
+    var field_info_instances = null;
     // If there is no bundle, pull the fields out of the wrapper.
     // @TODO there appears to be a special case with commerce_products, in that
     // they aren't wrapped like normal entities (see the else statement when a
     // bundle name isn't present). Or do we have a bug here, and we shouldn't
     // be expecting the wrapper in the first place?
     if (!bundle_name) {
-      if (entity_type == 'commerce_product') {
-        field_info_instances =
-          drupalgap.field_info_instances[entity_type];
-      }
-      else {
-        field_info_instances =
-          drupalgap.field_info_instances[entity_type][entity_type];
-      }
+      field_info_instances = entity_type == 'commerce_product' ?
+          instances[entity_type] : instances[entity_type][entity_type];
     }
-    else {
-      if (typeof drupalgap.field_info_instances[entity_type] !== 'undefined') {
-        field_info_instances =
-          drupalgap.field_info_instances[entity_type][bundle_name];
-      }
+    else if (typeof instances[entity_type] !== 'undefined') {
+      field_info_instances = instances[entity_type][bundle_name];
     }
     return field_info_instances;
   }
@@ -183,7 +177,7 @@ function drupalgap_field_info_instances_add_to_form(entity_type, bundle, form, e
           // and then available during hook_field_widget_form() and the form
           // submission process.
           var fn = field.widget.module + '_field_info_instance_add_to_form';
-          if (drupalgap_function_exists(fn)) {
+          if (function_exists(fn)) {
             window[fn](entity_type, bundle, form, entity, form.elements[name]);
           }
 
@@ -580,6 +574,12 @@ function options_field_widget_form(form, form_state, field, instance, langcode, 
             if (instance.default_value && instance.default_value[delta] &&
               typeof instance.default_value[delta].value !== 'undefined') {
                 items[delta].value = instance.default_value[delta].value;
+                if (items[delta].required) {
+                  delete items[delta].options[''];
+                }
+                if (items[delta].item && typeof items[delta].item.value !== 'undefined') {
+                  items[delta].value = items[delta].item.value;
+                }
             }
           }
         }
@@ -710,8 +710,15 @@ function text_field_widget_form(form, form_state, field, instance, langcode, ite
       case 'text_with_summary':
       case 'text_textarea':
         type = 'textarea';
+        break;
     }
     items[delta].type = type;
+
+    // If the item has a value and its attribute value hasn't yet been set, then set the attribute value.
+    if (
+        typeof items[delta].value !== 'undefined' &&
+        typeof items[delta].options.attributes.value === 'undefined'
+    ) { items[delta].options.attributes.value = items[delta].value; }
   }
   catch (error) { console.log('text_field_widget_form - ' + error); }
 }

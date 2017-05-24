@@ -192,7 +192,7 @@ function drupalgap_get_page_id(path) {
 }
 
 /**
- * Given a page id, the theme's page.tpl.html string, and the menu link object
+ * Given a page id, the theme's hook_TYPE_tpl_html() string, and the menu link object
  * (all bundled in options) this takes the page template html and adds it to the
  * DOM. It doesn't actually render the page, that is taken care of by the
  * pagebeforechange handler.
@@ -209,10 +209,9 @@ function drupalgap_add_page_to_dom(options) {
       id: options.page_id,
       'data-role': 'page'
     };
-    attributes =
-      $.extend(true, attributes, options.menu_link.options.attributes);
-    attributes['class'] +=
-      ' ' + drupalgap_page_class_get(drupalgap.router_path);
+    attributes = $.extend(true, attributes, options.menu_link.options.attributes);
+    attributes['class'] += ' ' + drupalgap_page_class_get(drupalgap.router_path);
+    module_invoke_all('add_page_to_dom_alter', attributes, options);
     options.html = options.html.replace(
       /{:drupalgap_page_attributes:}/g,
       drupalgap_attributes(attributes)
@@ -241,7 +240,11 @@ function drupalgap_remove_page_from_dom(page_id) {
     var options = {};
     if (typeof arguments[1] !== 'undefined') { options = arguments[1]; }
     if (current_page_id != page_id || options.force) {
+      var currentPage = $('#' + current_page_id);
+      // Preserve and re-apply style to current page, @see https://github.com/signalpoint/DrupalGap/issues/837
+      var style = $(currentPage).attr('style');
       $('#' + page_id).empty().remove();
+      if (style) { $(currentPage).attr('style', style); }
       var page_index = drupalgap.pages.indexOf(page_id);
       if (page_index > -1) { drupalgap.pages.splice(page_index, 1); }
       // We'll remove the query string, unless we were instructed to leave it.
@@ -266,9 +269,10 @@ function drupalgap_remove_page_from_dom(page_id) {
 function drupalgap_remove_pages_from_dom() {
   try {
     var current_page_id = drupalgap_get_page_id(drupalgap_path_get());
-    for (var index in drupalgap.pages) {
-        if (!drupalgap.pages.hasOwnProperty(index)) { continue; }
-        var page_id = drupalgap.pages[index];
+    var pages = drupalgap.pages.slice(0);
+    for (var index in pages) {
+        if (!pages.hasOwnProperty(index)) { continue; }
+        var page_id = pages[index];
         if (current_page_id != page_id) {
           drupalgap_remove_page_from_dom(page_id, null, current_page_id);
         }
@@ -361,121 +365,8 @@ function drupalgap_jqm_active_page_url() {
  */
 function drupalgap_render_page() {
   try {
-
     module_invoke_all('page_build', drupalgap.output);
-
-    // Since the page output has already been assembled, render the content
-    // based on the output type. The output type will either be an html string
-    // or a drupalgap render object.
-    var output = drupalgap.output;
-    var output_type = $.type(output);
-    var content = '';
-
-    // If the output came back as a string, we can render it as is. If the
-    // output came back as on object, render each element in it through the
-    // theme system.
-    if (output_type === 'string') {
-      // The page came back as an html string.
-      content = output;
-    }
-    else if (output_type === 'object') {
-      // The page came back as a render object. Let's define the names of
-      // variables that are reserved for theme processing.
-      var render_variables = ['theme', 'view_mode', 'language'];
-
-      // Is there a theme value specified in the output and the registry?
-      if (output.theme && drupalgap.theme_registry[output.theme]) {
-
-        // Extract the theme object template and determine the template file
-        // name and path.
-        var template = drupalgap.theme_registry[output.theme];
-        var template_file_name = output.theme.replace(/_/g, '-') + '.tpl.html';
-        var template_file_path = template.path + '/' + template_file_name;
-
-        // Make sure the template file exists.
-        if (drupalgap_file_exists(template_file_path)) {
-
-          // Loads the template file's content into a string.
-          var template_file_html = drupalgap_file_get_contents(
-            template_file_path
-          );
-          if (template_file_html) {
-
-            // What variable placeholders are present in the template file?
-            var placeholders = drupalgap_get_placeholders_from_html(
-              template_file_html
-            );
-            if (placeholders) {
-
-              // Replace each placeholder with html.
-              // @todo - each placeholder should have its own container div and
-              // unique id.
-              for (var index in placeholders) {
-                  if (!placeholders.hasOwnProperty(index)) { continue; }
-                  var placeholder = placeholders[index];
-                  var html = '';
-                  if (output[placeholder]) {
-                    // Grab the element variable from the output.
-                    var element = output[placeholder];
-                    // If it is markup, render it as is, if it is themeable,
-                    // then theme it.
-                    if (output[placeholder].markup) {
-                      html = output[placeholder].markup;
-                    }
-                    else if (output[placeholder].theme) {
-                      html = theme(output[placeholder].theme, element);
-                    }
-                    // Now remove the variable from the output.
-                    delete output[placeholder];
-                  }
-                  // Now replace the placeholder with the html, even if it was
-                  // empty.
-                  template_file_html = template_file_html.replace(
-                    '{:' + placeholder + ':}',
-                    html
-                  );
-              }
-            }
-            else {
-              // There were no place holders found, do nothing, ok.
-            }
-
-            // Finally add the rendered template file to the content.
-            content += template_file_html;
-          }
-          else {
-            console.log(
-              'drupalgap_render_page - failed to get file contents (' +
-                template_file_path +
-              ')'
-            );
-          }
-        }
-        else {
-          console.log(
-            'drupalgap_render_page - template file does not exist (' +
-              template_file_path +
-              ')'
-            );
-        }
-      }
-
-      // Iterate over any remaining variables and theme them.
-      // @todo - each remaining variables should have its own container div and
-      // unique id, similar to the placeholder div containers mentioned above.
-      for (var element in output) {
-        if (!output.hasOwnProperty(element)) { continue; }
-        var variables = output[element];
-        if ($.inArray(element, render_variables && typeof variables.theme !== 'undefined') == -1) {
-          content += theme(variables.theme, variables);
-        }
-      }
-    }
-
-    // Now that we are done assembling the content into an html string, we can
-    // return it.
-    return content;
+    return drupalgap_render(drupalgap.output);
   }
   catch (error) { console.log('drupalgap_render_page - ' + error); }
 }
-

@@ -165,6 +165,7 @@ function comment_edit(form, form_state, comment, node) {
     var bundle = 'comment_node_' + node_type;
 
     // Setup form defaults.
+    form.id += '_' + comment.nid;  // Append the node id the comment form id.
     form.entity_type = 'comment';
     form.bundle = bundle;
     form.action = 'node/' + comment.nid;
@@ -251,9 +252,9 @@ function comment_services_postprocess(options, result) {
                     $(container).append(
                       theme('comment', { comment: comment })
                     ).trigger('create');
-                    scrollToElement('#' + container_id + ' :last-child', 500);
+                    scrollToElement('#' + container_id + ' #' + comment_container_id(comment.cid), 500);
                     var form_selector = '#' + drupalgap_get_page_id() +
-                      ' #comment_edit';
+                      ' #comment_edit' + '_' + comment.nid;
                     drupalgap_form_clear(form_selector);
                   }
               });

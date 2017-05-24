@@ -61,13 +61,16 @@
     <gap:plugin name="cordova-plugin-geolocation" source="npm" />
     <gap:plugin name="cordova-plugin-push-notification " source="npm" /> -->
    <!-- this version -->
-   <plugin name="cordova-plugin-device" spec="1.1.2" />
-   <plugin name="cordova-plugin-geolocation" spec="2.2.0" />
-   <plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
-   <plugin name="cordova-plugin-network-information" spec="1.2.1" />
-   <plugin name="cordova-plugin-push-notification " spec="2.5.2" />
-   <plugin name="cordova-plugin-vibration" spec="2.1.1" />
-   <plugin name="cordova.plugins.diagnostic.api-22" source="npm" />
+   
+   <plugin spec="https://github.com/fastrde/phonegap-checkGPS.git#3725722" />
+<plugin name="cordova-plugin-device" spec="1.1.2" />
+<plugin name="cordova-plugin-geolocation" spec="2.2.0" />
+<plugin name="cordova-plugin-inappbrowser" spec="1.4.0" />
+<plugin name="cordova-plugin-network-information" spec="1.2.1" />
+<plugin name="cordova-plugin-push-notification " spec="2.5.2" />
+<plugin name="cordova-plugin-vibration" spec="2.1.1" />
+<plugin name="cordova-plugin-whitelist" spec="1.2.2" />
+<plugin name="cordova.plugins.diagnostic.api-22" spec="2.3.10-api-22" />
    
    
    <!--all plugin example
@@ -102,7 +105,6 @@
     <plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/timkim/phonegap-plugin-barcodescanner" />
     <plugin name="phonegap-plugin-mobile-accessibility" spec="~1.0.4" />
     <plugin name="com.wikitude.phonegap.WikitudePlugin" spec="https://github.com/timkim/wikitude-cordova-plugin.git#devApp" /> -->
-    <plugin spec="https://github.com/fastrde/phonegap-checkGPS.git" />
     <!--<plugin spec="https://github.com/Moussawi7/Cordova-SettingOpener" />-->
     
     

@@ -170,10 +170,7 @@ function _theme_autocomplete(list, e, data, autocomplete_id) {
     // Clear the list.
     $ul.html('');
     // If a value has been input, start the autocomplete search.
-    if (value && value.length > 0 && !autocomplete._searching) {
-
-      autocomplete._searching = true;
-
+    if (value && value.length > 0) {
       // Show the loader icon.
       $ul.html('<li><div class="ui-loader">' +
         '<span class="ui-icon ui-icon-loading"></span>' +
@@ -185,8 +182,6 @@ function _theme_autocomplete(list, e, data, autocomplete_id) {
       _theme_autocomplete_success_handlers[autocomplete_id] = function(
         _autocomplete_id, result_items, _wrapped, _child) {
         try {
-
-          autocomplete._searching = false;
 
           // If there are no results, and then if an empty callback handler was
           // provided, call it.
@@ -300,7 +295,7 @@ function _theme_autocomplete(list, e, data, autocomplete_id) {
           var field_settings =
             autocomplete.field_info_field.settings;
           var index_resource = field_settings.target_type + '_index';
-          if (!function_exists(index_resource)) {
+          if (!drupalgap_function_exists(index_resource)) {
             console.log('WARNING - _theme_autocomplete - ' +
               index_resource + '() does not exist!'
             );
@@ -345,8 +340,9 @@ function _theme_autocomplete(list, e, data, autocomplete_id) {
               entity_primary_key_title(autocomplete.entity_type)
             ];
             if (autocomplete.entity_type == 'taxonomy_term') {
-              if (autocomplete.vid) { query.parameters['vid'] = autocomplete.vid; }
-              if (autocomplete.parent) { query.parameters['parent'] = autocomplete.parent; }
+              if (autocomplete.vid) {
+                query.parameters['vid'] = autocomplete.vid;
+              }
             }
             query.fields = fields;
             query.parameters[autocomplete.filter] = '%' + value + '%';
@@ -449,7 +445,7 @@ function _theme_autocomplete_click(id, item, autocomplete_id) {
     // Now fire the item onclick handler, if one was provided.
     if (
       _theme_autocomplete_variables[autocomplete_id].item_onclick &&
-      function_exists(
+      drupalgap_function_exists(
         _theme_autocomplete_variables[autocomplete_id].item_onclick
       )
     ) {
@@ -475,3 +471,4 @@ function _theme_autocomplete_set_default_value_label(options) {
     console.log('_theme_autocomplete_set_default_value_label - ' + error);
   }
 }
+

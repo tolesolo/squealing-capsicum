@@ -2,7 +2,7 @@
  * Implements hook_form_alter().
  */
 function email_registration_form_alter(form, form_state, form_id) {
-  try {console.log("FORM ALTER");console.log(form);
+  try {
     if (form_id == 'user_login_form') {
       form.elements['name'].type = 'email';
       form.elements['name'].title = 'E-mail';

@@ -23,7 +23,7 @@ function user_login_form(form, form_state) {
       title_placeholder: true,
       required: true,
       attributes: {
-        onkeypress: "drupalgap_form_onkeypress('" + form.id + "', event)"
+        onkeypress: "drupalgap_form_onkeypress('" + form.id + "')"
       }
     };
     form.elements.submit = {
@@ -134,7 +134,7 @@ function user_register_form(form, form_state) {
     // Add submit button.
     form.elements.submit = {
       'type': 'submit',
-      'value': t('Create new account')
+      'value': t('Daftar Akaun Baru')
     };
     return form;
   }
@@ -151,12 +151,12 @@ function user_register_form_validate(form, form_state) {
     // If e-mail verification is not required, make sure the passwords match.
     if (!drupalgap.site_settings.user_email_verification &&
       form_state.values.pass != form_state.values.pass2) {
-      drupalgap_form_set_error('pass', t('Passwords do not match!'));
+      drupalgap_form_set_error('pass', t('Passwords salah!'));
     }
     // If there are two e-mail address fields on the form, make sure they match.
     if (!empty(form_state.values.mail) && !empty(form_state.values.conf_mail) &&
       form_state.values.mail != form_state.values.conf_mail
-    ) { drupalgap_form_set_error('mail', t('E-mail addresses do not match!')); }
+    ) { drupalgap_form_set_error('mail', t('Alamat E-mail salah!')); }
   }
   catch (error) {
     console.log('user_register_form_validate - ' + error);
@@ -369,7 +369,7 @@ function user_pass_form(form, form_state) {
       title: t('Username or e-mail address'),
       required: true,
       attributes: {
-        onkeypress: "drupalgap_form_onkeypress('" + form.id + "', event)"
+        onkeypress: "drupalgap_form_onkeypress('" + form.id + "')"
       }
     };
     form.elements['submit'] = {

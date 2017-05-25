@@ -16,7 +16,6 @@ files = src/dg.js\
                                 src/includes/render.inc.js\
                                 src/includes/theme.inc.js\
                                 src/includes/title.inc.js\
-                                src/includes/widget-grid.inc.js\
                                 src/modules/comment/comment.js\
                                 src/modules/contact/contact.js\
                                 src/modules/entity/entity.js\

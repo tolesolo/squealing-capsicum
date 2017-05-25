@@ -34,9 +34,6 @@ function dashboardv2_pageshow(){
     cordova.plugins.diagnostic.switchToLocationSettings();
   });
   //setTimeout(cordova.plugins.diagnostic.isGpsLocationEnabled(locationOn,locationOff),500);
-  
-
-  catch (error) { console.log('dashboardv2_pageshow - ' + error); }
 }
 
 function dashboardv2_page() {

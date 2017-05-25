@@ -1,3 +1,59 @@
+function _commerce_addressfield_inject_onto_pane(order) {
+  try {
+    console.log(drupalgap_router_path_get(), order);
+    switch (drupalgap_router_path_get()) {
+      case 'checkout/%':
+        // If there is billing information on the order, inject it into the address field.
+        if (order.commerce_customer_billing) {
+          _commerce_addressfield_inject_components(order, 'commerce_customer_billing');
+        }
+        break;
+      case 'checkout/shipping/%':
+        // If there is billing information on the order, inject it into the address field.
+        if (order.commerce_customer_shipping) {
+          _commerce_addressfield_inject_components(order, 'commerce_customer_shipping');
+        }
+        break;
+    }
+  }
+  catch (error) { console.log('_commerce_addressfield_inject_onto_pane', error); }
+}
+
+/**
+ * Given an order object and an address field machine name, this will inject the address
+ * components into the address widget on the current checkout pane.
+ * @param {Object} order
+ * @param {String} field_name
+ * @private
+ */
+function _commerce_addressfield_inject_components(order, field_name) {
+  var field_name_wrap = field_name + '_entities';
+  var address = order[field_name_wrap][order[field_name]]['commerce_customer_address'];
+  var form_id = drupalgap_router_path_get() == 'checkout/%' ? 'commerce_checkout_view' : 'commerce_checkout_shipping_view';
+  var addressfield_name = form_id == 'commerce_checkout_view' ? 'billing_information' : 'shipping_information';
+  var prefix = drupalgap_form_get_element_id(addressfield_name, form_id);
+  // @TODO use the new addressfield_inject_components() helper here instead!
+  $.each(address, function(component, value) {
+    var id = prefix + '-' + component;
+    var input = $('#' + id);
+    if (input.get(0)) {
+      // If the address' country differs from the widgets country, force change the
+      // country, which then in turn re triggers this via a services post process.
+      if (component == 'country' && value != 'US' && value != $(input).val()) {
+        $(input).val(value).selectmenu('refresh', true).change();
+        return false;
+      }
+      if ($(input).attr('type') == 'text') {
+        $(input).val(value);
+      }
+      else if ($(input).get(0).tagName == 'SELECT') {
+        $(input).val(value).selectmenu('refresh', true);
+      }
+    }
+  });
+}
+
+
 /**
  * Implements hook_block_info().
  */
@@ -167,84 +223,19 @@ function commerce_cart_container_id(entity_type, entity_id) {
   catch (error) { console.log('commerce_cart_container_id - ' + error); }
 }
 
-
 function commerce_checkout_complete_container_id(order_id) {
   return 'commerce_checkout_complete_' + order_id;
 }
+
 /**
  *
  */
 function commerce_checkout_complete_view(order_id) {
-  try {
-    commerce_order_load(order_id, {
-      success: function(order) {
-              
-    commerce_checkout_complete({
-      data: {
-        order_id: order_id,
-      },
-      success: function(result) {
-        var checkout_complete_html = '<div>Checkout Complete</div>';
-        $('#commerce_checkout_complete_' + order_id).html(checkout_complete_html).trigger('create');
-        
-        // return '<div id="' + commerce_checkout_complete_container_id(order_id) + '">heckout Complete</div>';
-      },
-      error: function(xhr, status, message) {
-        try {
-          if (options.error) {
-            options.error(xhr, status, message);
-          }
-        }
-        catch (error) {
-          console.log('commerce_checkout_complete - error - ' + error);
-        }
-      }
-    });
-    }})
-    return '<div id="commerce_checkout_complete_' + order_id + '"></div>';
-  }
-  catch (error) {
-    console.log('commerce_checkout_complete_view - ' + error);
-  }
-}
-
-
-/**
- *
- */
-function commerce_checkout_complete_view_pageshow(order_id) {
-  try {
-        
-    commerce_checkout_complete({
-      data: {
-        order_id: order_id,
-      },
-      success: function(result) {
-        var checkout_complete_html = '<div>Checkout Complete</div>';
-        $('#commerce_checkout_complete_' + order_id).html(checkout_complete_html).trigger('create');
-        
-        // return '<div id="' + commerce_checkout_complete_container_id(order_id) + '">heckout Complete</div>';
-      },
-      error: function(xhr, status, message) {
-        try {
-          if (options.error) {
-            options.error(xhr, status, message);
-          }
-        }
-        catch (error) {
-          console.log('commerce_checkout_complete - error - ' + error);
-        }
-      }
-    });
-    
-  }
-  catch (error) {
-    console.log('commerce_checkout_complete_view_pageshow - ' + error);
-  }
+  return '<div id="' + commerce_checkout_complete_container_id(order_id) + '"></div>';
 }
 
 /**
- * The checkout page.
+ * The billing page.
  */
 function commerce_checkout_view(form, form_state, order_id) {
   try {
@@ -252,130 +243,23 @@ function commerce_checkout_view(form, form_state, order_id) {
     // page, the drupalgap.commerce object may not be available yet. It's better
     // to set the front page to the cart page instead.
 
-    // @TODO - Need dynamic checkout pane retrieval here.
-    // @TODO - utilize the new addressfield form element available in addressfield.js
-
     // Order ID
     form.elements['order_id'] = {
       type: 'hidden',
       default_value: order_id
     };
-/*
-    // Billing Information
+
     form.elements['billing_information'] = {
-      title: 'Billing Information',
-      markup: ''
-    };
-    form.elements['billing_name_line'] = {
-      type: 'textfield',
-      title: 'Nama Lengkap',
-      required: true
-    };
-    // @TODO - need dynamic data fetching here.
-    form.elements['billing_country'] = {
-      title: 'Negara',
-      type: 'select',
-      options: {
-        'ID': 'Indonesia'
-      },
-      default_value: 'ID'
-    };
-    form.elements['billing_thoroughfare'] = {
-      type: 'textfield',
-      title: 'Alamat',
-      required: true
-    };
-    form.elements['billing_premise'] = {
-      type: 'textfield',
-      title: 'Handphone',
-      required: true
-    };
-    form.elements['billing_locality'] = {
-      title: 'Kota',
-      type: 'select',
-      options: {
-        'Surabaya': 'Surabaya'
-      },
-      default_value: 'Surabaya',
-      required: true
-    };
-    form.elements['billing_administrative_area'] = {
-      title: 'Propinsi',
-      type: 'select',
-      options: {
-        'JI': 'Jawa Timur',
-      },
-      default_value: 'JI',
-      required: true
-    };
-    form.elements['billing_postal_code'] = {
-      type: 'textfield',
-      title: 'Kode Pos',
-      required: false
-    };
-*/
-    // Shipping Information
-    form.elements['shipping_information'] = {
-      title: 'Shipping Information',
-      markup: ''
-    };
-/*    form.elements['customer_profile_copy'] = {
-      title: 'Same as Billing Information',
-      type: 'checkbox',
-      description: '',
-      default_value: 1,
-      options: {
-        attributes: {
-          onclick: '_commerce_checkout_customer_profile_copy_onclick()'
-        }
+      type: 'addressfield_form_element',
+      title: t('Billing information'),
+      default_country: 'US',
+      required: true,
+      value_callback: 'addressfield_field_value_callback',
+      components: {
+        name_line: true,
+        thoroughfare: true,
+        premise: true
       }
-    };
-    */
-    form.elements['shipping_name_line'] = {
-      type: 'textfield',
-      title: 'Nama Lengkap',
-      required: true
-    };
-    form.elements['shipping_country'] = {
-      title: 'Negara',
-      type: 'select',
-      options: {
-        'ID': 'Indonesia'
-      },
-      default_value: 'US'
-    };
-    form.elements['shipping_thoroughfare'] = {
-      type: 'textfield',
-      title: 'Alamat',
-      required: true
-    };
-    form.elements['shipping_premise'] = {
-      type: 'textfield',
-      title: 'Handphone',
-      required: true
-    };
-    form.elements['shipping_locality'] = {
-      title: 'Kota',
-      type: 'select',
-      options: {
-        'Surabaya': 'Surabaya'
-      },
-      default_value: 'Surabaya',
-      required: true
-    };
-    form.elements['shipping_administrative_area'] = {
-      title: 'Propinsi',
-      type: 'select',
-      options: {
-        'JI': 'Jawa Timur'
-      },
-      default_value: 'JI',
-      required: true
-    };
-    form.elements['shipping_postal_code'] = {
-      type: 'textfield',
-      title: 'Kode Pos',
-      required: false
     };
 
     // Buttons
@@ -384,6 +268,7 @@ function commerce_checkout_view(form, form_state, order_id) {
       value: 'Continue to next step'
     };
     form.buttons['cancel'] = drupalgap_form_cancel_button();
+    form.buttons['cancel'].title = t('Go back');
 
     return form;
   }
@@ -395,6 +280,13 @@ function commerce_checkout_view(form, form_state, order_id) {
  */
 function commerce_checkout_view_pageshow(form_id, order_id) {
   try {
+    // Load the order, so we can inject potential addressfield info
+    // into the pane via a services post process hook
+    commerce_order_load(order_id, {
+      success: function(order) {
+
+      }
+    });
     //commerce_checkout_customer_profile_copy_toggle();
   }
   catch (error) { console.log('commerce_checkout_view_pageshow - ' + error); }
@@ -407,7 +299,6 @@ function commerce_checkout_view_validate(form, form_state) {
   try {
     // If the shipping info checkbox is checked, fill in the shipping fields
     // with the billing fields.
-    /*
     if (form_state.values['customer_profile_copy']) {
       var names = commerce_checkout_shipping_element_names();
       $.each(names, function(index, name) {
@@ -415,314 +306,156 @@ function commerce_checkout_view_validate(form, form_state) {
         form_state.values[name] = form_state.values[_name];
       });
     }
-    */
   }
   catch (error) { console.log('commerce_checkout_view_validate - ' + error); }
 }
-
 
 /**
  *
  */
 function commerce_checkout_view_submit(form, form_state) {
-  try {        
+  try {
+    //console.log(form_state.values);
+
     variable_set('commerce_checkout_form_state', form_state);
-    
     var order_id = form_state.values.order_id;
-            
-    
+
+    // Load the order...
     commerce_order_load(order_id, {
-      success: function(order) {        
+      success: function(order) {
+        //console.log(order);
+
         // When continuing, send them along to review their order unless shipping is enabled,
         // then send them off to shipping first.
         var done = function() {
-             var path = 'checkout/review/' + form_state.values['order_id'] ;
-    
-            drupalgap_goto(path);
-             
-            };
-        
-        var done2 = function(){
-            // shipping Information
-            var variables2 = {};
-            var names = commerce_checkout_shipping_element_names();
-            $.each(names, function(index, name) {
-                if (typeof form_state.values[name] !== 'undefined') {
-                variables2[name.replace('shipping_', '')] = form_state.values[name];
-            }
-            });
-            // If there is no shipping customer profile on the order, create the customer
-            // profile and attach it to the order,
-            if (!order.commerce_customer_shipping) {
-              commerce_customer_profile_create({
-                type: 'shipping',
-                //commerce_customer_address: form_state.values.shipping_information
-              }, {
-                success: function(customer_profile) {
-                  order.commerce_customer_shipping = customer_profile.profile_id;
-                  delete order['revision_id'];
-                  delete order['revision_uid'];
-                  delete order['revision_timestamp'];
-                  delete order['revision_hostname'];
-                  delete order['data'];
-                  delete order['uid'];
-                  delete order['created'];
-                  delete order['changed'];
-                  delete order['status'];
-                  delete order['commerce_order_total_formatted'];
-                  delete order['commerce_discounts'];
-                  delete order['commerce_line_items'];
-                  delete order['commerce_line_items_entities'];
-                  delete order['commerce_order_total'];
-                  delete order['commerce_customer_billing_entities'];
-                  commerce_order_update(order, { success: function(order1){
-                    commerce_order_load(order_id, {
-                    success: function(order) {  
-                      // They already have a shipping customer profile on the order, update the customer profile
-                      // then continue.
-                      var profile_id = order.commerce_customer_shipping;
-                      var customer_profile = order.commerce_customer_shipping_entities[profile_id];
-                      
-                      delete customer_profile.field_custprof_address_from;
-                      delete customer_profile.field_custprof_city ;
-                      delete customer_profile.field_custprof_compose_address;
-                      delete customer_profile.field_custprof_name_from;
-                      delete customer_profile.field_mobile_phone;
-                      delete customer_profile.field_last_position_geofield;
-                      delete customer_profile.field_order_batal_otomatis;
-                                         
-                      delete customer_profile.field_alamat ;                   
-                      /*              
-                      customer_profile['field_alamat']={};
-                      customer_profile['field_alamat']['name_line']= variables2['name_line'];
-                      customer_profile['field_alamat']['locality']= variables2['locality'];
-                      customer_profile['field_alamat']['postal_code']= variables2['postal_code'];
-                      customer_profile['field_alamat']['administrative_area']= variables2['administrative_area'];
-                      customer_profile['field_alamat']['country']= variables2['country'];
-                      customer_profile['field_alamat']['thoroughfare']= variables2['thoroughfare'];              
-                      */        
-                      customer_profile['field_last_position_geofield']={};
-                      customer_profile['field_last_position_geofield']['lat']= 0.123;
-                      customer_profile['field_last_position_geofield']['lon']= 1.123;
-                      customer_profile['field_last_position_geofield']['geo_type']= 'point';
-                      customer_profile['field_last_position_geofield']['geom']= 'POINT (0.123 1.123)';
-              
-                      customer_profile['field_mobile_phone'] = variables2['premise'];
-                      customer_profile['field_custprof_city'] = variables2['locality'];
-                      customer_profile['field_custprof_address_from'] = variables2['thoroughfare'];
-                      customer_profile['field_custprof_name_from'] = variables2['name_line'];
-                      customer_profile['field_order_batal_otomatis'] = 90;
-                 
-                      commerce_customer_profile_update(customer_profile, { success: done });
-                    } });                      
-                  } });
-                }
-              });
-            }
-            else {
-              // They already have a shipping customer profile on the order, update the customer profile
-              // then continue.
-              var profile_id = order.commerce_customer_shipping;
-              var customer_profile = order.commerce_customer_shipping_entities[profile_id];
+          drupalgap_goto(
+              drupalgap.commerce.commerce_shipping ?
+              'checkout/shipping/' + order_id : 'checkout/review/' + order_id
+          );
+        };
 
-              delete customer_profile.field_custprof_address_from;
-              delete customer_profile.field_custprof_city ;
-              delete customer_profile.field_custprof_compose_address;
-              delete customer_profile.field_custprof_name_from;
-              delete customer_profile.field_mobile_phone;
-              delete customer_profile.field_last_position_geofield;
-              delete customer_profile.field_order_batal_otomatis;                                 
-              delete customer_profile.field_alamat ;                   
-                            
-              /*customer_profile['field_alamat']={};
-              customer_profile['field_alamat']['name_line']= variables2['name_line'];
-              customer_profile['field_alamat']['locality']= variables2['locality'];
-              customer_profile['field_alamat']['postal_code']= variables2['postal_code'];
-              customer_profile['field_alamat']['administrative_area']= variables2['administrative_area'];
-              customer_profile['field_alamat']['country']= variables2['country'];
-              customer_profile['field_alamat']['thoroughfare']= variables2['thoroughfare'];       
-               */
-              customer_profile['field_last_position_geofield']={};
-              customer_profile['field_last_position_geofield']['lat']= 0.123;
-              customer_profile['field_last_position_geofield']['lon']= 1.123;
-              customer_profile['field_last_position_geofield']['geo_type']= 'point';
-              customer_profile['field_last_position_geofield']['geom']= 'POINT (0.123 1.123)';
-                     
-              customer_profile['field_mobile_phone'] = variables2['premise'];
-              customer_profile['field_custprof_city'] = variables2['locality'];
-              customer_profile['field_custprof_address_from'] = variables2['thoroughfare'];
-              customer_profile['field_custprof_name_from'] = variables2['name_line'];
-              customer_profile['field_order_batal_otomatis'] = 90;
-         
-              commerce_customer_profile_update(customer_profile, { success: done });
-            }
-        }
-        done2();
-/*
-        // Billing Information
-        var variables = {};
-        var names = commerce_checkout_billing_element_names();
-        $.each(names, function(index, name) {
-            if (typeof form_state.values[name] !== 'undefined') {
-            variables[name.replace('billing_', '')] = form_state.values[name];
-        }
-        });
         // If there is no billing customer profile on the order, create the customer
         // profile and attach it to the order,
         if (!order.commerce_customer_billing) {
           commerce_customer_profile_create({
-            type: 'billing'
+            type: 'billing',
+            commerce_customer_address: form_state.values.billing_information
           }, {
             success: function(customer_profile) {
               order.commerce_customer_billing = customer_profile.profile_id;
-              delete order['revision_id'];
-              delete order['revision_uid'];
-              delete order['revision_timestamp'];
-              delete order['revision_hostname'];
-              delete order['data'];
-              delete order['uid'];
-              delete order['created'];
-              delete order['changed'];
-              delete order['status'];
-              delete order['commerce_order_total_formatted'];
-              delete order['commerce_discounts'];
-              delete order['commerce_line_items'];
-              delete order['commerce_line_items_entities'];
-              delete order['commerce_order_total'];
-              commerce_order_update(order, { success: function(order1){
-                  commerce_order_load(order_id, {
-                    success: function(order) {   
-                      // They already have a billing customer profile on the order, update the customer profile
-                      // then continue.
-                      var profile_id = order.commerce_customer_billing;
-                      var customer_profile = order.commerce_customer_billing_entities[profile_id];
-                      
-                      delete customer_profile.field_alamat1 ;
-                      delete customer_profile.field_custprof_address_from;
-                      delete customer_profile.field_custprof_city ;
-                      delete customer_profile.field_custprof_compose_address;
-                      delete customer_profile.field_custprof_name_from;
-                      delete customer_profile.field_mobile_phone;
-                      
-                      customer_profile['field_alamat1']={};
-                      customer_profile['field_alamat1']['name_line']= variables['name_line']
-                      customer_profile['field_alamat1']['locality']= variables['locality']
-                      customer_profile['field_alamat1']['postal_code']= variables['postal_code']
-                      customer_profile['field_alamat1']['administrative_area']= variables['administrative_area']
-                      customer_profile['field_alamat1']['country']= variables['country']
-                      customer_profile['field_alamat1']['thoroughfare']= variables['thoroughfare'];
-                      customer_profile['field_mobile_phone'] = variables['premise']
-                      customer_profile['field_custprof_city'] =  variables['locality'];
-                      customer_profile['field_custprof_address_from'] = variables['thoroughfare'];
-                      customer_profile['field_custprof_name_from'] = variables['name_line']
-                     
-                      commerce_customer_profile_update(customer_profile, { success: done2 });
-                  
-}});
-              } });
+              commerce_order_update(order, { success: done });
             }
           });
         }
-        else { 
+        else {
           // They already have a billing customer profile on the order, update the customer profile
           // then continue.
           var profile_id = order.commerce_customer_billing;
           var customer_profile = order.commerce_customer_billing_entities[profile_id];
-          
-          delete customer_profile.field_alamat1 ;
-          delete customer_profile.field_custprof_address_from;
-          delete customer_profile.field_custprof_city ;
-          delete customer_profile.field_custprof_compose_address;
-          delete customer_profile.field_custprof_name_from;
-          delete customer_profile.field_mobile_phone;
-          
-          customer_profile['field_alamat1']={};
-          customer_profile['field_alamat1']['name_line']= variables['name_line']
-          customer_profile['field_alamat1']['locality']= variables['locality']
-          customer_profile['field_alamat1']['postal_code']= variables['postal_code']
-          customer_profile['field_alamat1']['administrative_area']= variables['administrative_area']
-          customer_profile['field_alamat1']['country']= variables['country']
-          customer_profile['field_alamat1']['thoroughfare']= variables['thoroughfare'];
-          customer_profile['field_mobile_phone'] = variables['premise']
-          customer_profile['field_custprof_city'] =  variables['locality'];
-          customer_profile['field_custprof_address_from'] = variables['thoroughfare'];
-          customer_profile['field_custprof_name_from'] = variables['name_line']
-         
-          commerce_customer_profile_update(customer_profile, { success: done2 });
-        }                
-*/
+          customer_profile.commerce_customer_address = form_state.values.billing_information;
+          commerce_customer_profile_update(customer_profile, { success: done });
+        }
+
       }
-    });  
-        
-   
-   
+    });
   }
   catch (error) { console.log('commerce_checkout_view_submit - ' + error); }
+}
+
+function commerce_checkout_review_order_container_id(order_id) {
+  return 'commerce-checkout-review-order-' + order_id;
+}
+
+function commerce_checkout_review_order_page(order_id) {
+  return '<div id="' + commerce_checkout_review_order_container_id(order_id) + '"></div>';
+}
+
+function commerce_checkout_review_order_pageshow(order_id) {
+  commerce_order_load(order_id, {
+    success: function(order) {
+      var content = {};
+
+      // Render line items.
+      var items = [];
+      $.each(order.commerce_line_items_entities, function(line_item_id, line_item) {
+        var item = theme('commerce_cart_line_item_review', {
+          line_item: line_item,
+          order: order
+        });
+        items.push(item);
+      });
+      content['line-items'] = {
+        theme: 'jqm_item_list',
+        items: items
+      };
+
+      // Render the order total..
+      content['order-total'] = {
+        theme: 'commerce_cart_total',
+        order: order
+      };
+
+      // Render the review order form.
+      content['form'] = {
+        markup: drupalgap_get_form('commerce_checkout_review_order_view', order)
+      };
+
+      // Inject the html into the container
+      var id = commerce_checkout_review_order_container_id(order_id);
+      $('#' + id).html(drupalgap_render(content)).trigger('create');
+    }
+  });
 }
 
 /**
  *
  */
-function commerce_checkout_review_order_view(form, form_state, order_id) {
+function commerce_checkout_review_order_view(form, form_state, order) {
   try {
+    //console.log(order);
+
+    // Grab the checkout form state.
+    //var checkout_info = JSON.parse(variable_get('commerce_checkout_form_state', {}));
 
     // Order ID
+    var order_id = order.order_id;
     form.elements['order_id'] = {
       type: 'hidden',
       default_value: order_id
     };
-
-    // Grab the checkout form state.
-    var checkout_info = JSON.parse(variable_get('commerce_checkout_form_state', {}));
-
-    // Cart Review Placeholder
-    form.elements['cart_placeholder'] = {
-      title: 'Review Order',
-      markup: '<div id="' + commerce_checkout_review_cart_container_id(order_id) + '"></div>'
-    };
-
     // Account Information
-    var markup = '<p><strong>Username</strong><br />' + Drupal.user.name + '</p>';
-    markup += '<p><strong>E-mail address</strong><br />' + Drupal.user.mail + '</p>';
+    var markup = '<p><strong>Username</strong>: ' + Drupal.user.name + '</p>';
+    markup += '<p><strong>E-mail address</strong>: ' + Drupal.user.mail + '</p>';
     form.elements['account_information'] = {
-      title: 'Account Information',
+      title: t('Account information'),
       markup: markup
     };
 
-/*
     // Billing Information
-    var variables = {};
-    var names = commerce_checkout_billing_element_names();
-    $.each(names, function(index, name) {
-      if (typeof checkout_info.values[name] !== 'undefined') {
-        variables[name.replace('billing_', '')] = checkout_info.values[name];
-      }
-    });
+    var profile_id = order.commerce_customer_billing;
+    var customer_profile = order.commerce_customer_billing_entities[profile_id];
     form.elements['billing_information'] = {
-      title: 'Billing Information',
-      markup: theme('addressfield', variables)
+      title: t('Billing information'),
+      markup: theme('addressfield', customer_profile.commerce_customer_address)
     };
-*/
+
     // Shipping Information
-    var variables = {};
-    var names = commerce_checkout_shipping_element_names();
-    $.each(names, function(index, name) {
-      if (typeof checkout_info.values[name] !== 'undefined') {
-        variables[name.replace('shipping_', '')] = checkout_info.values[name];
-      }
-    });
-    form.elements['shipping_information'] = {
-      title: 'Shipping Information',
-      markup: theme('addressfield', variables)
-    };
+    if (drupalgap.commerce.commerce_shipping) {
+      profile_id = order.commerce_customer_shipping;
+      customer_profile = order.commerce_customer_shipping_entities[profile_id];
+      form.elements['shipping_information'] = {
+        title: t('Shipping information'),
+        markup: theme('addressfield', customer_profile.commerce_customer_address)
+      };
+    }
 
     // Buttons
     form.elements['submit'] = {
       type: 'submit',
-      value: 'Continue to next step'
+      value: t('Continue to next step')
     };
     form.buttons['cancel'] = drupalgap_form_cancel_button();
-    form.buttons['cancel'].title = 'Go back';
+    form.buttons['cancel'].title = t('Go back');
 
     return form;
 
@@ -733,136 +466,17 @@ function commerce_checkout_review_order_view(form, form_state, order_id) {
 /**
  *
  */
-function commerce_checkout_review_order_view_pageshow(form_id, order_id) {
-  try {
-    var container_id = commerce_checkout_review_cart_container_id(order_id);
-    commerce_order_load(order_id, {
-      success: function(order) {
-        try {
-          var html = '';
-          // Render each line item.
-          var items = [];
-          $.each(order.commerce_line_items_entities, function(line_item_id, line_item) {
-            var item = theme('commerce_cart_line_item_review', {
-              line_item: line_item,
-              order: order
-            });
-            items.push(item);
-          });
-          html += theme('jqm_item_list', { items: items });
-
-          // Render the order total, then inject the html into the container.
-          html += theme('commerce_cart_total', { order: order });
-          $('#' + container_id).html(html).trigger('create');
-        }
-        catch (error) { console.log('commerce_checkout_review_order_view_pageshow - success - ' + error); }
-      }
-    });
-  }
-  catch (error) { console.log('commerce_checkout_review_order_view_pageshow - ' + error); }
-}
-
-/**
- *
- */
 function commerce_checkout_review_order_view_submit(form, form_state) {
-  try {  
-    variable_set('commerce_shipping_form_state', form_state);    
-    var order_id = form_state.values.order_id;
-    
-    
-    // Load the order...
-    commerce_order_load(order_id, {
-      success: function(order) {
-        
-        
-        
-        var done = function() {
-          drupalgap_goto('checkout/complete/' + form_state.values['order_id']);
-        };
-              delete order['revision_id'];
-              delete order['revision_uid'];
-              delete order['revision_timestamp'];
-              delete order['revision_hostname'];
-              delete order['data'];
-              delete order['uid'];
-              delete order['created'];
-              delete order['changed'];
-              delete order['commerce_order_total_formatted'];
-              delete order['commerce_discounts'];
-              delete order['commerce_line_items'];
-              delete order['commerce_line_items_entities'];
-              delete order['commerce_order_total'];
-              delete order['commerce_customer_billing_entities'];
-              delete order['commerce_customer_shipping_entities'];
-              order['status'] = 'checkout_complete'
-              commerce_order_update(order, { success: done  });
-
-      }
-    });      
-  
-    //drupalgap_goto('checkout/payment/' + form_state.values['order_id']);
+  try {
+    drupalgap_goto('checkout/payment/' + form_state.values['order_id']);
   }
   catch (error) { console.log('commerce_checkout_review_order_view_submit - ' + error); }
-}
-
-/**
- *
- */
-function commerce_checkout_payment_view_pageshow(form_id, order_id) {
-  try {
-    var container_id = commerce_checkout_review_cart_container_id(order_id);
-    commerce_order_load(order_id, {
-      success: function(order) {
-        try {
-          var html = '';
-          // Render each line item.
-          var items = [];
-          $.each(order.commerce_line_items_entities, function(line_item_id, line_item) {
-            var item = theme('commerce_cart_line_item_review', {
-              line_item: line_item,
-              order: order
-            });
-            items.push(item);
-          });
-          html += theme('jqm_item_list', { items: items });
-
-          // Render the order total, then inject the html into the container.
-          html += theme('commerce_cart_total', { order: order });
-          $('#' + container_id).html(html).trigger('create');
-        }
-        catch (error) { console.log('commerce_checkout_review_order_view_pageshow - success - ' + error); }
-      }
-    });
-  }
-  catch (error) { console.log('commerce_checkout_review_order_view_pageshow - ' + error); }
-}
-
-/**
- *
- */
-function commerce_checkout_payment_view_submit(form, form_state) {
-  try {
-    drupalgap_goto('checkout/complete/' + form_state.values['order_id']);
-  }
-  catch (error) { console.log('commerce_checkout_review_order_view_submit - ' + error); }
-}
-
-/**
- *
- */
-function commerce_checkout_review_cart_container_id(order_id) {
-  try {
-    return 'commerce_checkout_review_cart_container_' + order_id;
-  }
-  catch (error) { console.log('commerce_checkout_review_cart_container_id - ' + error); }
 }
 
 /**
  *
  */
 function commerce_checkout_element_names() {
-  try {
     return [
       'name_line',
       'country',
@@ -872,8 +486,6 @@ function commerce_checkout_element_names() {
       'administrative_area',
       'postal_code'
     ];
-  }
-  catch (error) { console.log('commerce_checkout_element_names - ' + error); }
 }
 
 /**
@@ -917,23 +529,6 @@ function _commerce_checkout_customer_profile_copy_onclick() {
 }
 
 /**
- *
- */
-function commerce_checkout_customer_profile_copy_toggle() {
-  try {
-    var checked = $('#edit-commerce-checkout-view-customer-profile-copy').is(':checked');
-    // Hide the shipping input fields.
-    var names = commerce_checkout_shipping_element_names();
-    $.each(names, function(index, name) {
-      var selector = '.' + drupalgap_form_get_element_container_class(name).replace('form-item ', '');
-      if (!checked) { $(selector).show(); }
-      else { $(selector).hide(); }
-    });
-  }
-  catch (error) { console.log('commerce_checkout_customer_profile_copy_toggle - ' + error); }
-}
-
-/**
  * Completes the checkout process.
  * @param {Object} options
  */
@@ -967,6 +562,10 @@ function commerce_checkout_complete(options) {
   catch (error) {
     console.log('commerce_checkout_complete - ' + error);
   }
+}
+
+function commerce_customer_profile_primary_key() {
+  return 'profile_id';
 }
 
 /**
@@ -1294,6 +893,23 @@ function commerce_cart_button_update_click(order_id) {
 }
 
 /**
+ *
+ */
+function commerce_checkout_customer_profile_copy_toggle() {
+  try {
+    var checked = $('#edit-commerce-checkout-view-customer-profile-copy').is(':checked');
+    // Hide the shipping input fields.
+    var names = commerce_checkout_shipping_element_names();
+    $.each(names, function(index, name) {
+      var selector = '.' + drupalgap_form_get_element_container_class(name).replace('form-item ', '');
+      if (!checked) { $(selector).show(); }
+      else { $(selector).hide(); }
+    });
+  }
+  catch (error) { console.log('commerce_checkout_customer_profile_copy_toggle - ' + error); }
+}
+
+/**
  * Implements hook_install().
  */
 function commerce_install() {
@@ -1328,15 +944,14 @@ function commerce_menu() {
       'page_arguments': ['commerce_checkout_shipping_view', 2]
     };
     items['checkout/review/%'] = {
-      'title': 'Review Order',
-      'page_callback': 'drupalgap_get_form',
-      'page_arguments': ['commerce_checkout_review_order_view', 2],
-      'pageshow': 'commerce_checkout_review_order_view_pageshow'
+      'title': 'Review order',
+      'page_callback': 'commerce_checkout_review_order_page',
+      'page_arguments': [2],
+      'pageshow': 'commerce_checkout_review_order_pageshow'
     };
     items['checkout/complete/%'] = {
-      'title': 'Checkout Complete',
+      'title': 'Checkout complete',
       'page_callback': 'commerce_checkout_complete_view',
-      'pageshow': 'commerce_checkout_complete_view_pageshow',
       'page_arguments': [2]
     };
     return items;
@@ -1344,11 +959,14 @@ function commerce_menu() {
   catch (error) { console.log('commerce_menu - ' + error); }
 }
 
+
+
 /**
  * Implements hook_services_success().
  */
 function commerce_services_postprocess(options, data) {
   try {
+    //console.log(options.service, options.resource);
     // Extract the commerce object from the system connect result data.
     if (options.service == 'system' && options.resource == 'connect') {
       if (data.commerce) { drupalgap.commerce = data.commerce; }
@@ -1356,6 +974,23 @@ function commerce_services_postprocess(options, data) {
         console.log('commerce_services_postprocess - failed to extract ' +
             ' commerce object from system connect. Is the commerce_drupalgap ' +
             ' module enabled on your Drupal site?');
+      }
+    }
+    else if (options.service == 'commerce_order' && options.resource == 'retrieve') {
+      // Set aside orders when they are loaded.
+      _commerce_order[data.order_id] = data;
+    }
+
+    // When retrieving address information, inject it into the order's address fields if possible.
+    else if (options.service == 'services_addressfield' &&
+        options.resource == 'get_address_format_and_administrative_areas') {
+      switch (drupalgap_router_path_get()) {
+        case 'checkout/%':
+          _commerce_addressfield_inject_onto_pane(_commerce_order[arg(1)]);
+          break;
+        case 'checkout/shipping/%':
+          _commerce_addressfield_inject_onto_pane(_commerce_order[arg(2)]);
+          break;
       }
     }
   }
@@ -1428,14 +1063,8 @@ function _commerce_line_item_add_to_order(options) {
   catch (error) { console.log('_commerce_line_item_add_to_order - ' + error); }
 }
 
-/**
- *
- */
 function commerce_order_primary_key() {
-  try {
-    return 'order_id';
-  }
-  catch (error) { console.log('commerce_order_primary_key - ' + error); }
+  return 'order_id';
 }
 
 
@@ -1542,10 +1171,22 @@ function commerce_services_preprocess(options) {
           );
         }
         break;
+      case 'commerce_customer_profile':
+        if (options.resource == 'retrieve' || options.resource == 'update') {
+          options.path = options.path.replace(
+              'commerce_customer_profile',
+              'customer-profile'
+          );
+        }
+        break;
     }
   }
   catch (error) { console.log('commerce_services_preprocess - ' + error); }
 }
+
+/**
+ * CART
+ */
 
 /**
  * Creates a cart.
@@ -1583,7 +1224,11 @@ function commerce_cart_index(query, options) {
 }
 
 /**
- * Creates a cart.
+ * LINE ITEM
+ */
+
+/**
+ * Creates a a line item.
  * @param {Object} options
  */
 function commerce_line_item_create(options) {
@@ -1641,6 +1286,10 @@ function commerce_line_item_delete(ids, options) {
 }
 
 /**
+ * ORDER
+ */
+
+/**
  * Retrieves an order.
  * @param {Number} ids
  * @param {Object} options
@@ -1660,8 +1309,27 @@ function commerce_order_retrieve(ids, options) {
  */
 function commerce_order_update(order, options) {
   try {
+    var path = 'commerce_order/' + order.order_id + '.json';
+
+    // Cleanse some properties before the call.
     order.order_id = parseInt(order.order_id);
-    var path = 'commerce_order/' + order.order_id + '.json' /* &flatten_fields=false */;
+    order.uid = parseInt(order.uid);
+    order.created = parseInt(order.created);
+    order.changed = parseInt(order.changed);
+
+    // Make a copy of the order locally, and remove any protected properties.
+    var data = $.extend({}, order);
+    if (data.revision_id) { delete data.revision_id; }
+    if (data.revision_uid) { delete data.revision_uid; }
+    if (data.revision_timestamp) { delete data.revision_timestamp; }
+    if (data.revision_hostname) { delete data.revision_hostname; }
+    if (data.commerce_order_total_formatted) { delete data.commerce_order_total_formatted; }
+    if (data.commerce_line_items_entities) { delete data.commerce_line_items_entities; }
+    if (data.commerce_customer_billing_entities) { delete data.commerce_customer_billing_entities; }
+    if (data.rdf_mapping) { delete data.rdf_mapping; }
+    if (data.data) { delete data.data; }
+
+    // Make the call.
     Drupal.services.call({
       method: 'PUT',
       path: path,
@@ -1670,24 +1338,21 @@ function commerce_order_update(order, options) {
       entity_type: 'commerce_order',
       entity_id: order.order_id,
       bundle: null,
-      data: JSON.stringify(order),
-      success: function(data) {
-        try {
-          if (options.success) { options.success(data); }
-        }
-        catch (error) { console.log('commerce_order_update - success - ' + error); }
+      data: JSON.stringify(data),
+      success: function(result) {
+        if (options.success) { options.success(result); }
       },
       error: function(xhr, status, message) {
-        try {
-          if (options.error) { options.error(xhr, status, message); }
-        }
-        catch (error) { console.log('commerce_order_update - error - ' + error); }
+        if (options.error) { options.error(xhr, status, message); }
       }
     });
   }
   catch (error) { console.log('commerce_order_update - ' + error); }
 }
 
+/**
+ * PRODUCT DISPLAY
+ */
 
 /**
  * Retrieves a product display.
@@ -1701,6 +1366,10 @@ function commerce_product_display_retrieve(ids, options) {
   }
   catch (error) { console.log('commerce_product_display_retrieve - ' + error); }
 }
+
+/**
+ * PRODUCT
+ */
 
 /**
  * Retrieves a commerce product.
@@ -1777,6 +1446,199 @@ function commerce_product_index(query, options) {
     Drupal.services.call(options);
   }
   catch (error) { console.log('commerce_product_index - ' + error); }
+}
+
+/**
+ * CUSTOMER PROFILE
+ */
+
+/**
+ * Creates a customer profile.
+ * @param {Object} options
+ */
+function commerce_customer_profile_create(customer_profile, options) {
+  try {
+    options.method = 'POST';
+    options.path = 'customer-profile.json';
+    options.service = 'customer-profile';
+    options.resource = 'create';
+    options.data = JSON.stringify(customer_profile);
+    Drupal.services.call(options);
+  }
+  catch (error) { console.log('commerce_customer_profile_create - ' + error); }
+}
+
+/**
+ * Update a customer profile.
+ * @param {Object} customer_profile
+ * @param {Object} options
+ */
+function commerce_customer_profile_update(customer_profile, options) {
+  try {
+    // Cleanse some properties before the call.
+    customer_profile.profile_id = parseInt(customer_profile.profile_id);
+    customer_profile.uid = parseInt(customer_profile.uid);
+    customer_profile.created = parseInt(customer_profile.created);
+    customer_profile.changed = parseInt(customer_profile.changed);
+
+    // Make a copy of the order locally, and remove any protected properties.
+    var data = $.extend({}, customer_profile);
+    if (data.revision_id) { delete data.revision_id; }
+    if (data.revision_uid) { delete data.revision_uid; }
+    if (data.revision_timestamp) { delete data.revision_timestamp; }
+    if (data.rdf_mapping) { delete data.rdf_mapping; }
+    if (typeof data.data !== 'undefined') { delete data.data; }
+
+    // Set up defaults and make the call.
+    services_resource_defaults(options, 'commerce_customer_profile', 'update');
+    entity_update('commerce_customer_profile', null, data, options);
+  }
+  catch (error) { console.log('commerce_customer_profile_update - ' + error); }
+}
+
+/**
+ * Deletes a customer profile.
+ */
+function commerce_customer_profile_delete(ids, options) {
+  try {
+    services_resource_defaults(options, 'commerce_customer_profile', 'delete');
+    entity_delete('commerce_customer_profile', ids, options);
+  }
+  catch (error) { console.log('commerce_customer_profile_delete - ' + error); }
+}
+
+/**
+ * The shipping page.
+ */
+function commerce_checkout_shipping_view(form, form_state, order_id) {
+  try {
+    // @NOTE - when testing, if you sent the app's front page to the shipping
+    // page, the drupalgap.commerce object may not be available yet. It's better
+    // to set the front page to the cart page instead.
+
+    // Order ID
+    form.elements['order_id'] = {
+      type: 'hidden',
+      default_value: order_id
+    };
+
+    //form.elements['customer_profile_copy'] = {
+    //  title: 'Shipping info same as Billing info',
+    //  type: 'checkbox',
+    //  description: '',
+    //  default_value: 1,
+    //  options: {
+    //    attributes: {
+    //      onclick: '_commerce_shipping_customer_profile_copy_onclick()'
+    //    }
+    //  }
+    //};
+
+    form.elements['shipping_information'] = {
+      type: 'addressfield_form_element',
+      title: t('Shipping information'),
+      default_country: 'US',
+      required: true,
+      value_callback: 'addressfield_field_value_callback',
+      components: {
+        name_line: true,
+        thoroughfare: true,
+        premise: true
+      },
+      options: {
+        attributes: {
+          style: 'display: none;'
+        }
+      }
+    };
+
+    // Buttons
+    form.elements['submit'] = {
+      type: 'submit',
+      value: 'Continue to next step'
+    };
+    form.buttons['cancel'] = drupalgap_form_cancel_button();
+    form.buttons['cancel'].title = t('Go back');
+
+    return form;
+  }
+  catch (error) { console.log('commerce_shipping_view - ' + error); }
+}
+
+/**
+ * The checkout page pageshow handler.
+ */
+function commerce_checkout_shipping_view_pageshow(form_id, order_id) {
+  try {
+    //commerce_shipping_customer_profile_copy_toggle();
+  }
+  catch (error) { console.log('commerce_checkout_shipping_view_pageshow - ' + error); }
+}
+
+/**
+ *
+ */
+function commerce_checkout_shipping_view_validate(form, form_state) {
+  try {
+    // If the shipping info checkbox is checked, fill in the shipping fields
+    // with the billing fields.
+    if (form_state.values['customer_profile_copy']) {
+      var names = commerce_shipping_shipping_element_names();
+      $.each(names, function(index, name) {
+        var _name = name.replace('shipping', 'billing');
+        form_state.values[name] = form_state.values[_name];
+      });
+    }
+  }
+  catch (error) { console.log('commerce_checkout_shipping_view_validate - ' + error); }
+}
+
+/**
+ *
+ */
+function commerce_checkout_shipping_view_submit(form, form_state) {
+  try {
+    variable_set('commerce_shipping_form_state', form_state);
+    var order_id = form_state.values.order_id;
+
+    // Load the order...
+    commerce_order_load(order_id, {
+      success: function(order) {
+        //console.log(order);
+
+        // When continuing, send them along to review their order unless shipping is enabled,
+        // then send them off to shipping first.
+        var done = function() {
+          drupalgap_goto('checkout/review/' + form_state.values['order_id']);
+        };
+
+        // If there is no shipping customer profile on the order, create the customer
+        // profile and attach it to the order,
+        if (!order.commerce_customer_shipping) {
+          commerce_customer_profile_create({
+            type: 'shipping',
+            commerce_customer_address: form_state.values.shipping_information
+          }, {
+            success: function(customer_profile) {
+              order.commerce_customer_shipping = customer_profile.profile_id;
+              commerce_order_update(order, { success: done });
+            }
+          });
+        }
+        else {
+          // They already have a shipping customer profile on the order, update the customer profile
+          // then continue.
+          var profile_id = order.commerce_customer_shipping;
+          var customer_profile = order.commerce_customer_shipping_entities[profile_id];
+          customer_profile.commerce_customer_address = form_state.values.shipping_information;
+          commerce_customer_profile_update(customer_profile, { success: done });
+        }
+
+      }
+    });
+
+  }
+  catch (error) { console.log('commerce_checkout_shipping_view_submit - ' + error); }
 }
 
 /**
@@ -1958,62 +1820,3 @@ function theme_commerce_cart_total(variables) {
   }
   catch (error) { console.log('theme_commerce_cart_total - ' + error); }
 }
-
-/**
- * CUSTOMER PROFILE
- */
-
-/**
- * Creates a customer profile.
- * @param {Object} options
- */
-function commerce_customer_profile_create(customer_profile, options) {
-  try {
-    options.method = 'POST';
-    options.path = 'customer-profile.json';
-    options.service = 'customer-profile';
-    options.resource = 'create';
-    options.data = JSON.stringify(customer_profile);
-    Drupal.services.call(options);
-  }
-  catch (error) { console.log('commerce_customer_profile_create - ' + error); }
-}
-
-/**
- * Update a customer profile.
- * @param {Object} customer_profile
- * @param {Object} options
- */
-function commerce_customer_profile_update(customer_profile, options) {
-  try {
-    // Cleanse some properties before the call.
-    customer_profile.profile_id = parseInt(customer_profile.profile_id);
-    customer_profile.uid = parseInt(customer_profile.uid);
-    customer_profile.created = parseInt(customer_profile.created);
-    customer_profile.changed = parseInt(customer_profile.changed);
-    
-    delete customer_profile.revision_id;
-    delete customer_profile.revision_uid;
-    delete customer_profile.revision_timestamp;
-    delete customer_profile.rdf_mapping;
-    delete customer_profile.data;
-           
-    var path = 'customer-profile/' + customer_profile.profile_id + '.json' ;
-    options.method = 'PUT';
-    options.path = path;
-    options.service = 'customer-profile';
-    options.resource = 'update';
-    options.entity_type= 'customer-profile';
-    options.entity_id= customer_profile.profile_id;
-    delete customer_profile.profile_id;
-    options.data = JSON.stringify(customer_profile);    
-    
-    Drupal.services.call(options);
-  }
-  catch (error) { console.log('commerce_customer_profile_update - ' + error); }
-}
-
-function commerce_customer_profile_primary_key() {
-  return 'profile_id';
-}
-

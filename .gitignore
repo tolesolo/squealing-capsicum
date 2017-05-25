@@ -5,9 +5,8 @@ app/README.*
 # Ignore a potential jDrupal folder
 
 # Ignore jQM Theme Roller Files
-bin/themes/images
-bin/themes/*.css
 
+tools/*
 
 .drupalgap-backups
 

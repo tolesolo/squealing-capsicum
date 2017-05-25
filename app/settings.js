@@ -34,7 +34,7 @@ Drupal.settings.cache.entity = {
 
   /* Globals (will be used if not overwritten below) */
   enabled: false,
-  expiration: 3600, // # of seconds to cache, set to 0 to cache forever
+  expiration: 60, // # of seconds to cache, set to 0 to cache forever
 
   /* Entity types */
   entity_types: {
@@ -133,7 +133,6 @@ drupalgap.settings.exit_message = 'Keluar ' + drupalgap.settings.title + '?';
 
 // Loader Animations - http://demos.jquerymobile.com/1.4.0/loader/
 drupalgap.settings.loader = {
-  enabled: true,
   loading: {
     text: 'Loading...',
     textVisible: true,
@@ -156,26 +155,26 @@ drupalgap.settings.loader = {
  *****************************************/
 
 /** Contributed Modules - www/app/modules **/
-
-//Drupal.modules.contrib['example'] = {};
-//Drupal.modules.contrib['commerce_drupalgap_stripe'] = {};
-//Drupal.modules.contrib['commerce_shipping'] = {};
+Drupal.modules.contrib['date'] = {};
+Drupal.modules.contrib['force_authentication'] = {};
+Drupal.modules.contrib['geofield'] = {};
+Drupal.modules.contrib['link'] = {};
 Drupal.modules.contrib['telephone'] = {};
 Drupal.modules.contrib['title'] = {};
-Drupal.modules.contrib['pathfix'] = {};
-Drupal.modules.contrib['link'] = {};
 Drupal.modules.contrib['views_litepager'] = {};
-Drupal.modules.contrib['geofield'] = {};
+Drupal.modules.contrib['commerce'] = {};
 Drupal.modules.contrib['geofield_gmap'] = {};
+Drupal.modules.contrib['email_registration'] = {};
 Drupal.modules.contrib['addressfield'] = {
   minified: true
 };
-Drupal.modules.contrib['force_authentication'] = {};
-Drupal.modules.contrib['user_registrationpassword'] = {};
+
+//Drupal.modules.contrib['example'] = {};
 
 /** Custom Modules - www/app/modules/custom **/
 
 //Drupal.modules.custom['my_module'] = {};
+
 Drupal.modules.custom['my_orders'] = {};
 Drupal.modules.custom['block_flat_fees'] = {};
 Drupal.modules.custom['block_copyright'] = {};
@@ -386,54 +385,6 @@ drupalgap.settings.menus['main_menu'] = {
   ]
 };
 
-drupalgap.settings.menus['menu_home_footer'] = {
-  links:[
-    {
-      title: 'Facebook',
-      path: null,
-      options: {
-        attributes: {
-          'data-icon': 'facebook',
-         // 'onclick':'javascript:drupalgap_back();' //working
-         // 'onclick': 'window.open("'"example.com"'", "'"_system"'", "'"location=yes"'")'
-         // 'onclick':'javascript:window.open("'"example.com"'", "'"_system"'", "'"location=yes"'");'
-        // 'InAppBrowser': 'true'
-        		'onclick':'window.open("http://www.drupalgap.org", "_system", "location=yes");'
-        }
-      }
-    },
-    {
-      title: 'Instagram',
-      path: null,
-      options: {
-        attributes: {
-          'data-icon': 'instagram',
-    		 'href': 'www.instagram.com/gettranz'
-        }
-      }
-    },
-    {
-      title: 'Twitter',
-      path: null,
-      options: {
-        attributes: {
-          'data-icon': 'twitter',
-    		href: 'www.twitter.com/gettranz'
-        }
-      }
-    },
-    {
-      title: 'Call Us',
-      path: null,
-      options: {
-        attributes: {
-          'data-icon': 'phone'
-        }
-      }
-    }
-  ]
-};
-
 /****************************************|
  * Blocks - http://drupalgap.org/node/83 |
  ****************************************/
@@ -458,13 +409,13 @@ drupalgap.settings.blocks.gettranzv2 = {
     commerce_cart: {
   	pages: {
     	mode: 'exclude',
-    	value: ['cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*', 'getmedlokasi', 'getsnacklokasi']
+    	value: ['cart', 'checkout/*', 'checkout/shipping/*', 'checkout/review/*']
   	}
     },
     main_menu: { }
   },
   sub_header: {
-//    title: { },
+  //  title: { }
     saldoblock: { 
        pages: {
         value: ['saldo', 'user/login', 'user/register'],
@@ -503,25 +454,9 @@ drupalgap.settings.menus.regions = {}; // Do not remove this line.
 // Header Region Links
 drupalgap.settings.menus.regions['header'] = {
   links:[
-    /* Main Menu Popup Menu Button 
-    {
-      options: {
-        popup: true,
-        popup_delta: 'main_menu',
-        attributes: {
-          'class': 'ui-btn-left',
-          'data-icon': 'bars'
-        }
-      },
-      roles: {
-        value: ['anonymous user'],
-        mode: 'exclude',
-      }
-    },*/
     /* Back Button */
     {
       options: {
-        reloadPage:true,
         attributes: {
           'data-icon': 'back',
           'data-iconpos': 'notext',
@@ -545,23 +480,8 @@ drupalgap.settings.menus.regions['header'] = {
         }
       },
       pages: {
-        value: [''],
+        value: ['', 'user/login', 'user/register'],
         mode: 'exclude'
-      }
-    },
-    /* Anonymous User Popup Menu Button */
-    {
-      options: {
-        popup: true,
-        popup_delta: 'user_menu_anonymous',
-        attributes: {
-          'class': 'ui-btn-right',
-          'data-icon': 'user'
-        }
-      },
-      roles: {
-        value: ['anonymous user'],
-        mode: 'include',
       }
     },
     /* Authenticated User Popup Menu Button */
@@ -571,7 +491,7 @@ drupalgap.settings.menus.regions['header'] = {
         popup_delta: 'user_menu_authenticated',
         attributes: {
           'class': 'ui-btn-right',
-          'data-icon': 'user'
+          'data-icon': 'bars'
         }
       },
       roles: {
@@ -579,12 +499,6 @@ drupalgap.settings.menus.regions['header'] = {
         mode: 'include',
       }
     }
-  ]
-};
-
-// Footer Region Links
-drupalgap.settings.menus.regions['footer'] = {
-  links: [
   ]
 };
 
